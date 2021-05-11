@@ -79,7 +79,7 @@ export default function LoginComponent () {
                     </div>
                 </CardContent>
                 <CardActions className={classes.action} disableSpacing={true}>
-                    <Button className={classes.subActions} size="large" color="primary">로그인</Button>
+                    <Button className={classes.subActions} variant='contained' size="large" color="primary">로그인</Button>
                     <Box  className={classes.subActions} display="flex" flexDirection="row" flexWrap="wrap" justifyContent='space-between' maxWidth="sm">
                         <Button size="small" color="primary">비밀번호 찾기</Button>
                         <Button size="small" color="primary">회원가입</Button>
