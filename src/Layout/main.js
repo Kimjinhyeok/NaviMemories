@@ -1,30 +1,33 @@
-import React from 'react'
-import {CssBaseline, Typography, Container} from '@material-ui/core'
+import React, { Fragment } from 'react'
+import {CssBaseline} from '@material-ui/core'
+import { Route, Switch } from 'react-router';
+import ListComponent from './List/list';
+import CardSlideComponent from './CardSlide/list';
 
-export default function MainComponent () {
+export default function MainComponent (props) {
 
-    const [values, setValues] = React.useState({
-        cardList : []
-    })
-    const resolveRef = React.useRef(null);
+    const [cardlist, setCardList] = React.useState([])
     
-    // React.useEffect(async () => {
-    //     if(resolveRef.current) {
-    //         resolveRef.current(values);
-    //         resolveRef.current = null;
-    //     }
-    //     var response = await fetch(`mock_memories.json`);
-    //     var cardList = await response.json();
-    //     setValues({
-    //         cardList : cardList
-    //     })
-    // }, [values.cardList])
+    React.useEffect(async () => {
+        var location = props.location.pathname;
+        var response = await fetch(`/mock_memories.json`);
+        var recvCardList = await response.json();
+        setCardList(recvCardList)
+
+        props.history.push(location);
+    }, [])
+
     return (
-        <React.Fragment>
-            <CssBaseline />
-            <Container maxWidth="sm">
-               <Typography component="div" style={{ backgroundColor: '#cfe8fc', height: '100vh' }} />
-            </Container>
-        </React.Fragment>
+        <div>
+            <h3>Main.js</h3>
+            {
+                cardlist.length > 0 ? 
+                    <Fragment>
+                        <Route path={`${props.match.path}/list`} render={props => <ListComponent item={cardlist} {...props}/>}/>
+                        <Route path={`${props.match.path}/card`} render={props => <CardSlideComponent item={cardlist} {...props}/>}/>
+                    </Fragment>
+                : <></>
+            }
+        </div>
     )
 }
