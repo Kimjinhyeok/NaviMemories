@@ -147,7 +147,7 @@ export default function AppBarComponent(props) {
                         <List>
                             {categories.map((ct, idx) => {
                                 return (
-                                    <TopNaviDrawerComponent category={ct} classes={classes}/>
+                                    <TopNaviDrawerComponent key={idx} category={ct} classes={classes}/>
                                 )
                             })}
                         </List>

@@ -1,8 +1,8 @@
 import React from 'react'
-import CardComponent from '../card';
+import CardComponent from './card';
 import { Container } from '@material-ui/core';
 
-export default function ListComponent (props) {
+export default function CardListComponent (props) {
 
     const [cardList] = React.useState(props.item);
 

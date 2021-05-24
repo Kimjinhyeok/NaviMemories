@@ -4,7 +4,7 @@ import cx from 'classname';
 import { makeStyles } from '@material-ui/core';
 
 export default function CarouselContainer (props) {
-    const {data, cursor, cardSize, carouselWidth, carouselState: {active, dragging}, ...rest} = props;
+    const {classes, data, cursor, cardSize, carouselWidth, carouselState: {active, dragging}, ...rest} = props;
 
     let current = -Math.round(cursor) % data.length;
     const cardPadCount = 0;
@@ -17,7 +17,7 @@ export default function CarouselContainer (props) {
     return (
       <NonPassiveTouchTarget
         className={cx(
-          'carousel-container',
+          classes.carouselContainer,
           {
             'is-active': active,
             'is-dragging': dragging
@@ -25,13 +25,13 @@ export default function CarouselContainer (props) {
         )}
       >
         <NonPassiveTouchTarget
-          className='carousel-track'
+          className={classes.carouselTrack}
           style={{transform: `translate3d(${translateX}px, 0, 0)`}}
           {...rest}
         />
   
-        <div className='carousel-pagination-wrapper'>
-          <ol className='carousel-pagination'>
+        <div className={classes.carouselPaginationWrapper}>
+          <ol className={classes.carouselPagination}>
             {data.map((_, index) => (
               <li
                 key={index}

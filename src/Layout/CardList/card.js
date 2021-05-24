@@ -15,6 +15,11 @@ export default function CardComponent (props) {
             display : 'flex',
             flexDirection : 'column',
             textAlign : 'left',
+            marginTop : theme.spacing(1),
+            marginBottom : theme.spacing(1)
+        },
+        bible_code : {
+            marginRight : theme.spacing(1)
         },
         chapter : {
             display : 'flex',
@@ -51,10 +56,11 @@ export default function CardComponent (props) {
             </CardHeader>
             <CardContent className={classes.c_content}>
                 <Box className={classes.chapter}>
+                    <Typography className={classes.bible_code}>{memory.bible_code}</Typography>
                     <Typography>{memory.chapter}</Typography>:
-                    <Typography color="textSecondary">{memory.f_verse}</Typography>
+                    <Typography>{memory.f_verse}</Typography>
                     {
-                        memory.l_verse ? <Fragment>~ <Typography color="textSecondary">{memory.l_verse}</Typography></Fragment> : <></>
+                        memory.l_verse ? <Fragment>~ <Typography>{memory.l_verse}</Typography></Fragment> : <></>
                     }
                 </Box>
                 <Box className={classes.verse_text}>{memory.verse_gae}</Box>

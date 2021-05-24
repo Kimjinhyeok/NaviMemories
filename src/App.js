@@ -1,6 +1,7 @@
 import { Route, Switch } from 'react-router';
 import './App.css';
-import LoginComponent from './Layout/login';
+import JoinComponent from './Layout/Login/join';
+import LoginComponent from './Layout/Login/login';
 import MainComponent from './Layout/main';
 function App(props) {
 
@@ -8,8 +9,9 @@ function App(props) {
   return (
     <div className="App">
       <Switch>
+        <Route path="/join" component={JoinComponent}></Route>
         <Route path="/login" component={LoginComponent}></Route>
-        <Route path="/main" component={MainComponent}></Route>
+        <Route path="/:path" component={MainComponent}></Route>
       </Switch>
     </div>
   );

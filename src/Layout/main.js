@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import { Route } from 'react-router';
-import ListComponent from './List/list';
+import CardListComponent from './CardList/list';
 import CardSlideComponent from './CardSlide/list';
 import AppBarComponent from './appbar';
 import { Categories } from '../Data/categories';
@@ -28,8 +28,8 @@ export default function MainComponent(props) {
             {
                 cardlist.length > 0 ?
                     <Fragment>
-                        <Route path={`${props.match.path}/list`} render={props => <ListComponent item={cardlist} {...props} />} />
-                        <Route path={`${props.match.path}/card`} render={props => <CardSlideComponent item={cardlist} {...props} />} />
+                        <Route path={`${props.params ? props.params.path : ''}/list`} render={props => <CardListComponent item={cardlist} {...props} />} />
+                        <Route path={`${props.params ? props.params.path : ''}/card`} render={props => <CardSlideComponent item={cardlist} {...props} />} />
                     </Fragment>
                     : <></>
             }

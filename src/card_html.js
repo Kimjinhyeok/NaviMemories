@@ -13,24 +13,25 @@ export default function CardHtml(props) {
         theme : props.item.theme,
         verse_gae : props.item.verse_gae,
         verse_kor : props.item.verse_kor,
-    })
+    });
+    const {classes} = props;
 
     return (
-        <div className="carousel-card">
-            <div className="carousel-card-inner">
-                <div className="carousel-title">{memory.theme}</div>
-                <div className="carousel-text">
-                    <div className="chapter_layer">
-                        <div className="bible_name">{memory.bible_code}</div>
-                        <div className="chapter">{memory.chapter}</div>
+        <div className={classes.carouselCard}>
+            <div className={classes.carouselCardInner}>
+                <div className={classes.carouselTitle}>{memory.theme}</div>
+                <div className={classes.carouselText}>
+                    <div className={classes.chapterLayer}>
+                        <div className={classes.bibleName}>{memory.bible_code}</div>
+                        <div className={classes.chapter}>{memory.chapter}</div>
                         <span>:</span>
-                        <div className="verses">
+                        <div className={classes.verses}>
                             <span>{memory.f_verse}</span>
                             {memory.l_verse ? <div><span>~</span><span>{memory.l_verse}</span></div> : <></>}
                         </div>
                     </div>
-                    <div className="verse_text">{memory.verse_gae}</div>
-                    <div className="category">{memory.category}</div>
+                    <div className={classes.verseText}>{memory.verse_gae}</div>
+                    <div className={classes.category}>{memory.category}</div>
                 </div>
             </div>
         </div>
