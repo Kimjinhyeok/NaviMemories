@@ -1,5 +1,5 @@
 import React from 'react'
-import NonPassiveTouchTarget from '../../utils/NonPassiveTouchTarget';
+import NonPassiveTouchTarget from '../../../utils/NonPassiveTouchTarget';
 import cx from 'classname';
 import { makeStyles } from '@material-ui/core';
 

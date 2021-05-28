@@ -1,38 +1,31 @@
-import React, { Fragment } from 'react'
+import { Container, makeStyles } from '@material-ui/core';
+import React from 'react'
 import { Route } from 'react-router';
-import CardListComponent from './CardList/list';
-import CardSlideComponent from './CardSlide/list';
 import AppBarComponent from './appbar';
-import { Categories } from '../Data/categories';
+import RecitationCardListComponent from './Cards';
+
 
 export default function MainComponent(props) {
 
-
-    if (Categories.getCategories().length <= 0) {
-        props.history.push("/prepare");
-    }
-    const [cardlist, setCardList] = React.useState([])
-
-    React.useEffect(async () => {
-        var location = props.location.pathname;
-        var response = await fetch(`/mock_memories.json`);
-        var recvCardList = await response.json();
-        setCardList(recvCardList)
-
-        props.history.push(location);
-    }, [])
-
+    const useStyle = makeStyles(theme => ({
+        root_container : {
+            height : '100%',
+            maxHeight : '100%',
+            display : 'flex',
+            flexDirection : 'column'
+        },
+        main_content : {
+            flex: 1,
+            maxHeight: 'calc(100% - 64px)'
+        }
+    }))
+    const classes = useStyle();
     return (
-        <div>
+        <div className={classes.root_container}>
             <AppBarComponent />
-            {
-                cardlist.length > 0 ?
-                    <Fragment>
-                        <Route path={`${props.params ? props.params.path : ''}/list`} render={props => <CardListComponent item={cardlist} {...props} />} />
-                        <Route path={`${props.params ? props.params.path : ''}/card`} render={props => <CardSlideComponent item={cardlist} {...props} />} />
-                    </Fragment>
-                    : <></>
-            }
+            <Container className={classes.main_content}>
+                <Route path={`${props.params ? props.params.path : ''}/recitation`} render={props => <RecitationCardListComponent {...props} />} />
+            </Container>
         </div>
     )
 }

@@ -9,6 +9,7 @@ import React, { useState } from 'react'
 import clsx from 'clsx'
 import { arrayCategories, Categories } from '../Data/categories'
 import TopNaviDrawerComponent from './Drawer/topNaviDrawer'
+import { Link } from 'react-router-dom'
 
 export default function AppBarComponent(props) {
 
@@ -119,7 +120,7 @@ export default function AppBarComponent(props) {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" className={classes.title}>Title</Typography>
-                    <Button color="inherit">Login</Button>
+                    <Button type="button" color="inherit"><Link to="/login">Login</Link></Button>
                 </Toolbar>
             </AppBar>
             <Drawer

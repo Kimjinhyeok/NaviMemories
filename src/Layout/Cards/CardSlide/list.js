@@ -2,21 +2,22 @@ import TouchCarousel, { clamp } from 'react-touch-carousel'
 import touchWithMouseHOC from 'react-touch-carousel/lib/touchWithMouseHOC'
 import React from 'react'
 import CarouselContainer from './container'
-import CardHtml from '../../card_html'
+import CardHtml from './card_html'
 import { makeStyles } from '@material-ui/core'
 
 export default function CardSlideComponent(props) {
 
     const cardSize = 300
     const carouselWidth = clamp(window.innerWidth, 0, 960)
-    const [cardList, setCardList] = React.useState(props.item)
+    const [cardList] = React.useState(props.item)
 
     const useStyle = makeStyles((theme) => ({
+        cardslideContainer: {
+            height: '100%'
+        },
         carouselContainer: {
-            position: 'relative',
-            height: '300px',
-            maxWidth: '960px',
-            margin: '0 auto',
+            height: '100%',
+            margin: 'auto 1vw',
             overflow: 'hidden',
             touchAction: 'pan-y',
         },
@@ -126,7 +127,7 @@ export default function CardSlideComponent(props) {
         )
     }
     return (
-        <div id="react-root" className="container">
+        <div className={classes.cardslideContainer}>
             <TouchCarousel
                 component={touchWithMouseHOC(renderContainer)}
                 cardCount={cardList.length}
