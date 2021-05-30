@@ -3,6 +3,7 @@ import React from 'react'
 import { Route } from 'react-router';
 import AppBarComponent from './appbar';
 import RecitationCardListComponent from './Cards';
+import CardTemplateComponent from './cardTemplate';
 
 
 export default function MainComponent(props) {
@@ -25,6 +26,7 @@ export default function MainComponent(props) {
             <AppBarComponent />
             <Container className={classes.main_content}>
                 <Route path={`${props.params ? props.params.path : ''}/recitation`} render={props => <RecitationCardListComponent {...props} />} />
+                <Route path={`${props.params ? props.params.path : ''}/template`} render={props => <CardTemplateComponent {...props}/>} />
             </Container>
         </div>
     )
