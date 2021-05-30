@@ -8,7 +8,10 @@ export default function CardTemplateComponent(props) {
     root_template: {
       height: '100%',
       display: 'flex',
-      flexDirection: 'column'
+      flexDirection: 'column',
+      '& .MuiFormHelperText-root': {
+        marginLeft: '0px'
+      }
     },
     content_wrap: {
       display: 'flex',
@@ -61,6 +64,15 @@ export default function CardTemplateComponent(props) {
   const classes = useStyle();
   const { history } = props;
   const [bibleCodes, setBibleCodes] = React.useState([]);
+  
+  React.useEffect(async () => {
+
+    var response = await fetch(`/mock_bible_code.json`);
+    var bibleCodes = await response.json();
+    setBibleCodes(bibleCodes)
+  }, [])
+
+
   const [value, setValue] = React.useState({
     theme: '',
     bible_code: '',
@@ -69,17 +81,22 @@ export default function CardTemplateComponent(props) {
     l_verse: 0,
     content: ''
   });
+  React.useEffect(() => {
+    checkValidate();
+  }, [value])
+
+  const [validators, setValidators] = React.useState({
+    theme: false,
+    bible_code: false,
+    chapter: false,
+    f_verse: false,
+    l_verse: false,
+    content: false,
+  })
   const [option, setOption] = React.useState({
     maxChapter: 999,
     edited : false
   })
-
-  React.useEffect(async () => {
-
-    var response = await fetch(`/mock_bible_code.json`);
-    var bibleCodes = await response.json();
-    setBibleCodes(bibleCodes)
-  }, [])
 
   const goBack = () => {
     history.goBack();
@@ -89,6 +106,42 @@ export default function CardTemplateComponent(props) {
   }
   const onChangeAutocomplete = function (event, newValue) {
     setValue({...value, bible_code : newValue.bible_code})
+  }
+  function autocompleteTextfieldRender(params) {
+    return (
+      <TextField 
+        key={params.bible_code} 
+        label="성경" {...params} 
+        fullWidth={false} 
+        className={classes.autocomplete_textfield} 
+        variant="outlined" 
+        required
+        error={validators.bible_code}
+        helperText={validators.bible_code ? '성경을 선택해주세요' : ''}/>
+    )
+  }
+  function onSaveHandling() {
+    /**
+     * Send To Server OYO Card values
+     */
+  }
+  const checkValidate = () => {
+    var validated = {}
+    for(var itr in value) {
+      switch(itr) {
+        case 'f_verse':
+        case 'chapter':
+        case 'bible_code':
+        case 'content':
+          if(!value[itr]) {
+            validated[itr] = true;
+          } else if(validators[itr]){
+            validated[itr] = false;
+          }
+          break;
+      }
+    }
+    setValidators({...validators, ...validated})
   }
   
   return (
@@ -114,7 +167,7 @@ export default function CardTemplateComponent(props) {
                   onChange={onChangeAutocomplete}
                   fullWidth={false}
                   renderOption={(params) => (<><span className={classes.shortName}>{params.short_name}</span>{params.bible_name}</>)}
-                  renderInput={(params) => <TextField key={params.bible_code} label="성경" {...params} fullWidth={false} className={classes.autocomplete_textfield} variant="outlined" required/>}
+                  renderInput={autocompleteTextfieldRender}
                 ></Autocomplete>
                 <TextField
                   id="template_chapter"
@@ -125,6 +178,8 @@ export default function CardTemplateComponent(props) {
                   required
                   onChange={onChangeHandling('chapter')}
                   InputProps={{ inputProps: { min : 0, max : option.maxChapter}}}
+                  error={validators.chapter}
+                  helperText={validators.chapter ? '장을 입력 또는 확인해주세요' : ''}
                 />
               </div>
               <div className={classes.row_field}>
@@ -136,6 +191,8 @@ export default function CardTemplateComponent(props) {
                   variant="outlined"
                   required
                   onChange={onChangeHandling('f_verse')}
+                  error={validators.f_verse}
+                  helperText={validators.f_verse ? '시작절을 입력 또는 확인해주세요' : ''}
                 />
                 <Box component="h4" className={classes.tilde}>~</Box>
                 <TextField
@@ -156,12 +213,15 @@ export default function CardTemplateComponent(props) {
                 multiline
                 rows="5"
                 required
-                onChange={onChangeHandling('content')} />
-                <Divider />
-                <div className={classes.action_buttons}>
-                  <Button type="button" color="secondary" aria-label="oyo-cancel" variant="outlined" onClick={goBack}>취소</Button>
-                  <Button type="button" color="primary" aria-label="oyo-write" variant="contained">저장</Button>
-                </div>
+                onChange={onChangeHandling('content')} 
+                error={validators.content}
+                helperText={validators.content ? '내용을 입력하거나 확인해주세요' : ''}
+              />
+              <Divider />
+              <div className={classes.action_buttons}>
+                <Button type="button" color="secondary" aria-label="oyo-cancel" variant="outlined" onClick={goBack}>취소</Button>
+                <Button type="button" color="primary" aria-label="oyo-write" variant="contained" onClick={onSaveHandling}>저장</Button>
+              </div>
             </Paper>
           </div>
         </Container>
