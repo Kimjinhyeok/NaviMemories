@@ -1,7 +1,6 @@
 import React from 'react'
-import NonPassiveTouchTarget from '../../../utils/NonPassiveTouchTarget';
+import NonPassiveTouchTarget from '../../../Utils/NonPassiveTouchTarget';
 import cx from 'classname';
-import { makeStyles } from '@material-ui/core';
 
 export default function CarouselContainer (props) {
     const {classes, data, cursor, cardSize, carouselWidth, carouselState: {active, dragging}, ...rest} = props;

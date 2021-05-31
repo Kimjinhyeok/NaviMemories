@@ -30,6 +30,9 @@ export default function Http() {
     var { query, data } = params;
     try {
       var result = await http.post(`${ServerUrl}/${query}`, data);
+      if(result instanceof Error) {
+        throw result;
+      }
       return result;
     } catch (error) {
       return error;
@@ -47,6 +50,9 @@ export default function Http() {
     }
     try {
       var result = await http.get(`${ServerUrl}/${query}`);
+      if(result instanceof Error) {
+        throw result;
+      }
       return result;
     } catch (error) {
       return error;
@@ -61,6 +67,9 @@ export default function Http() {
     var { query, data } = params;
     try {
       var result = await http.put(`${ServerUrl}/${query}`, data);
+      if(result instanceof Error) {
+        throw result;
+      }
       return result;
     } catch (error) {
       return error;
@@ -78,6 +87,9 @@ export default function Http() {
     }
     try {
       var result = await http.delete(`${ServerUrl}/${query}`);
+      if(result instanceof Error) {
+        throw result;
+      }
       return result;
     } catch (error) {
       return error;

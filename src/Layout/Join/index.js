@@ -1,16 +1,23 @@
 import { Button, Card, CardActions, CardContent, CardHeader, Container, makeStyles, TextField } from '@material-ui/core'
 import clsx from 'clsx';
 import React from 'react'
+import Http from '../../Utils/Http';
 import JoinPasswordsComponent from './passwords';
 
 export default function JoinComponent(props) {
 
   const { history } = props;
+  const http = Http();
+
   const useStyles = makeStyles((theme) => ({
     root : {
         display : 'flex',
         flexwrap : 'wrap',
         flexDirection : 'column'
+    },
+    title : {
+      backgroundColor : theme.palette.primary.main,
+      color : theme.palette.primary.contrastText
     },
     margin : {
         margin : theme.spacing(1)
@@ -19,6 +26,8 @@ export default function JoinComponent(props) {
         display : 'flex',
         flexWrap : 'wrap',
         flexDirection : 'row',
+        paddingRight : theme.spacing(3),
+        paddingLeft : theme.spacing(3)
     },
     subActions : {
         width : '50%'
@@ -71,10 +80,12 @@ export default function JoinComponent(props) {
   const handleSummit = () => {
     try {
       if(handleValidate(values)) {
-        // send http
+        var result = http.post({query : 'user/signup', values});
+
+        history.push('/login');
       }
     } catch (error) {
-      // show error
+      console.error(error);
     }
   }
   const handleCancel = () => {
@@ -83,7 +94,7 @@ export default function JoinComponent(props) {
   return (
     <Container maxWidth="sm">
       <Card>
-        <CardHeader title="회원가입"></CardHeader>
+        <CardHeader title="회원가입" className={classes.title}></CardHeader>
         <CardContent>
           <div className={classes.root}>
             <TextField

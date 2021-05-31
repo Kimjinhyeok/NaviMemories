@@ -1,9 +1,11 @@
 import { Box, Button, Container, Divider, makeStyles, Paper, TextField } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import React from 'react'
+import Http from '../Utils/Http';
 
 export default function CardTemplateComponent(props) {
 
+  const http = Http();
   const useStyle = makeStyles(theme => ({
     root_template: {
       height: '100%',
@@ -121,9 +123,31 @@ export default function CardTemplateComponent(props) {
     )
   }
   function onSaveHandling() {
-    /**
-     * Send To Server OYO Card values
-     */
+    try {
+      var result = http.post({query: "RC", data: value})
+
+      /********** Notice Saved OYO Card **********/
+
+      setValue({
+        theme: '',
+        bible_code: '',
+        chapter: 0,
+        f_verse: 0,
+        l_verse: 0,
+        content: ''
+      });
+      setValidators({
+        theme: false,
+        bible_code: false,
+        chapter: false,
+        f_verse: false,
+        l_verse: false,
+        content: false,
+      })
+
+    } catch (error) {
+      console.error(error);
+    }
   }
   const checkValidate = () => {
     var validated = {}

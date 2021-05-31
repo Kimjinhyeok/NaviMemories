@@ -2,9 +2,11 @@ import React from 'react'
 import { Box, Button, Card, CardActions, CardContent, CardHeader, Container, FormControl, IconButton, Input, InputAdornment, InputLabel, makeStyles } from '@material-ui/core'
 import { Visibility, VisibilityOff } from '@material-ui/icons'
 import clsx from 'clsx'
+import Http from '../../Utils/Http'
 
-export default function LoginComponent () {
+export default function LoginComponent (props) {
 
+    const http = Http();
     const useStyles = makeStyles((theme) => ({
         root : {
             display : 'flex',
@@ -14,16 +16,24 @@ export default function LoginComponent () {
         margin : {
             margin : theme.spacing(1)
         },
+        title : {
+          backgroundColor : theme.palette.primary.main,
+          color : theme.palette.primary.contrastText
+        },
         action : {
             display : 'flex',
             flexWrap : 'wrap',
             flexDirection : 'column',
+            paddingLeft: theme.spacing(3),
+            paddingRight: theme.spacing(3),
+            
         },
         subActions : {
             width : '100%'
         }
     }))
     const classes = useStyles();
+    const {history} = props;
     const [values, setValues] = React.useState({
         password : '',
         id : '',
@@ -39,11 +49,43 @@ export default function LoginComponent () {
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     }
+    const enterDownHandling = (event) => {
+        if(event.key === 'Enter') {
+            handleSummit();
+        }
+    }
+    const handleSummit = async () => {
+        try {
+            if(!(values.id) && !(values.password)) return;
+            var result = await http.post({
+                query : 'auth',
+                data : {
+                    id : values.id,
+                    password : values.password
+                }
+            })
+            if(result instanceof Error) {
+                throw new Error("서버와 연결이 지연되고 있습니다. 잠시 후 시도해주세요.")
+            }
+            setHeader(result);
+            history.push('/recitatoin');
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    const setHeader = (params) => {
+        var {headers} = params;
+        if(headers.authtoken) {
+            http.setHeader('authToken', headers.authtoken);
+        } else {
+            throw new Error("로그인 처리가 정상적으로 수행되지 않았습니다. 다시 시도해주세요");
+        }
+    }
 
     return (
         <Container maxWidth="sm">
             <Card>
-                <CardHeader title="로그인"/>
+                <CardHeader title="Navigators 암송 커뮤니티" className={classes.title}/>
                 <CardContent>
                     <div className={classes.root}>
                         <FormControl className={clsx(classes.margin, classes.textField)}>
@@ -73,16 +115,17 @@ export default function LoginComponent () {
                                         </IconButton>
                                     </InputAdornment>
                                 }
+                                onKeyDown={enterDownHandling}
                             >
                             </Input>
                         </FormControl>
                     </div>
                 </CardContent>
                 <CardActions className={classes.action} disableSpacing={true}>
-                    <Button className={classes.subActions} variant='contained' size="large" color="primary">로그인</Button>
+                    <Button className={classes.subActions} variant='contained' size="large" color="primary" onClick={handleSummit}>확인</Button>
                     <Box  className={classes.subActions} display="flex" flexDirection="row" flexWrap="wrap" justifyContent='space-between' maxWidth="sm">
-                        <Button size="small" color="primary"onClick={() => {}}>비밀번호 찾기</Button>
-                        <Button size="small" color="primary"onClick={() => {}}>회원가입</Button>
+                        <Button size="small" color="primary" onClick={() => {}} disabled>비밀번호 찾기</Button>
+                        <Button size="small" color="primary" onClick={() => {history.push('/join')}}>회원가입</Button>
                     </Box>
                 </CardActions>
             </Card>
