@@ -154,7 +154,7 @@ export default function CardTemplateComponent(props) {
               <TextField
                 id="teamplte_theme"
                 type="text"
-                label="주제를 입력해주세요."
+                label="암송 주제"
                 value={value.theme}
                 variant="outlined"
                 onChange={onChangeHandling('theme')}
@@ -179,7 +179,6 @@ export default function CardTemplateComponent(props) {
                   onChange={onChangeHandling('chapter')}
                   InputProps={{ inputProps: { min : 0, max : option.maxChapter}}}
                   error={validators.chapter}
-                  helperText={validators.chapter ? '장을 입력 또는 확인해주세요' : ''}
                 />
               </div>
               <div className={classes.row_field}>
@@ -192,7 +191,6 @@ export default function CardTemplateComponent(props) {
                   required
                   onChange={onChangeHandling('f_verse')}
                   error={validators.f_verse}
-                  helperText={validators.f_verse ? '시작절을 입력 또는 확인해주세요' : ''}
                 />
                 <Box component="h4" className={classes.tilde}>~</Box>
                 <TextField
