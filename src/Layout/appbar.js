@@ -78,10 +78,12 @@ export default function AppBarComponent(props) {
             marginLeft: 0,
         },
         nested_1: {
-            marginLeft: theme.spacing(2)
+            marginLeft: theme.spacing(2),
+            width: `calc(100% - ${theme.spacing(2)}px)`
         },
         nested_2: {
-            marginLeft: theme.spacing(4)
+            marginLeft: theme.spacing(4),
+            width: `calc(100% - ${theme.spacing(4)}px)`
         }
     }));
     
