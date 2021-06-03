@@ -4,6 +4,7 @@ export default function CardHtml(props) {
 
     const [memory] = React.useState({
         bible_code : props.item.bible_code,
+        bible_name : props.item.bible_name,
         card_num : props.item.card_num,
         category : props.item.category,
         chapter : props.item.chapter,
@@ -22,7 +23,7 @@ export default function CardHtml(props) {
                 <div className={classes.carouselTitle}>{memory.theme}</div>
                 <div className={classes.carouselText}>
                     <div className={classes.chapterLayer}>
-                        <div className={classes.bibleName}>{memory.bible_code}</div>
+                        <div className={classes.bibleName}>{memory.bible_name}</div>
                         <div className={classes.chapter}>{memory.chapter}</div>
                         <span>:</span>
                         <div className={classes.verses}>

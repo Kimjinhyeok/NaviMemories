@@ -14,7 +14,7 @@ export default function CardListComponent (props) {
     return (
         <Container maxWidth="sm" className={classes.root_container}>
             {
-                cardList.map(item => <CardComponent item={item}></CardComponent>)
+                cardList.map((item, idx) => <CardComponent item={item} key={idx}></CardComponent>)
             }
         </Container>
     )

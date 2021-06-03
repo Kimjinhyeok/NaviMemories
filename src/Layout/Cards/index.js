@@ -1,5 +1,6 @@
 import { AppBar, Container, makeStyles, Tab, Tabs } from '@material-ui/core';
 import React from 'react'
+import Http from '../../Utils/Http';
 import CardListComponent from './CardList/list';
 import CardSlideComponent from './CardSlide/list';
 
@@ -22,6 +23,7 @@ export default function RecitationCardListComponent(props) {
     }
   }));
   const classes = useStyle();
+  const http = Http();
   const [value, setvalue] = React.useState(0);
   
   const handleChange = function (event, newValue) {
@@ -32,8 +34,9 @@ export default function RecitationCardListComponent(props) {
 
   React.useEffect(async () => {
     var location = props.location.pathname;
-    var response = await fetch(`/mock_memories.json`);
-    var recvCardList = await response.json();
+    var code = props.match.params.code;
+    var response = await http.get({query : `RC/${code}`});
+    var recvCardList = response.data;
     setCardList(recvCardList)
 
     props.history.push(location);

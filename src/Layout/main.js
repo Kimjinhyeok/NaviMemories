@@ -23,9 +23,9 @@ export default function MainComponent(props) {
     const classes = useStyle();
     return (
         <div className={classes.root_container}>
-            <AppBarComponent />
+            <AppBarComponent {...props}     />
             <Container className={classes.main_content}>
-                <Route path={`${props.params ? props.params.path : ''}/recitation`} render={props => <RecitationCardListComponent {...props} />} />
+                <Route path={`${props.params ? props.params.path : ''}/recitation/:code`} render={props => <RecitationCardListComponent {...props} />} />
                 <Route path={`${props.params ? props.params.path : ''}/template`} render={props => <CardTemplateComponent {...props}/>} />
             </Container>
         </div>

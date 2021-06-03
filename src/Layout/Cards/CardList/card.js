@@ -37,6 +37,7 @@ export default function CardComponent (props) {
     const classes = useStyles();
     const [memory] = useState({
         bible_code : props.item.bible_code,
+        bible_name : props.item.bible_name,
         card_num : props.item.card_num,
         category : props.item.category,
         chapter : props.item.chapter,
@@ -56,7 +57,7 @@ export default function CardComponent (props) {
             </CardHeader>
             <CardContent className={classes.c_content}>
                 <Box className={classes.chapter}>
-                    <Typography className={classes.bible_code}>{memory.bible_code}</Typography>
+                    <Typography className={classes.bible_code}>{memory.bible_name}</Typography>
                     <Typography>{memory.chapter}</Typography>:
                     <Typography>{memory.f_verse}</Typography>
                     {

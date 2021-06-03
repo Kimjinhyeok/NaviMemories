@@ -109,7 +109,9 @@ export default function AppBarComponent(props) {
             <AppBar position="static" 
                 className={clsx(classes.appBar, {
                     [classes.appBarShift]: open,
-                })}>
+                })}
+                {...props}
+                >
                 <Toolbar>
                     <IconButton
                         edge="start"
@@ -148,7 +150,7 @@ export default function AppBarComponent(props) {
                         <List>
                             {categories.map((ct, idx) => {
                                 return (
-                                    <TopNaviDrawerComponent key={idx} category={ct} classes={classes}/>
+                                    <TopNaviDrawerComponent key={idx} category={ct} classes={classes} {...props}/>
                                 )
                             })}
                         </List>

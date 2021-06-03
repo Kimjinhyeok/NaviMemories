@@ -4,13 +4,15 @@ import React from 'react'
 
 export default function TopNaviDrawerComponent(props) {
 
-  const {category, classes} = props;
+  const {history, category, classes} = props;
   const [open, setopen] = React.useState(false)
-
+  const moveToCategory = function (code) {
+    history.push(`/recitation/${code}`)
+  }
   const topNaviComponent = function () {
     if (!category.children || category.children.length <= 0) {
       return (
-        <ListItem button key={category.series_code} onClick={() => {}} className={classes.nested_1}>
+        <ListItem button key={category.series_code} onClick={() => {moveToCategory(category.series_code)}} className={classes.nested_1}>
           <ListItemText primary={category.category} />
         </ListItem>
       )
@@ -25,7 +27,7 @@ export default function TopNaviDrawerComponent(props) {
             <List>
               {category.children.map(item => {
                 return (
-                  <ListItem button key={item.series_code} onClick={()=>{}} className={classes.nested_2}>
+                  <ListItem button key={item.series_code} onClick={()=>{moveToCategory(item.series_code)}} className={classes.nested_2}>
                     <ListItemText primary={item.category} />
                   </ListItem>
                 )
