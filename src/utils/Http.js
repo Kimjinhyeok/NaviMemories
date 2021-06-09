@@ -11,13 +11,13 @@ axios.defaults.baseURL = ServerUrl;
 export default function Http() {
 
   const http = axios.create({
-    timeout : 2500
+    timeout : 10000
   });
 
   function dataToQuery(params) {
     var query = "?";
     for(var itr in params) {
-      query += `${itr}=${params[itr]}`;
+      query += `${itr}=${params[itr]}&`;
     }
     return query;
   }
@@ -35,7 +35,7 @@ export default function Http() {
       }
       return result;
     } catch (error) {
-      return error;
+      throw error;
     }
   }
   /**
@@ -55,7 +55,7 @@ export default function Http() {
       }
       return result;
     } catch (error) {
-      return error;
+      throw error;
     }
   }
   /**
@@ -72,7 +72,7 @@ export default function Http() {
       }
       return result;
     } catch (error) {
-      return error;
+      throw error;
     }
   }
   /**
@@ -92,7 +92,7 @@ export default function Http() {
       }
       return result;
     } catch (error) {
-      return error;
+      throw error;
     }
   }
   function setHeader(headerName, headerValue) {
