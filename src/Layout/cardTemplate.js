@@ -86,6 +86,12 @@ export default function CardTemplateComponent(props) {
   React.useEffect(() => {
     checkValidate();
   }, [value])
+  React.useEffect(() => {
+    if(value.bible_code && value.chapter && value.f_verse) {
+      loadContent()
+      // console.log('ran...')
+    }
+  }, [value.bible_code, value.chapter, value.f_verse, value.l_verse])
 
   const [validators, setValidators] = React.useState({
     theme: false,
@@ -121,6 +127,21 @@ export default function CardTemplateComponent(props) {
         error={validators.bible_code}
         helperText={validators.bible_code ? '성경을 선택해주세요' : ''}/>
     )
+  }
+  async function loadContent() {
+    try {
+      var { bible_code, chapter, f_verse, l_verse } = value;
+
+      var queryData = { bible_code, chapter, f_verse };
+      if(l_verse) {
+        queryData.l_verse = l_verse;
+      }
+      var res = await http.get({ query : 'RC/oyo/content', data : queryData})
+      var content = res.data;
+      setValue({...value, content : content});
+    } catch (error) {
+      console.error(error);
+    }
   }
   function onSaveHandling() {
     try {
@@ -218,7 +239,7 @@ export default function CardTemplateComponent(props) {
                 />
                 <Box component="h4" className={classes.tilde}>~</Box>
                 <TextField
-                  id="template_fverse"
+                  id="template_lverse"
                   type="number"
                   label="끝 절"
                   value={value.l_verse}
