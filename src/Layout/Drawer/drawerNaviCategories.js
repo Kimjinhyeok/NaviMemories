@@ -2,7 +2,7 @@ import { Collapse, List, ListItem, ListItemText } from '@material-ui/core';
 import { ExpandLess, ExpandMore } from '@material-ui/icons';
 import React from 'react'
 
-export default function TopNaviDrawerComponent(props) {
+export default function DrawerNaviCategoriesComponent(props) {
 
   const {history, category, classes} = props;
   const [open, setopen] = React.useState(false)

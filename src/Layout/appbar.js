@@ -1,24 +1,16 @@
-import { AppBar, Button, Collapse, Divider, Drawer, Hidden, IconButton, List, ListItem, ListItemIcon, ListItemText, makeStyles, Toolbar, Typography, useTheme } from '@material-ui/core'
+import { AppBar, Button, IconButton, makeStyles, Toolbar, Typography } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
-import InboxIcon from '@material-ui/icons/Inbox'
-import MailIcon from '@material-ui/icons/Mail'
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
-import ExpandLess from '@material-ui/icons/ExpandLess'
-import ExpandMore from '@material-ui/icons/ExpandMore'
 import React, { useState } from 'react'
 import clsx from 'clsx'
-import { arrayCategories, Categories } from '../Data/categories'
-import TopNaviDrawerComponent from './Drawer/topNaviDrawer'
 import { Link } from 'react-router-dom'
+import DrawerMenuComponent from './Drawer'
 
 export default function AppBarComponent(props) {
 
     const drawerWidth = 240;
     
     const [open, setOpen] = useState(true);
-    const [recitationOpen, setRecitationOpen] = useState(false);
-    const [subCt, setSubCt] = useState(null)
-    const [categories, setCategories] = useState([])
+    
     const useStyle = makeStyles((theme) => ({
         root: {
             display: 'flex',
@@ -89,23 +81,6 @@ export default function AppBarComponent(props) {
     
     const classes = useStyle();
 
-
-    const handleRecitationClick = () => {
-        setRecitationOpen(!recitationOpen)
-    }
-    const handleSubCategory = (idx) => {
-        subCt[idx] = !subCt[idx];
-        setSubCt(subCt);
-    }
-    React.useEffect(async () => {
-        var categories = await Categories.getCategories();
-        var sortedCategories = arrayCategories(categories);
-        var subCtClosed = sortedCategories.map(_ => false);
-        setSubCt(subCtClosed);
-        setCategories(sortedCategories);
-        console.log(subCt);
-    }, [])
-
     return (
         <div className="root">
             <AppBar position="static" 
@@ -127,49 +102,12 @@ export default function AppBarComponent(props) {
                     <Button type="button" color="inherit"><Link to="/login">Login</Link></Button>
                 </Toolbar>
             </AppBar>
-            <Drawer
-                className={classes.drawer}
-                variant="persistent"
-                classes={{
-                    paper: classes.drawerPaper,
-                }}
+            <DrawerMenuComponent
+                classes={classes}
+                setOpen={setOpen}
                 open={open}
-                anchor="left"
-            >
-                <div className={classes.drawerHeader}>
-                    <IconButton onClick={() => setOpen(false)}>
-                        <ChevronLeftIcon/>
-                    </IconButton>
-                </div>
-                <Divider />
-                
-                <List>
-                    <ListItem button onClick={handleRecitationClick}>
-                        <ListItemText>암송</ListItemText>
-                        {recitationOpen ? <ExpandLess/> : <ExpandMore/>}
-                    </ListItem>
-                    <Collapse in={recitationOpen} unmountOnExit>
-                        <List>
-                            {categories.map((ct, idx) => {
-                                return (
-                                    <TopNaviDrawerComponent key={idx} category={ct} classes={classes} {...props}/>
-                                )
-                            })}
-                        </List>
-                    </Collapse>
-                    <Divider />
-                    <ListItem button key='암송카드 관리'>
-                        <ListItemText primary="암송카드 관리" />
-                    </ListItem>
-                    <Divider />
-                    {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
-                    ))}
-                </List>
-            </Drawer>
+                {...props}
+            />
         </div>
     )
 }
