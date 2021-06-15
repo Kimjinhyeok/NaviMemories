@@ -69,9 +69,9 @@ export default function CardTemplateComponent(props) {
   
   React.useEffect(async () => {
 
-    var response = await fetch(`/mock_bible_code.json`);
-    var bibleCodes = await response.json();
-    setBibleCodes(bibleCodes)
+    var response = await http.get({query : "/resource/bible"});
+    var recvBibleCodes = response.data;
+    setBibleCodes(recvBibleCodes)
   }, [])
 
 
@@ -89,7 +89,10 @@ export default function CardTemplateComponent(props) {
   React.useEffect(() => {
     if(value.bible_code && value.chapter && value.f_verse) {
       loadContent()
-      // console.log('ran...')
+    }
+    if(value.bible_code) {
+      var bibleInfo = bibleCodes.find((item) => item.bible_code == value.bible_code);
+      setOption({...option, maxChapter : bibleInfo.chapter});
     }
   }, [value.bible_code, value.chapter, value.f_verse, value.l_verse])
 
