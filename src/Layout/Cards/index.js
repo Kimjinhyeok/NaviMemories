@@ -40,7 +40,7 @@ export default function RecitationCardListComponent(props) {
     setCardList(recvCardList)
 
     props.history.push(location);
-  }, [])
+  }, [props.location.pathname])
   
   function TabPanel(props) {
     const { value, index, className, ...other } = props;

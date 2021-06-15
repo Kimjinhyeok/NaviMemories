@@ -11,8 +11,20 @@ export default function CardListComponent (props) {
         }
     }));
     const classes = useStyle();
+    var containerRef = React.useRef(null);
+
+    function scrollToTop() {
+        if(containerRef.current) {
+            containerRef.current.scrollIntoView();
+        }
+    }
+    
+    React.useEffect(() => {
+        scrollToTop();
+    }, [containerRef])
+
     return (
-        <Container maxWidth="sm" className={classes.root_container}>
+        <Container maxWidth="sm" className={classes.root_container} ref={containerRef}>
             {
                 cardList.map((item, idx) => <CardComponent item={item} key={idx}></CardComponent>)
             }

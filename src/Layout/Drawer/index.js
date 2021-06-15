@@ -10,8 +10,9 @@ import DrawerNaviCategoriesComponent from './drawerNaviCategories'
 
 export default function DrawerMenuComponent(props) {
 
+
+  const history = props.history;
   const classes = props.classes;
-  
   const [opened, setCollapseOpened] = useState({recitation: false, cardManage : false});
   const setOpen = props.setOpen;
 
@@ -19,8 +20,8 @@ export default function DrawerMenuComponent(props) {
       setCollapseOpened({...opened, [property] : !opened[property]})
   }
 
-  const [categories, setCategories] = useState([])
-  const [subCt, setSubCt] = useState(null)
+  const [categories, setCategories] = useState([]);
+  const [subCt, setSubCt] = useState(null);
 
   React.useEffect(async () => {
       var categories = await Categories.getCategories();
@@ -29,6 +30,7 @@ export default function DrawerMenuComponent(props) {
       setSubCt(subCtClosed);
       setCategories(sortedCategories);
   }, [])  
+  
   return (
     <Drawer
       className={classes.drawer}
@@ -67,10 +69,10 @@ export default function DrawerMenuComponent(props) {
         </ListItem>
         <Collapse in={opened.cardManage} unmountOnExit>
           <List>
-            <ListItem button key='OYO 입력'>
+            <ListItem button key='OYO 입력' onClick={() => {history.push('/template')}}>
               <ListItemText primary="OYO 입력" />
             </ListItem>
-            <ListItem button key='암송카드 관리'>
+            <ListItem button key='암송카드 관리' onClick={() => {history.push('/')}}>
               <ListItemText primary="암송카드 관리" />
             </ListItem>
           </List>
