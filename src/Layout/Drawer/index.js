@@ -13,7 +13,7 @@ export default function DrawerMenuComponent(props) {
 
   const history = props.history;
   const classes = props.classes;
-  const [opened, setCollapseOpened] = useState({recitation: false, cardManage : false});
+  const [opened, setCollapseOpened] = useState({recitation: false, cardManage : false, checking : false});
   const setOpen = props.setOpen;
 
   const handleOpenedClick = (property) => {
@@ -48,9 +48,12 @@ export default function DrawerMenuComponent(props) {
       </div>
       <Divider />
 
+        {/**
+         ********************************  암송 읽기  *******************************
+         */}
       <List>
         <ListItem button onClick={() => handleOpenedClick('recitation')}>
-          <ListItemText>암송</ListItemText>
+          <ListItemText>암송 읽기</ListItemText>
           {opened.recitation ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
         <Collapse in={opened.recitation} unmountOnExit>
@@ -63,16 +66,38 @@ export default function DrawerMenuComponent(props) {
           </List>
         </Collapse>
         <Divider />
+        {/**
+         ********************************  암송 점검  *******************************
+         */}
+        <ListItem button onClick={() => { handleOpenedClick('checking') }}>
+          <ListItemText>암송 점검</ListItemText>
+          {opened.checking ? <ExpandLess /> : <ExpandMore />}
+        </ListItem>
+        <Collapse in={opened.checking} unmountOnExit>
+          <List>
+            <ListItem button key='암송 점검' onClick={() => {history.push('/test/unit')}} className={classes.nested_1}>
+              <ListItemText primary="암송 점검" />
+            </ListItem>
+            <ListItem button key='암송 실기 테스트' onClick={() => {history.push('/test/exam')}} className={classes.nested_1}>
+              <ListItemText primary="암송 실기 테스트" />
+            </ListItem>
+          </List>
+        </Collapse>
+        <Divider />
+        
+        {/**
+         ********************************  내 카드 관리  *******************************
+         */}
         <ListItem button onClick={() => { handleOpenedClick('cardManage') }}>
           <ListItemText>내 카드 관리</ListItemText>
           {opened.cardManage ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
         <Collapse in={opened.cardManage} unmountOnExit>
           <List>
-            <ListItem button key='OYO 입력' onClick={() => {history.push('/template')}}>
+            <ListItem button key='OYO 입력' onClick={() => {history.push('/template')}} className={classes.nested_1}>
               <ListItemText primary="OYO 입력" />
             </ListItem>
-            <ListItem button key='암송카드 관리' onClick={() => {history.push('/')}}>
+            <ListItem button key='암송카드 관리' onClick={() => {history.push('/')}} className={classes.nested_1}>
               <ListItemText primary="암송카드 관리" />
             </ListItem>
           </List>
