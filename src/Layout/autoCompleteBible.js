@@ -24,8 +24,22 @@ import Http from '../Utils/Http';
 export default function AutoCompleteBible(props) {
 
   const http = Http();
-  const { onChange, classes, fullWidth, validator, className } = props;
+  const { onChange, classes, fullWidth, validator, defaultValue, className, disabled } = props;
+  
   const id = props.id || "bible_auto_complete";
+  const useStyle = makeStyles(theme => ({
+    bibleAutoComplete: {
+      backgroundColor: theme.palette.action.hover,
+      '& .MuiFormLabel-root.Mui-disabled': {
+        color: theme.palette.text.hint
+      },
+      '& .MuiInputBase-root.Mui-disabled': {
+        color: theme.palette.text.primary
+      }
+    }
+  }));
+  const styles = useStyle();
+
   const renderOption = props.renderOption || ((params) => (<><span className={classes.shortName}>{params.short_name}</span>{params.bible_name}</>))
   const autocompleteTextfieldRender = props.autocompleteTextfieldRender || 
     function autocompleteTextfieldRender(params) {
@@ -47,9 +61,8 @@ export default function AutoCompleteBible(props) {
   React.useEffect(async () => {
     var response = await http.get({query : "/resource/bible"});
     var recvBibleCodes = response.data;
-    setBibleCodes(recvBibleCodes)
+    setBibleCodes(recvBibleCodes);
   }, [])
-
   
   return (
     bibleCodes.length > 0 ? 
@@ -58,8 +71,10 @@ export default function AutoCompleteBible(props) {
       options={bibleCodes}
       getOptionLabel={(props) => props.bible_name}
       onChange={onChange}
+      disabled={disabled}
+      defaultValue={bibleCodes[defaultValue - 1]}
       fullWidth={fullWidth}
-      className={className}
+      className={`${disabled ? styles.bibleAutoComplete : ''} ${className}`}
       renderOption={renderOption}
       renderInput={autocompleteTextfieldRender}
     ></Autocomplete>)

@@ -4,7 +4,8 @@ import { Route } from 'react-router';
 import AppBarComponent from './appbar';
 import RecitationCardListComponent from './Cards';
 import CardTemplateComponent from './cardTemplate';
-import CheckingByUnitComponent from './Check/Unit';
+import CheckChapterVerseComponent from './Check/Unit/cv';
+import CheckContentComponent from './Check/Unit/cn';
 
 
 export default function MainComponent(props) {
@@ -26,7 +27,8 @@ export default function MainComponent(props) {
         <div className={classes.root_container}>
             <AppBarComponent {...props}     />
             <Container className={classes.main_content}>
-                <Route path={`${props.params ? props.params.path : ''}/checking/unit`} render={props => <CheckingByUnitComponent {...props} />} />
+                <Route path={`${props.params ? props.params.path : ''}/check/cv`} render={props => <CheckChapterVerseComponent {...props} />} />
+                <Route path={`${props.params ? props.params.path : ''}/check/cn`} render={props => <CheckContentComponent {...props} />} />
                 <Route path={`${props.params ? props.params.path : ''}/recitation/:code`} render={props => <RecitationCardListComponent {...props} />} />
                 <Route path={`${props.params ? props.params.path : ''}/template`} render={props => <CardTemplateComponent {...props}/>} />
             </Container>

@@ -3,7 +3,7 @@ import {red, blue} from '@material-ui/core/colors'
 import React from 'react'
 import AutoCompleteBible from '../../autoCompleteBible';
 
-export default function CheckingByUnitComponent(props) {
+export default function CheckChapterVerseComponent(props) {
 
   const useStyle = makeStyles((theme) => ({
     root_checking : {
@@ -92,7 +92,7 @@ export default function CheckingByUnitComponent(props) {
           value={value.theme} 
           onChange={handleChangeValue('theme')} 
           required  
-          autoComplete={false}
+          autoComplete="off"
           label="주제" 
           className={flags.theme === null ? null : (flags.theme === true ? classes.succeed : classes.failed)}/>
         <div className={classes.row_part}>
@@ -107,18 +107,21 @@ export default function CheckingByUnitComponent(props) {
             value={value.chapter} 
             variant="outlined" 
             label="장" 
+            required
             onChange={handleChangeValue('chapter')} 
             className={flags.chapter === null ? null : (flags.chapter === true ? classes.succeed : classes.failed)}/>
           <TextField type="number" 
             value={value.f_verse} 
             variant="outlined" 
             label="시작 구절" 
+            required
             onChange={handleChangeValue('f_verse')} 
             className={flags.f_verse === null ? null : (flags.f_verse === true ? classes.succeed : classes.failed)}/>
           <TextField type="number" 
             value={value.l_verse} 
             variant="outlined" 
             label="끝 구절" 
+            required
             onChange={handleChangeValue('l_verse')} 
             className={flags.l_verse === null ? null : (flags.l_verse === true ? classes.succeed : classes.failed)}/>
         </div>
