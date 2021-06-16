@@ -1,5 +1,5 @@
 import { Button, Container, makeStyles, TextField } from '@material-ui/core'
-import {red, blue, lightBlue} from '@material-ui/core/colors'
+import {red, blue, lightBlue, grey} from '@material-ui/core/colors'
 import React from 'react'
 import DiffMatchPatch from 'diff-match-patch';
 import AutoCompleteBible from '../../autoCompleteBible';
@@ -61,12 +61,20 @@ export default function CheckContentComponent(props) {
       borderRadius: '4px',
       borderColor: theme.palette.action.disabled,
     },
+    hide : {
+      display : 'none'
+    },
     correct : {
       backgroundColor: lightBlue[50],
     },
+    omitted : {
+      backgroundColor: grey[50],
+      color: grey[500],
+      textDecoration: 'line-through',
+    },
     incorrect : {
       backgroundColor: red[50],
-      textDecoration: 'line-through'
+      color: red[500]
     },
   }))
   const classes = useStyle();
@@ -74,7 +82,8 @@ export default function CheckContentComponent(props) {
   var [value, setValue] = React.useState({theme : "", content: ""});
   var [flags, setFlags] = React.useState({
     theme : null,
-    content : null
+    content : null,
+    result : false
   })
   const [origin] = React.useState({
     theme : "구원의 확신",
@@ -93,7 +102,8 @@ export default function CheckContentComponent(props) {
   const handleOnClick = function () {
     var res = {
       theme : value.theme === origin.theme,
-      content : value.content == origin.content
+      content : value.content == origin.content,
+      result : true
     };
     setFlags({
       ...flags,
@@ -166,9 +176,9 @@ export default function CheckContentComponent(props) {
           className={flags.content === null ? '' : (flags.content === true? classes.succeed : classes.failed)}
           onChange={handleChangeValue('content')} 
         />
-        <div className={classes.content_result}>
+        <div className={flags.result ? classes.content_result : classes.hide}>
           {
-            matchResult.length > 0 ? (matchResult.map(item => (<span className={item.type ? classes.incorrect : classes.correct}>{item.text}</span>))) : <></>
+            matchResult.length > 0 ? (matchResult.map(item => (<span className={item.type===0 ? classes.correct : (item.type === -1 ? classes.incorrect : classes.omitted) }>{item.text}</span>))) : <></>
           }
         </div>
         <div className={classes.action_button}>
