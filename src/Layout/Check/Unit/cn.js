@@ -1,7 +1,7 @@
 import { Button, Container, makeStyles, TextField } from '@material-ui/core'
-import {red, blue} from '@material-ui/core/colors'
+import {red, blue, lightBlue} from '@material-ui/core/colors'
 import React from 'react'
-import Http from '../../../Utils/Http';
+import DiffMatchPatch from 'diff-match-patch';
 import AutoCompleteBible from '../../autoCompleteBible';
 
 export default function CheckContentComponent(props) {
@@ -50,7 +50,24 @@ export default function CheckContentComponent(props) {
       '& button': {
         marginTop: '10px'
       }
-    }
+    },
+    content_result: {
+      height: '15vh',
+      paddingTop: '18.5px',
+      paddingBottom: '18.5px',
+      paddingLeft: '14px',
+      paddingRight: '14px',
+      border: '1px solid',
+      borderRadius: '4px',
+      borderColor: theme.palette.action.disabled,
+    },
+    correct : {
+      backgroundColor: lightBlue[50],
+    },
+    incorrect : {
+      backgroundColor: red[50],
+      textDecoration: 'line-through'
+    },
   }))
   const classes = useStyle();
 
@@ -67,6 +84,7 @@ export default function CheckContentComponent(props) {
     l_verse: 12,
     content : "또 증거는 이것이니 하나님이 우리에게 영생을 주신 것과 이 생명이 그의 안에 있는 그것이니라 아들이 있는 자에게는 생명이 있고 하나님의 아들이 없는 자에게는 생명이 없느니라",
   });
+  const [matchResult, setMatchResult] = React.useState([]);
 
   const handleChangeValue = (props) => (event) => {
     setValue({...value, [props] : event.target.value})
@@ -80,9 +98,23 @@ export default function CheckContentComponent(props) {
     setFlags({
       ...flags,
       ...res
-    })
+    });
+    compareContent()
   }
   const handleHint = function () {
+
+  }
+  const compareContent = function () {
+    var diffMatchPatch = new DiffMatchPatch.diff_match_patch();
+    var result = diffMatchPatch.diff_main(origin.content, value.content);
+
+    var spanList =  result.map(node => {
+      return {
+        type : node[0],
+        text : node[1]
+      }
+    });
+    setMatchResult(spanList);
 
   }
   return (
@@ -134,6 +166,11 @@ export default function CheckContentComponent(props) {
           className={flags.content === null ? '' : (flags.content === true? classes.succeed : classes.failed)}
           onChange={handleChangeValue('content')} 
         />
+        <div className={classes.content_result}>
+          {
+            matchResult.length > 0 ? (matchResult.map(item => (<span className={item.type ? classes.incorrect : classes.correct}>{item.text}</span>))) : <></>
+          }
+        </div>
         <div className={classes.action_button}>
           <Button type="button" variant="outlined" color="default" onClick={() => {handleHint()}}>힌트</Button>
           <Button type="button" variant="contained" color="primary" onClick={() => {handleOnClick()}}>확인</Button>
