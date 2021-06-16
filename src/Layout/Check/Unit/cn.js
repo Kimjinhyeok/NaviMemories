@@ -124,7 +124,56 @@ export default function CheckContentComponent(props) {
     setMatchResult([]);
   }
   const handleHint = function () {
+    var diffMatchPatch = new DiffMatchPatch.diff_match_patch();
+    var result = diffMatchPatch.diff_main(origin.content, value.content);
 
+    var lastIncorrectIndex = -1;
+    var incorrectCount = 0;
+    result.forEach((node, idx) => {
+      if(node[0] === -1) {
+        lastIncorrectIndex = idx
+        incorrectCount++; 
+      }
+    });
+
+    var spanList = [];
+    if(lastIncorrectIndex == 1 && incorrectCount == 1) { // 다 맞다가 모르는 경우
+      spanList.push({type : 0, text : result[0][1]});
+      let segments = result[1][1].split(/(\s+)/);
+      if(!segments[0]) {
+        segments.shift();
+      }
+      let hint = segments[0] + checkEmpty(segments[1]) + checkEmpty(segments[2]) + (segments[0] === " " ? checkEmpty(segments[3]) : "")
+      spanList.push({type : -1, text : hint});
+
+    } else if(lastIncorrectIndex >= 0 && incorrectCount > 1) { // 중간에 틀린 어절이 있는 경우
+      let segmentCount = 0;
+      for(var node of result) {
+        switch(node[0]) {
+          case 0:
+            spanList.push({type : 0, text : node[1]})
+            break;
+          case -1:
+            if(node[1] !== " ") segmentCount++;
+            if(segmentCount === 2) break;
+            else spanList.push({type : -1, text : node[1]})
+            break;
+          case 1:
+            spanList.push({type : 1, text : node[1]})
+            break;
+        }
+        if(segmentCount == 2) break;
+      }
+    } else {  // 그냥 모르는 경우
+      let segments = result[0][1].split(/(\s+)/);
+      let hint = segments[0] + checkEmpty(segments[1]) + checkEmpty(segments[2]) + (segments[0] === " " ? checkEmpty(segments[3]) : "")
+      spanList.push({type : -1, text : hint})
+    }
+    setMatchResult(spanList);
+
+  }
+  function checkEmpty(params) {
+    return params ? params : ''
   }
   const compareContent = function () {
     var diffMatchPatch = new DiffMatchPatch.diff_match_patch();
@@ -185,12 +234,12 @@ export default function CheckContentComponent(props) {
           required
           autoComplete="off"
           label="내용" 
-          className={(flags.result ? classes.hide : '')}
+          // className={(flags.result ? classes.hide : '')}
           onChange={handleChangeValue('content')} 
         />
-        <div className={flags.result ? classes.content_result : classes.hide}>
+        <div className={classes.content_result}>
           {
-            matchResult.length > 0 ? (matchResult.map(item => (<span className={item.type===0 ? classes.correct : (item.type === -1 ? classes.incorrect : classes.omitted) }>{item.text}</span>))) : <></>
+            matchResult.length > 0 ? (matchResult.map((item, idx) => (<span key={idx} className={item.type===0 ? classes.correct : (item.type === -1 ? classes.incorrect : classes.omitted) }>{item.text}</span>))) : <></>
           }
         </div>
         <div className={classes.action_button}>
