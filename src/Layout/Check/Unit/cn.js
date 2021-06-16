@@ -52,7 +52,7 @@ export default function CheckContentComponent(props) {
       }
     },
     content_result: {
-      height: '15vh',
+      height: '12vh',
       paddingTop: '18.5px',
       paddingBottom: '18.5px',
       paddingLeft: '14px',
@@ -60,6 +60,7 @@ export default function CheckContentComponent(props) {
       border: '1px solid',
       borderRadius: '4px',
       borderColor: theme.palette.action.disabled,
+      overflowY: 'auto'
     },
     hide : {
       display : 'none'
@@ -79,12 +80,15 @@ export default function CheckContentComponent(props) {
   }))
   const classes = useStyle();
 
-  var [value, setValue] = React.useState({theme : "", content: ""});
-  var [flags, setFlags] = React.useState({
+  const initialValues = {theme : "", content: ""}
+  const initialFlags = {
     theme : null,
     content : null,
     result : false
-  })
+  }
+  var [value, setValue] = React.useState(initialValues);
+  var [flags, setFlags] = React.useState(initialFlags);
+
   const [origin] = React.useState({
     theme : "구원의 확신",
     bible_code: 62,
@@ -105,11 +109,19 @@ export default function CheckContentComponent(props) {
       content : value.content == origin.content,
       result : true
     };
+    if(value.theme !== origin.theme) {
+      setValue({...value, theme: origin.theme})
+    }
     setFlags({
       ...flags,
       ...res
     });
     compareContent()
+  }
+  const handleOnRefresh = function () {
+    setValue(initialValues);
+    setFlags(initialFlags);
+    setMatchResult([]);
   }
   const handleHint = function () {
 
@@ -173,7 +185,7 @@ export default function CheckContentComponent(props) {
           required
           autoComplete="off"
           label="내용" 
-          className={flags.content === null ? '' : (flags.content === true? classes.succeed : classes.failed)}
+          className={(flags.result ? classes.hide : '')}
           onChange={handleChangeValue('content')} 
         />
         <div className={flags.result ? classes.content_result : classes.hide}>
@@ -183,7 +195,13 @@ export default function CheckContentComponent(props) {
         </div>
         <div className={classes.action_button}>
           <Button type="button" variant="outlined" color="default" onClick={() => {handleHint()}}>힌트</Button>
-          <Button type="button" variant="contained" color="primary" onClick={() => {handleOnClick()}}>확인</Button>
+          {
+            flags.result ? 
+            <Button type="button" variant="contained" color="primary" onClick={() => {handleOnRefresh()}}>재도전</Button>
+            :
+            <Button type="button" variant="contained" color="primary" onClick={() => {handleOnClick()}}>확인</Button>
+          }
+          
         </div>
       </form>
       
