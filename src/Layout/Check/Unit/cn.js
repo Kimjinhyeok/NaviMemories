@@ -84,6 +84,7 @@ export default function CheckContentComponent(props) {
   const initialFlags = {
     theme : null,
     content : null,
+    hint : false,
     result : false
   }
   var [value, setValue] = React.useState(initialValues);
@@ -123,6 +124,13 @@ export default function CheckContentComponent(props) {
     setFlags(initialFlags);
     setMatchResult([]);
   }
+  
+  function checkEmpty(params) {
+    return params ? params : ''
+  }
+  function getHintText(segments) {
+    return segments[0] + checkEmpty(segments[1]) + checkEmpty(segments[2]) + (segments[0] === " " ? checkEmpty(segments[3]) : "")
+  }
   const handleHint = function () {
     var diffMatchPatch = new DiffMatchPatch.diff_match_patch();
     var result = diffMatchPatch.diff_main(origin.content, value.content);
@@ -136,56 +144,56 @@ export default function CheckContentComponent(props) {
       }
     });
 
-    var spanList = [];
+    var spanTagList = [];
     if(lastIncorrectIndex == 1 && incorrectCount == 1) { // 다 맞다가 모르는 경우
-      spanList.push({type : 0, text : result[0][1]});
+      spanTagList.push({type : 0, text : result[0][1]});
       let segments = result[1][1].split(/(\s+)/);
       if(!segments[0]) {
-        segments.shift();
+        segments.shift(); // ''값이 있을 경우 제거
       }
-      let hint = segments[0] + checkEmpty(segments[1]) + checkEmpty(segments[2]) + (segments[0] === " " ? checkEmpty(segments[3]) : "")
-      spanList.push({type : -1, text : hint});
+      let hint = getHintText(segments);
+      spanTagList.push({type : -1, text : hint});
 
     } else if(lastIncorrectIndex >= 0 && incorrectCount > 1) { // 중간에 틀린 어절이 있는 경우
       let segmentCount = 0;
       for(var node of result) {
         switch(node[0]) {
           case 0:
-            spanList.push({type : 0, text : node[1]})
+            spanTagList.push({type : 0, text : node[1]})
             break;
           case -1:
             if(node[1] !== " ") segmentCount++;
             if(segmentCount === 2) break;
-            else spanList.push({type : -1, text : node[1]})
+            else spanTagList.push({type : -1, text : node[1]})
             break;
           case 1:
-            spanList.push({type : 1, text : node[1]})
+            spanTagList.push({type : 1, text : node[1]})
             break;
         }
         if(segmentCount == 2) break;
       }
     } else {  // 그냥 모르는 경우
       let segments = result[0][1].split(/(\s+)/);
-      let hint = segments[0] + checkEmpty(segments[1]) + checkEmpty(segments[2]) + (segments[0] === " " ? checkEmpty(segments[3]) : "")
-      spanList.push({type : -1, text : hint})
+      let hint = getHintText(segments);
+      spanTagList.push({type : -1, text : hint})
     }
-    setMatchResult(spanList);
+    setMatchResult(spanTagList);
+    if(!flags.hint) {
+      setFlags({...flags, hint : true});
+    }
 
-  }
-  function checkEmpty(params) {
-    return params ? params : ''
   }
   const compareContent = function () {
     var diffMatchPatch = new DiffMatchPatch.diff_match_patch();
     var result = diffMatchPatch.diff_main(origin.content, value.content);
 
-    var spanList =  result.map(node => {
+    var spanTagList =  result.map(node => {
       return {
         type : node[0],
         text : node[1]
       }
     });
-    setMatchResult(spanList);
+    setMatchResult(spanTagList);
 
   }
   return (
@@ -237,7 +245,7 @@ export default function CheckContentComponent(props) {
           // className={(flags.result ? classes.hide : '')}
           onChange={handleChangeValue('content')} 
         />
-        <div className={classes.content_result}>
+        <div className={(flags.result || flags.hint) ? classes.content_result : classes.hide}>
           {
             matchResult.length > 0 ? (matchResult.map((item, idx) => (<span key={idx} className={item.type===0 ? classes.correct : (item.type === -1 ? classes.incorrect : classes.omitted) }>{item.text}</span>))) : <></>
           }
