@@ -25,6 +25,9 @@ export default function DrawerNaviCategoriesComponent(props) {
           </ListItem>
           <Collapse in={open} unmountOnExit>
             <List>
+              <ListItem button key={category.series_code+'%'} onClick={()=>{moveToCategory(category.series_code)}} className={classes.nested_2}>
+                <ListItemText primary={category.series_name + ' 전체'} />
+              </ListItem>
               {category.children.map(item => {
                 return (
                   <ListItem button key={item.series_code} onClick={()=>{moveToCategory(item.series_code)}} className={classes.nested_2}>
