@@ -129,7 +129,7 @@ export default function UnitPageComponent(props) {
   const classes = useStyle();
 
   const [options, setoptions] = React.useState({
-    series : '200',
+    series : '201',
     orderType : 'stright',
     version : 'nkrv',
     index : 0,
@@ -161,12 +161,19 @@ export default function UnitPageComponent(props) {
       console.error(error);
     } 
   }, [])
-  
+  const setCardContent = function(index) {
+    if(index > -1 && index < cardList.length) {
+      setoptions({...options, index : index});
+      var item = cardList[index];
+      setOrigin(item);
+    }
+  }
 
   return (
     <Container className={classes.root_unit} >
 
-      <Button type="button" color="default" className={classes.moveButton} title="이전 문제"><ArrowBackIos /></Button>
+      <Button type="button" color="default" className={classes.moveButton} 
+        onClick={() => {setCardContent(options.index-1)}} disabled={options.index == 0} title="이전 문제"><ArrowBackIos /></Button>
       <div className={classes.area_content}>
         <div className={classes.content_options}>
           <div className={classes.options_select}><CategorySelect value={options.series} onChange={(event) => {setoptions({...options, series: event.target.value}); console.log(event.target.value)}}/> </div>
@@ -190,7 +197,8 @@ export default function UnitPageComponent(props) {
           <Route path={`${props.params ? props.params.path : ''}/check/cn`} render={props => <CheckContentComponent classes={classes} origin={origin} {...props} />} />
         </Switch>
       </div>
-      <Button type="button" color="default" className={classes.moveButton} title="다음 문제"><ArrowForwardIos /></Button>
+      <Button type="button" color="default" className={classes.moveButton} 
+        onClick={() => {setCardContent(options.index+1)}} disabled={options.index == cardList.length-1} title="다음 문제"><ArrowForwardIos /></Button>
     </Container>
   )
 }

@@ -23,6 +23,10 @@ export default function CheckContentComponent(props) {
   const handleChangeValue = (props) => (event) => {
     setValue({...value, [props] : event.target.value})
   }
+
+  React.useEffect(() => {
+    handleOnRefresh();
+  }, [origin])
   
   const handleOnClick = function () {
     var res = {

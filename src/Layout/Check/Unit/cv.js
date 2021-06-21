@@ -19,6 +19,10 @@ export default function CheckChapterVerseComponent(props) {
   var [value, setValue] = React.useState(InitialValues);
   var [flags, setFlags] = React.useState(InitialFlags)
   
+  React.useEffect(() => {
+    handleOnRefresh();
+  }, [origin])
+  
   const handleChangeValue = (props) => (event) => {
     setValue({...value, [props] : event.target.value})
   }
