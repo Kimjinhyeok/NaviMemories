@@ -139,21 +139,21 @@ export default function CheckContentComponent(props) {
             value={value.chapter} 
             variant="outlined" 
             label="장" 
-            defaultValue={origin.chapter}
+            value={origin.chapter}
             inputProps={{readOnly: true}}
           />
           <TextField type="number" 
             value={value.f_verse} 
             variant="outlined" 
             label="시작 구절" 
-            defaultValue={origin.f_verse}
+            value={origin.f_verse}
             inputProps={{readOnly: true}}
           />
           <TextField type="number" 
             value={value.l_verse} 
             variant="outlined" 
             label="끝 구절" 
-            defaultValue={origin.l_verse}
+            value={origin.l_verse}
             inputProps={{readOnly: true}}  
           />
         </div>

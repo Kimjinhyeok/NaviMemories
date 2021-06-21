@@ -1,18 +1,48 @@
 import React from 'react'
 import { Route, Switch } from 'react-router';
-import { Button, Container, makeStyles } from '@material-ui/core'
-import { ArrowBackIos, ArrowForwardIos } from '@material-ui/icons'
+import { Button, Container, FormControl, FormControlLabel, FormLabel, makeStyles, Radio, RadioGroup } from '@material-ui/core'
+import { ArrowBackIos, ArrowForwardIos,  ArrowRightAlt, Shuffle } from '@material-ui/icons'
 import {red, blue, lightBlue, grey} from '@material-ui/core/colors'
 import CheckContentComponent from './cn';
 import CheckChapterVerseComponent from './cv';
+import CategorySelect from '../../categorySelect';
+import Http from '../../../Utils/Http';
 
+const InitialOrigin = {
+  theme : "",
+  bible_code: 0,
+  chapter: 0,
+  f_verse: 0,
+  l_verse: 0,
+  content : "",
+}
 export default function UnitPageComponent(props) {
 
+  const http = Http();
   const useStyle = makeStyles(theme => ({
     root_unit: {
       height: '100%',
       display: 'flex',
       flexDirection: 'row',
+    },
+    area_content: {
+      display: 'flex',
+      flexDirection: 'column',
+    },
+    content_options: {
+      marginTop: '15px',
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      '& > *': {
+        maxWidth: '33%',
+      },
+      '& > * .MuiFormControlLabel-label' : {
+        display : 'flex'
+      }
+    },
+    options_select: {
+      width: '33%'
     },
     content_unit : {
       flex: 90
@@ -75,9 +105,9 @@ export default function UnitPageComponent(props) {
       paddingBottom: '18.5px',
       paddingLeft: '14px',
       paddingRight: '14px',
-      border: '1px solid',
-      borderRadius: '4px',
-      borderColor: theme.palette.action.disabled,
+      borderType: '1px solid',
+      borderTypeRadius: '4px',
+      borderTypeColor: theme.palette.action.disabled,
       overflowY: 'auto'
     },
     hide : {
@@ -98,34 +128,69 @@ export default function UnitPageComponent(props) {
   }));
   const classes = useStyle();
 
-  React.useEffect(() => {
+  const [options, setoptions] = React.useState({
+    series : '200',
+    orderType : 'stright',
+    version : 'nkrv',
+    index : 0,
+  })
+
+  const [origin, setOrigin] = React.useState(InitialOrigin);
+  const [cardList, setCardList] = React.useState([]);
+  React.useEffect(async () => {
     try {
-      
+      var res = await http.get({
+        query: `RC/${options.series}`, 
+        data : {
+          version : options.version
+        }
+      });
+      var recitationList = res.data;
+
+      setCardList(recitationList);
+      var item = recitationList[options.index];
+      setOrigin({
+        theme : item.theme,
+        bible_code : item.bible_code,
+        content : item.content,
+        chapter : item.chapter,
+        f_verse : item.f_verse,
+        l_verse : item.l_verse,
+      })
     } catch (error) {
       console.error(error);
     } 
   }, [])
   
-  const [origin] = React.useState({
-    theme : "구원의 확신",
-    bible_code: 62,
-    chapter: 5,
-    f_verse: 11,
-    l_verse: 12,
-    content : "또 증거는 이것이니 하나님이 우리에게 영생을 주신 것과 이 생명이 그의 안에 있는 그것이니라 아들이 있는 자에게는 생명이 있고 하나님의 아들이 없는 자에게는 생명이 없느니라",
-  });
 
   return (
     <Container className={classes.root_unit} >
 
-      <Button type="button" color="default" className={classes.moveButton}><ArrowBackIos /></Button>
-      <div>
+      <Button type="button" color="default" className={classes.moveButton} title="이전 문제"><ArrowBackIos /></Button>
+      <div className={classes.area_content}>
+        <div className={classes.content_options}>
+          <div className={classes.options_select}><CategorySelect value={options.series} onChange={(event) => {setoptions({...options, series: event.target.value}); console.log(event.target.value)}}/> </div>
+          <FormControl>
+            <FormLabel component="legend">진행 순서</FormLabel>
+            <RadioGroup row={true} value={options.orderType} onChange={(event) => {setoptions({...options, orderType: event.target.value})}} >
+              <FormControlLabel value="stright" control={<Radio />} label={<ArrowRightAlt />} title="시리즈 순서" />
+              <FormControlLabel value="random" control={<Radio />} label={<Shuffle />} title="무작위" />
+            </RadioGroup>
+          </FormControl>
+          <FormControl>
+            <FormLabel component="legend">역본</FormLabel>
+            <RadioGroup row={true} value={options.version}>
+              <FormControlLabel value="hrv" control={<Radio />} label="개역한글"></FormControlLabel>
+              <FormControlLabel value="nkrv" control={<Radio />} label="개정개역"></FormControlLabel>
+            </RadioGroup>
+          </FormControl>
+        </div>
         <Switch>
           <Route path={`${props.params ? props.params.path : ''}/check/cv`} render={props => <CheckChapterVerseComponent classes={classes} origin={origin} {...props} />} />
           <Route path={`${props.params ? props.params.path : ''}/check/cn`} render={props => <CheckContentComponent classes={classes} origin={origin} {...props} />} />
         </Switch>
       </div>
-      <Button type="button" color="default" className={classes.moveButton}><ArrowForwardIos /></Button>
+      <Button type="button" color="default" className={classes.moveButton} title="다음 문제"><ArrowForwardIos /></Button>
     </Container>
   )
 }
