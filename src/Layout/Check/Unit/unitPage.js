@@ -137,14 +137,28 @@ export default function UnitPageComponent(props) {
   }));
   const classes = useStyle();
 
-  function arrayToCardItem(item, version) {
-    return {
-      theme: item.theme,
-      bible_code: item.bible_code,
-      chapter: item.chapter,
-      f_verse: item.f_verse,
-      l_verse: item.l_verse,
-      content : version === BibleVersion.kor ? item.verse_kor : item.verse_gae
+
+  function setOriginCard(item, version) {
+    setOrigin({
+      theme : item.theme,
+      bible_code : item.bible_code,
+      chapter : item.chapter,
+      f_verse : item.f_verse,
+      l_verse : item.l_verse,
+      content : (version || options.version) == BibleVersion.kor ? item.verse_kor : item.verse_gae,
+    })
+  }
+  async function loadRecitationCards(series_number) {
+    try {
+      var res = await http.get({
+        query: `RC/${series_number}`
+      });
+      let recitationList = options.orderType === OrderType.stright ? res.data : shuffle(res.data);
+      setCardList(recitationList);
+      var item = recitationList[0];
+      setOriginCard(item);
+    } catch (error) {
+      throw error;
     }
   }
   const [options, setoptions] = React.useState({
@@ -156,32 +170,12 @@ export default function UnitPageComponent(props) {
 
   const [origin, setOrigin] = React.useState(InitialOrigin);
   const [cardList, setCardList] = React.useState([]);
-  React.useEffect(async () => {
-    try {
-      var res = await http.get({
-        query: `RC/${options.series}`
-      });
-      originalList = res.data;
-      let recitationList = originalList.map(item => arrayToCardItem(item))
-      setCardList(recitationList);
-      var item = recitationList[options.index];
-      setOrigin({
-        theme : item.theme,
-        bible_code : item.bible_code,
-        content : item.content,
-        chapter : item.chapter,
-        f_verse : item.f_verse,
-        l_verse : item.l_verse,
-      })
-    } catch (error) {
-      console.error(error);
-    } 
-  }, [])
+  React.useEffect(() => {loadRecitationCards(options.series)}, [])
   const setCardContent = function(index) {
     if(index > -1 && index < cardList.length) {
       setoptions({...options, index : index});
       var item = cardList[index];
-      setOrigin(item);
+      setOriginCard(item);
     }
   }
   function shuffle(array) {
@@ -213,14 +207,18 @@ export default function UnitPageComponent(props) {
       shortedList = shuffle(cardList);
     }
     setCardList(shortedList);
-    setOrigin(shortedList[options.index]);
+    setOriginCard(shortedList[options.index]);
   }
   const handleVersionChange = function (event) {
     let value = event.target.value;
-    var newCardList = originalList.map(item => arrayToCardItem(item, value));
-    setCardList(newCardList);
     setoptions({...options, version : value})
-    setOrigin(newCardList[options.index]);
+    setOriginCard(cardList[options.index], value);
+  }
+  const handleSeriesChange = async function (event) {
+    let value = event.target.value;
+    await loadRecitationCards(value);
+
+    setoptions({...options, index : 0})
   }
   return (
     <Container className={classes.root_unit} >
@@ -229,7 +227,7 @@ export default function UnitPageComponent(props) {
         onClick={() => {setCardContent(options.index-1)}} disabled={options.index == 0} title="이전 문제"><ArrowBackIos /></Button>
       <div className={classes.area_content}>
         <div className={classes.content_options}>
-          <div className={classes.options_select}><CategorySelect value={options.series} onChange={(event) => {setoptions({...options, series: event.target.value}); console.log(event.target.value)}}/> </div>
+          <div className={classes.options_select}><CategorySelect value={options.series} onChange={handleSeriesChange}/> </div>
           <FormControl>
             <FormLabel component="legend">진행 순서</FormLabel>
             <RadioGroup row={true} value={options.orderType} onChange={handleOrderTypeChange} >
@@ -237,13 +235,19 @@ export default function UnitPageComponent(props) {
               <FormControlLabel value={OrderType.random} control={<Radio />} label={<Shuffle />} title="무작위" />
             </RadioGroup>
           </FormControl>
-          <FormControl>
-            <FormLabel component="legend">역본</FormLabel>
-            <RadioGroup row={true} value={options.version} onChange={handleVersionChange}>
-              <FormControlLabel value={BibleVersion.kor} control={<Radio />} label="개역한글"></FormControlLabel>
-              <FormControlLabel value={BibleVersion.gae} control={<Radio />} label="개정개역"></FormControlLabel>
-            </RadioGroup>
-          </FormControl>
+          {
+            options.series != 500 ? 
+            (
+              <FormControl >
+                <FormLabel component="legend">역본</FormLabel>
+                <RadioGroup row={true} value={options.version} onChange={handleVersionChange}>
+                  <FormControlLabel value={BibleVersion.kor} control={<Radio />} label="개역한글"></FormControlLabel>
+                  <FormControlLabel value={BibleVersion.gae} control={<Radio />} label="개정개역"></FormControlLabel>
+                </RadioGroup>
+              </FormControl>
+            ) :
+            <></>
+          }
         </div>
         <Switch>
           <Route path={`${props.params ? props.params.path : ''}/check/cv`} render={props => <CheckChapterVerseComponent classes={classes} origin={origin} {...props} />} />
