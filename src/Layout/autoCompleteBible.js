@@ -58,25 +58,33 @@ export default function AutoCompleteBible(props) {
   }
 
   const [bibleCodes, setBibleCodes] = React.useState([]);
+  const [value, setValue] = React.useState(null);
   React.useEffect(async () => {
     var response = await http.get({query : "/resource/bible"});
     var recvBibleCodes = response.data;
     setBibleCodes(recvBibleCodes);
   }, [])
-  
+  React.useEffect(() => {
+    setValue(defaultValue ? bibleCodes[defaultValue-1] : null);
+  }, [defaultValue])
+
+  const onHandleChange = function(event, newValue) {
+    setValue(newValue);
+    onChange(event, newValue);
+  }
   return (
     bibleCodes.length > 0 ? 
     (<Autocomplete
       id={id}
       options={bibleCodes}
       getOptionLabel={(props) => props.bible_name}
-      onChange={onChange}
+      onChange={onHandleChange}
       disabled={disabled}
-      defaultValue={bibleCodes[defaultValue - 1]}
       fullWidth={fullWidth}
       className={`${disabled ? styles.bibleAutoComplete : ''} ${className}`}
       renderOption={renderOption}
       renderInput={autocompleteTextfieldRender}
+      value={value}
     ></Autocomplete>)
     : <></>
   )
