@@ -18,7 +18,9 @@ export default function CheckContentComponent(props) {
     row_part: {
       display: 'flex',
       flexDirection: 'row',
-      justifyContent: 'space-around',
+      '& .MuiFormControl-root': {
+        flex: 20
+      },
       '& .MuiFormControl-root:not(:last-child)': {
         marginRight: '10px'
       },
