@@ -20,6 +20,11 @@ const OrderType = {
   stright : 'stright',
   random : 'random'
 }
+const BibleVersion = {
+  kor : 'hrv',
+  gae : 'nkrv'
+}
+var originalList = [];
 export default function UnitPageComponent(props) {
 
   const http = Http();
@@ -132,6 +137,16 @@ export default function UnitPageComponent(props) {
   }));
   const classes = useStyle();
 
+  function arrayToCardItem(item, version) {
+    return {
+      theme: item.theme,
+      bible_code: item.bible_code,
+      chapter: item.chapter,
+      f_verse: item.f_verse,
+      l_verse: item.l_verse,
+      content : version === BibleVersion.kor ? item.verse_kor : item.verse_gae
+    }
+  }
   const [options, setoptions] = React.useState({
     series : '201',
     orderType : 'stright',
@@ -144,13 +159,10 @@ export default function UnitPageComponent(props) {
   React.useEffect(async () => {
     try {
       var res = await http.get({
-        query: `RC/${options.series}`, 
-        data : {
-          version : options.version
-        }
+        query: `RC/${options.series}`
       });
-      var recitationList = res.data;
-
+      originalList = res.data;
+      let recitationList = originalList.map(item => arrayToCardItem(item))
       setCardList(recitationList);
       var item = recitationList[options.index];
       setOrigin({
@@ -203,6 +215,13 @@ export default function UnitPageComponent(props) {
     setCardList(shortedList);
     setOrigin(shortedList[options.index]);
   }
+  const handleVersionChange = function (event) {
+    let value = event.target.value;
+    var newCardList = originalList.map(item => arrayToCardItem(item, value));
+    setCardList(newCardList);
+    setoptions({...options, version : value})
+    setOrigin(newCardList[options.index]);
+  }
   return (
     <Container className={classes.root_unit} >
 
@@ -220,9 +239,9 @@ export default function UnitPageComponent(props) {
           </FormControl>
           <FormControl>
             <FormLabel component="legend">역본</FormLabel>
-            <RadioGroup row={true} value={options.version}>
-              <FormControlLabel value="hrv" control={<Radio />} label="개역한글"></FormControlLabel>
-              <FormControlLabel value="nkrv" control={<Radio />} label="개정개역"></FormControlLabel>
+            <RadioGroup row={true} value={options.version} onChange={handleVersionChange}>
+              <FormControlLabel value={BibleVersion.kor} control={<Radio />} label="개역한글"></FormControlLabel>
+              <FormControlLabel value={BibleVersion.gae} control={<Radio />} label="개정개역"></FormControlLabel>
             </RadioGroup>
           </FormControl>
         </div>
