@@ -1,6 +1,6 @@
 import { Divider, FormControl, InputLabel, makeStyles, MenuItem, NativeSelect, Select } from '@material-ui/core'
 import React from 'react'
-import { Categories, arrayCategories } from '../Data/categories'
+import Categories from '../Data/categories'
 
 export default function CategorySelect(props) {
 
@@ -18,9 +18,7 @@ export default function CategorySelect(props) {
 
   const [arrayCategory, setArrayCategory] = React.useState([]);
   React.useEffect(async () => {
-    var categories = await Categories.getCategories();
-    var categoryArr = arrayCategories(categories);
-    setArrayCategory(categoryArr);
+    setArrayCategory(Categories);
   }, [])
 
   const [value, setValue] = React.useState(propsValue || null)

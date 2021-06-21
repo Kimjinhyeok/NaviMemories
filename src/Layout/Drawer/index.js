@@ -5,7 +5,7 @@ import MailIcon from '@material-ui/icons/Mail'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
-import { arrayCategories, Categories } from '../../Data/categories'
+import Categories from '../../Data/categories'
 import DrawerNaviCategoriesComponent from './drawerNaviCategories'
 
 export default function DrawerMenuComponent(props) {
@@ -24,11 +24,9 @@ export default function DrawerMenuComponent(props) {
   const [subCt, setSubCt] = useState(null);
 
   React.useEffect(async () => {
-      var categories = await Categories.getCategories();
-      var sortedCategories = arrayCategories(categories);
-      var subCtClosed = sortedCategories.map(_ => false);
+      var subCtClosed = Categories.map(_ => false);
       setSubCt(subCtClosed);
-      setCategories(sortedCategories);
+      setCategories(Categories);
   }, [])  
   
   return (
