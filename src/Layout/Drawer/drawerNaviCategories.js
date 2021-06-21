@@ -13,14 +13,14 @@ export default function DrawerNaviCategoriesComponent(props) {
     if (!category.children || category.children.length <= 0) {
       return (
         <ListItem button key={category.series_code} onClick={() => {moveToCategory(category.series_code)}} className={classes.nested_1}>
-          <ListItemText primary={category.category} />
+          <ListItemText primary={category.series_name} />
         </ListItem>
       )
     } else {
       return (
         <>
           <ListItem button key={category.series_code} onClick={() => { setopen(!open) }} className={classes.nested_1}>
-            <ListItemText primary={category.category} />
+            <ListItemText primary={category.series_name} />
             {category.children && category.children.length > 0 ? (open ? <ExpandLess /> : <ExpandMore />) : <></>}
           </ListItem>
           <Collapse in={open} unmountOnExit>

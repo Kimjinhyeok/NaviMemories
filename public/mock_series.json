@@ -10,7 +10,7 @@
         "verse_count": "0"
     },
     {
-        "category": "73구절 전체",
+        "category": "전체",
         "category_eng": "73 All",
         "ord": "1",
         "print_opt": "N",
@@ -90,7 +90,7 @@
         "verse_count": "12"
     },
     {
-        "category": "242 전체",
+        "category": "전체",
         "category_eng": "242 All",
         "ord": "9",
         "print_opt": "N",
@@ -180,7 +180,7 @@
         "verse_count": "18"
     },
     {
-        "category": "180 전체",
+        "category": "전체",
         "category_eng": "180 All",
         "ord": "18",
         "print_opt": "N",
@@ -190,7 +190,7 @@
         "verse_count": "180"
     },
     {
-        "category": "시리즈1 하나님을 알아감",
+        "category": "1. 하나님을 알아감",
         "category_eng": "1. Getting to Know God",
         "ord": "19",
         "print_opt": "Y",
@@ -200,7 +200,7 @@
         "verse_count": "36"
     },
     {
-        "category": "시리즈2 사랑 안에서 자라감",
+        "category": "2. 사랑 안에서 자라감",
         "category_eng": "2. Growing in Love",
         "ord": "20",
         "print_opt": "Y",
@@ -210,7 +210,7 @@
         "verse_count": "36"
     },
     {
-        "category": "시리즈3 믿음 안에서 자라감",
+        "category": "3. 믿음 안에서 자라감",
         "category_eng": "3. Growing in Faith",
         "ord": "21",
         "print_opt": "Y",
@@ -220,7 +220,7 @@
         "verse_count": "36"
     },
     {
-        "category": "시리즈4 승리 안에서 행함",
+        "category": "4. 승리 안에서 행함",
         "category_eng": "4. Walking in Victory",
         "ord": "22",
         "print_opt": "Y",
@@ -230,7 +230,7 @@
         "verse_count": "36"
     },
     {
-        "category": "시리즈5 그리스도를 증거함",
+        "category": "5. 그리스도를 증거함",
         "category_eng": "5. Sharing Christ with Others",
         "ord": "23",
         "print_opt": "Y",
@@ -244,7 +244,7 @@
         "category_eng": "Unclassified",
         "ord": "24",
         "print_opt": "Y",
-        "series_code": "9000",
+        "series_code": "500",
         "series_name": "OYO",
         "series_name_eng": "OYO",
         "verse_count": "0"
