@@ -1,86 +1,12 @@
-import { Button, Container, makeStyles, TextField } from '@material-ui/core'
-import {red, blue, lightBlue, grey} from '@material-ui/core/colors'
+import { Button, Container, TextField } from '@material-ui/core'
 import React from 'react'
 import DiffMatchPatch from 'diff-match-patch';
 import AutoCompleteBible from '../../autoCompleteBible';
+import { Refresh } from '@material-ui/icons';
 
 export default function CheckContentComponent(props) {
 
-  const useStyle = makeStyles((theme) => ({
-    root_checking : {
-      display: 'flex',
-      flexDirection: 'row',
-      height: '100%'
-    },
-    shortName: {
-      marginRight: '10px'
-    },
-    row_part: {
-      display: 'flex',
-      flexDirection: 'row',
-      '& .MuiFormControl-root': {
-        flex: 20
-      },
-      '& .MuiFormControl-root:not(:last-child)': {
-        marginRight: '10px'
-      },
-      '& .MuiAutocomplete-root': {
-        flex: 30,
-        marginRight: '10px'
-      }
-    },
-    form_checking: {
-      margin: 'auto auto',
-      display: 'flex',
-      flexDirection: 'column',
-      width: '100%',
-      '& > div': {
-        margin: '10px 0'
-      },
-      '& input:read-only' : {
-        backgroundColor: theme.palette.action.hover
-      }
-    },
-    content_checking: {
-      flex: 1,
-    },
-    succeed: { backgroundColor: blue[50], '& input': {color : theme.palette.info.main}},
-    failed: { backgroundColor: red[50], '& input': {color : theme.palette.error.main}},
-    action_button: {
-      display: 'flex',
-      flexDirection: 'column',
-      '& button': {
-        marginTop: '10px'
-      }
-    },
-    content_result: {
-      height: '12vh',
-      paddingTop: '18.5px',
-      paddingBottom: '18.5px',
-      paddingLeft: '14px',
-      paddingRight: '14px',
-      border: '1px solid',
-      borderRadius: '4px',
-      borderColor: theme.palette.action.disabled,
-      overflowY: 'auto'
-    },
-    hide : {
-      display : 'none'
-    },
-    correct : {
-      backgroundColor: lightBlue[50],
-    },
-    omitted : {
-      backgroundColor: grey[50],
-      color: grey[500],
-      textDecoration: 'line-through',
-    },
-    incorrect : {
-      backgroundColor: red[50],
-      color: red[500]
-    },
-  }))
-  const classes = useStyle();
+  const { classes, origin} = props;
 
   const initialValues = {theme : "", content: ""}
   const initialFlags = {
@@ -92,16 +18,8 @@ export default function CheckContentComponent(props) {
   var [value, setValue] = React.useState(initialValues);
   var [flags, setFlags] = React.useState(initialFlags);
 
-  const [origin] = React.useState({
-    theme : "구원의 확신",
-    bible_code: 62,
-    chapter: 5,
-    f_verse: 11,
-    l_verse: 12,
-    content : "또 증거는 이것이니 하나님이 우리에게 영생을 주신 것과 이 생명이 그의 안에 있는 그것이니라 아들이 있는 자에게는 생명이 있고 하나님의 아들이 없는 자에게는 생명이 없느니라",
-  });
   const [matchResult, setMatchResult] = React.useState([]);
-
+  
   const handleChangeValue = (props) => (event) => {
     setValue({...value, [props] : event.target.value})
   }
@@ -256,7 +174,7 @@ export default function CheckContentComponent(props) {
           <Button type="button" variant="outlined" color="default" onClick={() => {handleHint()}}>힌트</Button>
           {
             flags.result ? 
-            <Button type="button" variant="contained" color="primary" onClick={() => {handleOnRefresh()}}>재도전</Button>
+            <Button type="button" variant="contained" color="primary" onClick={() => {handleOnRefresh()}}><Refresh />재도전</Button>
             :
             <Button type="button" variant="contained" color="primary" onClick={() => {handleOnClick()}}>확인</Button>
           }

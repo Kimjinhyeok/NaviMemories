@@ -1,70 +1,24 @@
-import { Button, Container, makeStyles, TextField } from '@material-ui/core'
-import {red, blue} from '@material-ui/core/colors'
+import { Button, Container, Divider, TextField } from '@material-ui/core'
+import { Refresh } from '@material-ui/icons';
 import React from 'react'
 import AutoCompleteBible from '../../autoCompleteBible';
 
 export default function CheckChapterVerseComponent(props) {
 
-  const useStyle = makeStyles((theme) => ({
-    root_checking : {
-      display: 'flex',
-      flexDirection: 'row',
-      height: '100%'
-    },
-    shortName: {
-      marginRight: '10px'
-    },
-    row_part: {
-      display: 'flex',
-      flexDirection: 'row',
-      '& .MuiFormControl-root': {
-        flex: 20
-      },
-      '& .MuiFormControl-root:not(:last-child)': {
-        marginRight: '10px'
-      },
-      '& .MuiAutocomplete-root': {
-        flex: 30,
-        marginRight: '10px'
-      }
-    },
-    form_checking: {
-      margin: 'auto auto',
-      display: 'flex',
-      flexDirection: 'column',
-      width: '100%',
-      '& > div': {
-        margin: '10px 0'
-      },
-      '& input:read-only' : {
-        backgroundColor: theme.palette.action.hover
-      }
-    },
-    content_checking: {
-      flex: 1,
-      backgroundColor: theme.palette.action.hover
-    },
-    succeed: { backgroundColor: blue[50], '& input': {color : theme.palette.info.main}},
-    failed: { backgroundColor: red[50], '& input': {color : theme.palette.error.main}}
-  }))
-  const classes = useStyle();
+  const {classes, origin} = props;
 
-  var [value, setValue] = React.useState({theme : "", bible_code: 0, chapter: 0, f_verse: 0, l_verse: 0});
-  var [flags, setFlags] = React.useState({
+  const InitialValues = {theme : "", bible_code: 0, chapter: 0, f_verse: 0, l_verse: 0};
+  const InitialFlags = {
     theme : null,
     bible_code: null,
     chapter: null,
     f_verse: null,
-    l_verse: null
-  })
-  const [origin] = React.useState({
-    theme : "구원의 확신",
-    bible_code: 62,
-    chapter: 5,
-    f_verse: 11,
-    l_verse: 12,
-    content : "또 증거는 이것이니 하나님이 우리에게 영생을 주신 것과 이 생명이 그의 안에 있는 그것이니라 아들이 있는 자에게는 생명이 있고 하나님의 아들이 없는 자에게는 생명이 없느니라",
-  });
+    l_verse: null,
+    result : false,
+  };
+  var [value, setValue] = React.useState(InitialValues);
+  var [flags, setFlags] = React.useState(InitialFlags)
+  
   const handleChangeValue = (props) => (event) => {
     setValue({...value, [props] : event.target.value})
   }
@@ -81,10 +35,23 @@ export default function CheckChapterVerseComponent(props) {
     if(origin.l_verse || value.l_verse) {
       res.l_verse = value.l_verse == origin.l_verse;
     }
+    res.result = true;
     setFlags({
       ...flags,
       ...res
     })
+    setValue({
+      theme : origin.theme,
+      bible_code : origin.bible_code,
+      chapter : origin.chapter,
+      f_verse : origin.f_verse,
+      l_verse : origin.l_verse
+    })
+  }
+  
+  const handleOnRefresh = function () {
+    setValue(InitialValues);
+    setFlags(InitialFlags);
   }
   return (
     <Container maxWidth="md" className={classes.root_checking}>
@@ -104,6 +71,7 @@ export default function CheckChapterVerseComponent(props) {
             id="checking_bible"
             className={flags.bible_code === null ? null : (flags.bible_code === true? classes.succeed : classes.failed)}
             onChange={handleBibleChange}
+            {... (flags.result ? {defaultValue : origin.bible_code } : {})}
           />
           <TextField type="number" 
             value={value.chapter} 
@@ -132,7 +100,13 @@ export default function CheckChapterVerseComponent(props) {
           multiline
           label="내용" 
           className={classes.content_checking}/>
-        <Button type="button" variant="contained" color="primary" onClick={() => {handleOnClick()}}>확인</Button>
+        <Divider />
+        {
+            flags.result ? 
+            <Button type="button" variant="contained" color="primary" onClick={() => {handleOnRefresh()}}><Refresh/>재도전</Button>
+            :
+            <Button type="button" variant="contained" color="primary" onClick={() => {handleOnClick()}}>확인</Button>
+          }
       </form>
       
     </Container>
