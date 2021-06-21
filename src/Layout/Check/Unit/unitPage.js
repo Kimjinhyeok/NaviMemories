@@ -16,6 +16,10 @@ const InitialOrigin = {
   l_verse: 0,
   content : "",
 }
+const OrderType = {
+  stright : 'stright',
+  random : 'random'
+}
 export default function UnitPageComponent(props) {
 
   const http = Http();
@@ -168,7 +172,37 @@ export default function UnitPageComponent(props) {
       setOrigin(item);
     }
   }
+  function shuffle(array) {
+    var currentIndex = array.length,  randomIndex;
+  
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+  
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+  
+      // And swap it with the current element.
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex], array[currentIndex]];
+    }
+  
+    return array;
+  }
 
+  const handleOrderTypeChange = function(event) {
+    let value = event.target.value;
+    let shortedList = null;
+    setoptions({...options, orderType: value});
+
+    if(value === OrderType.stright) {
+      shortedList = cardList.sort((a, b) => a.card_num > b.card_num ? 1 : -1);
+    } else {
+      shortedList = shuffle(cardList);
+    }
+    setCardList(shortedList);
+    setOrigin(shortedList[options.index]);
+  }
   return (
     <Container className={classes.root_unit} >
 
@@ -179,9 +213,9 @@ export default function UnitPageComponent(props) {
           <div className={classes.options_select}><CategorySelect value={options.series} onChange={(event) => {setoptions({...options, series: event.target.value}); console.log(event.target.value)}}/> </div>
           <FormControl>
             <FormLabel component="legend">진행 순서</FormLabel>
-            <RadioGroup row={true} value={options.orderType} onChange={(event) => {setoptions({...options, orderType: event.target.value})}} >
-              <FormControlLabel value="stright" control={<Radio />} label={<ArrowRightAlt />} title="시리즈 순서" />
-              <FormControlLabel value="random" control={<Radio />} label={<Shuffle />} title="무작위" />
+            <RadioGroup row={true} value={options.orderType} onChange={handleOrderTypeChange} >
+              <FormControlLabel value={OrderType.stright} control={<Radio />} label={<ArrowRightAlt />} title="시리즈 순서" />
+              <FormControlLabel value={OrderType.random} control={<Radio />} label={<Shuffle />} title="무작위" />
             </RadioGroup>
           </FormControl>
           <FormControl>
