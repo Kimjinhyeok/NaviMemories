@@ -1,7 +1,7 @@
+import React from 'react'
 import { makeStyles, TextField } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import React from 'react'
-import Http from '../Utils/Http';
+import BibleData from '../Data/bible';
 
 /**
  * @typedef AutoCompleteBIbleClasses
@@ -23,7 +23,6 @@ import Http from '../Utils/Http';
  */
 export default function AutoCompleteBible(props) {
 
-  const http = Http();
   const { onChange, classes, fullWidth, validator, defaultValue, className, disabled } = props;
   
   const id = props.id || "bible_auto_complete";
@@ -57,15 +56,13 @@ export default function AutoCompleteBible(props) {
     )
   }
 
-  const [bibleCodes, setBibleCodes] = React.useState([]);
+  // const [bibleCodes, setBibleCodes] = React.useState([]);
+  
+
   const [value, setValue] = React.useState(null);
-  React.useEffect(async () => {
-    var response = await http.get({query : "/resource/bible"});
-    var recvBibleCodes = response.data;
-    setBibleCodes(recvBibleCodes);
-  }, [])
   React.useEffect(() => {
-    setValue(defaultValue ? bibleCodes[defaultValue-1] : null);
+    var bibleValue = defaultValue ? BibleData[defaultValue-1] : null;
+    setValue(bibleValue);
   }, [defaultValue])
 
   const onHandleChange = function(event, newValue) {
@@ -73,10 +70,9 @@ export default function AutoCompleteBible(props) {
     onChange(event, newValue);
   }
   return (
-    bibleCodes.length > 0 ? 
-    (<Autocomplete
+    <Autocomplete
       id={id}
-      options={bibleCodes}
+      options={BibleData}
       getOptionLabel={(props) => props.bible_name}
       onChange={onHandleChange}
       disabled={disabled}
@@ -85,7 +81,6 @@ export default function AutoCompleteBible(props) {
       renderOption={renderOption}
       renderInput={autocompleteTextfieldRender}
       value={value}
-    ></Autocomplete>)
-    : <></>
+    ></Autocomplete>
   )
 }
