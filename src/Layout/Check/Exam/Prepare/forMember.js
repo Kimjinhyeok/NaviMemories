@@ -7,7 +7,8 @@ export default function PrepareForMember(props) {
     participation: 100,
     include242: "yes",        //PARTicipation 242 verse
     themeOf242: "yes",
-    precedence: 'cn',
+    precedence: "cn",
+    version: "gae"
   }
 
   const [options, setOptions] = React.useState(InitOptions);
@@ -96,6 +97,23 @@ export default function PrepareForMember(props) {
               <FormControlLabel
                 label="장절"
                 value="cv"
+                control={<Radio />}
+              />
+            </RadioGroup>
+          </FormControl>
+          <FormControl>
+            <FormLabel component="legend">역본 선택</FormLabel>
+            <RadioGroup
+              value={options.version}
+              onChange={(event) => { setOptions({ ...options, version: event.target.value }) }}>
+              <FormControlLabel
+                label="개역한글"
+                value="kor"
+                control={<Radio />}
+              />
+              <FormControlLabel
+                label="개역개정"
+                value="gae"
                 control={<Radio />}
               />
             </RadioGroup>

@@ -11,7 +11,8 @@ export default function PrepareForGuest(props) {
     series: [],
     include242: false,
     themeOf242: "true",
-    precedence: "cn"
+    precedence: "cn",
+    version: "gae"
   }
   const classes = makeStyles(theme => ({
     prepare_root: {
@@ -113,6 +114,23 @@ export default function PrepareForGuest(props) {
                   control={<Radio />}
                 />
               </RadioGroup>
+          </FormControl>
+          <FormControl>
+            <FormLabel component="legend">역본 선택</FormLabel>
+            <RadioGroup
+              value={options.version}
+              onChange={(event) => { setOptions({ ...options, version: event.target.value }) }}>
+              <FormControlLabel
+                label="개역한글"
+                value="kor"
+                control={<Radio />}
+              />
+              <FormControlLabel
+                label="개역개정"
+                value="gae"
+                control={<Radio />}
+              />
+            </RadioGroup>
           </FormControl>
         </div>
       </CardContent>
