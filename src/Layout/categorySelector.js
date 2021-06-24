@@ -5,7 +5,8 @@ import Categories from '../Data/categories';
 
 export default function CategorySelector(props) {
 
-  
+  const propsChangeHandle = props.onChange;
+
   const classes = makeStyles(theme => ({
     root: { 
       width: '100%',
@@ -43,6 +44,25 @@ export default function CategorySelector(props) {
     setCheckArray(checkValueArray);
   }, [])
 
+  React.useEffect(() => {
+    
+    propsChangeHandle(extrackCheckedSeries(checkArray));
+  }, [checkArray])
+  const extrackCheckedSeries = function() {
+    let seriesList = [];
+    checkArray.forEach(item => {
+      if(item.master) {
+        seriesList.push(item.series_code)
+      } else if(item.children) {
+        item.children.forEach(child => {
+          if(child.check) {
+            seriesList.push(child.series_code);
+          }
+        })
+      }
+    });
+    return seriesList;
+  }
   const handleOnCheckMaster = function(event, index) {
 
     var updateItem = checkArray[index];
