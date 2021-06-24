@@ -125,7 +125,7 @@ export default function CardTemplateComponent(props) {
   }
   function onSaveHandling() {
     try {
-      var result = http.post({ query: "RC", data: value })
+      var result = http.post({ query: "RC/oyo", data: value })
 
       /********** Notice Saved OYO Card **********/
 
@@ -186,10 +186,12 @@ export default function CardTemplateComponent(props) {
             <AutoCompleteBible
               id="template_bible"
               classes={classes}
-              fullWidth={false}
+              fullWidth={true}
               onChange={onChangeAutocomplete}
+              defaultValue={value.bible_code}
               renderOption={(params) => (<><span className={classes.shortName}>{params.short_name}</span>{params.bible_name}</>)}
             />
+            <Box component="h4" className={classes.tilde}> </Box>
             <TextField
               id="template_chapter"
               label="장"
