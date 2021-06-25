@@ -150,21 +150,31 @@ const Serieses = [
       "verse_count": "30"
   },
   {
-      "category": "6. 증거",
+      "category": "6-1. 증거 전반",
       "category_eng": "6. Witnessing",
       "ord": "15",
       "print_opt": "Y",
       "series_code": "360",
       "series_name": "DEP 242구절",
       "series_name_eng": "242 Verses",
-      "verse_count": "55"
+      "verse_count": "24"
+  },
+  {
+      "category": "6-2. 증거 후반",
+      "category_eng": "6. Witnessing",
+      "ord": "15",
+      "print_opt": "Y",
+      "series_code": "370",
+      "series_name": "DEP 242구절",
+      "series_name_eng": "242 Verses",
+      "verse_count": "21"
   },
   {
       "category": "7. 그리스도의 주재권",
       "category_eng": "7. The Lordship of Christ",
       "ord": "16",
       "print_opt": "Y",
-      "series_code": "370",
+      "series_code": "380",
       "series_name": "DEP 242구절",
       "series_name_eng": "242 Verses",
       "verse_count": "26"
@@ -174,7 +184,7 @@ const Serieses = [
       "category_eng": "8. World Visioin",
       "ord": "17",
       "print_opt": "Y",
-      "series_code": "380",
+      "series_code": "390",
       "series_name": "DEP 242구절",
       "series_name_eng": "242 Verses",
       "verse_count": "18"
