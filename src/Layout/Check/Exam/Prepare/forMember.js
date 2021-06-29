@@ -1,11 +1,13 @@
 import { Button, Card, CardActions, CardContent, CardHeader, FormControl, FormControlLabel, FormLabel, InputAdornment, makeStyles, Radio, RadioGroup, TextField } from '@material-ui/core'
-import React from 'react'
+import React from 'react';
+import Http from '../../../../Utils/Http';
 
 export default function PrepareForMember(props) {
 
+  const http = Http();
   const InitOptions = {
     participation: 100,
-    include242: "yes",        //PARTicipation 242 verse
+    include242: "yes",        //with 242 verse
     themeOf242: "yes",
     precedence: "cn",
     version: "gae"
@@ -52,6 +54,24 @@ export default function PrepareForMember(props) {
       }
     },
   }))();
+  const loadingCardList = async function() {
+    try {
+      var res = await http.get({query : 'exam/mem', data : {
+        version : options.version,
+        include242 : options.include242,
+        participation : options.participation
+      }});
+      var cardList = res.data;
+      var options = {
+        themeOf242: options.themeOf242 == "yes",
+        precedence : options.precedence,
+      }
+
+      console.log(cardList, options);
+    } catch (error) {
+      console.error(error);
+    }
+  }
   return (
     <Card className={classes.prepare_root}>
       <CardHeader title="암송 실기 테스트" />
@@ -61,6 +81,7 @@ export default function PrepareForMember(props) {
             label="출전 구절 수"
             type="number"
             value={options.participation}
+            required
             onChange={(event) => setOptions({...options, participation : event.target.value})}
             InputProps={{
               inputProps: {
@@ -121,7 +142,7 @@ export default function PrepareForMember(props) {
         </div>
       </CardContent>
       <CardActions className={classes.prepare_actions}>
-        <Button type="button" color="primary" variant="contained">다음</Button>
+        <Button type="button" color="primary" variant="contained" onClick={loadingCardList}>다음</Button>
       </CardActions>
     </Card>
   )
