@@ -1,7 +1,7 @@
 import { Button, Container, TextField } from '@material-ui/core';
 import React from 'react'
 import AutoCompleteBible from '../../../autoCompleteBible';
-
+import DiffMatchPatch from 'diff-match-patch';
 
 /**
  * @typedef CNQuestion
@@ -33,28 +33,134 @@ import AutoCompleteBible from '../../../autoCompleteBible';
  */
 export default function ExamContentComponent(props) {
 
-  const {quest, state, updateState, setDeduction, confirm, classes} = props;
+  const { quest, state, updateState, setDeduction, confirm, classes } = props;
+  const defPoint = 6;
+
+  function checkEmpty(params) {
+    return params ? params : ''
+  }
+  function getHintText(segments) {
+    return segments[0] + checkEmpty(segments[1]) + checkEmpty(segments[2]) + (segments[0] === " " ? checkEmpty(segments[3]) : "")
+  }
+  const handleHint = function () {
+    var diffMatchPatch = new DiffMatchPatch.diff_match_patch();
+    var res = diffMatchPatch.diff_main(quest.content, state.value.content).filter(item => item[1] != " ");
+
+    var segmentCount = 0;
+    var hintText = "";
+    for (var idx in res) {
+      let segments = [];
+      let segmentsWithSpace
+      switch (res[idx][0]) {
+        case -1:
+          segments = res[idx][1].split(" ").filter(item => item != "");
+          segmentsWithSpace = res[idx][1].split(/(\s+)/);
+          if (segmentCount < 2 && segments.length > 2) {
+            // 2어절 초과인 경우
+            let lastSegment = segments[2 - segmentCount];
+            let idxLastSegment = segmentsWithSpace.findIndex(item => item === lastSegment);
+            if (segmentsWithSpace[idxLastSegment] + 1 == " ") {
+              idxLastSegment++;
+            }
+            hintText += segmentsWithSpace.slice(0, idxLastSegment).join("");
+            segmentCount += 2;
+          } else if (segmentCount < 2) {
+            // 2어절 이하인 경우
+            hintText += segmentsWithSpace.join("");
+            if(res[Number(idx)+1][0] !== 1) {
+              segmentCount += segments.length;
+            }
+          }
+          break;
+        case 0:
+          hintText += res[idx][1];
+          if (segmentCount > 0) segmentCount++;
+          break;
+        case 1:
+          segments = res[idx][1].split(" ").filter(item => item != "");
+          segmentsWithSpace = res[idx][1].split(/(\s+)/);
+          if (segmentCount >= 2) {
+            // 이미 첨삭이 이루어진 경우 빼주지 않음
+            hintText += res[idx][1];
+          }
+          else if (segments.length >= 2) {
+            // 2어절 초과인 경우 2어절, 앞에서 첨삭이 있었으면 남는 만큼만 빼준다
+            let firstSegment = segments[2 - segmentCount];
+            let idxFirstSegment = segmentsWithSpace.findIndex(item => item === firstSegment);
+
+            // if(segmentsWithSpace[idxFirstSegment]+1 == " ") {
+            //   idxFirstSegment++;
+            // }
+            hintText += segmentsWithSpace.slice(idxFirstSegment).join("");
+            segmentCount += 2;
+          }
+          break;
+      }
+    }
+    
+    var updateItem = { flags: { ...state.flags, hintCount: state.flags.hintCount - 1 }, value: { ...state.value, content: hintText } }
+    updateState(updateItem);
+  }
 
   const handleChangeValue = (props) => (event) => {
-    updateState(props, event.target.value);
+    var updateItem = { ...state, value: { ...state.value, [props]: event.target.value } }
+    updateState(updateItem);
   }
-  const handleHint = function() {
 
+  const handleOnClick = function () {
+    var point = 0;
+    var res = state.flags;
+    var diffMatchPatch = new DiffMatchPatch.diff_match_patch();
+    var result = diffMatchPatch.diff_main(quest.content, state.value.content).filter(item => item[1] != " ");
+
+    let incorrectText = result.filter(item => item[0] == -1).map(item => item[1]);
+    let sumIncorrectPoint = 0;
+    incorrectText.forEach(txt => {
+      let segments = txt.split(" ");
+      sumIncorrectPoint += ((Math.floor(segments.length / 2)) + (segments.length % 2));
+    });
+
+    res.content = !(sumIncorrectPoint > 0);
+    point += sumIncorrectPoint;
+
+    if (state.flags.doTheme) {
+      res.theme = quest.theme === state.value.theme;
+      if (!res.theme) {
+        point += 2;
+      }
+    }
+    point += state.flags.hintCount;
+
+    var updateItem = { ...state, flags: res };
+    updateState(updateItem);
+
+    setDeduction(point);
   }
-  const handleOnClick = function() {
 
+  const handleFocus = (props) => (event) => {
+    if (state.flags[props] == false) {
+      var updateItem = { ...state, flags: { ...state.flags, [props]: null } }
+      updateState(updateItem);
+    }
+    event.stopPropagation();
   }
   return (
-    <Container maxWidth="md" className={classes.root_checking}>
-    
+    <Container>
       <form className={classes.form_checking}>
-        <TextField id="checking_theme" variant="outlined" 
-          value={state.value.theme} 
-          onChange={handleChangeValue('theme')} 
-          autoComplete="off"
-          required
-          label="주제" 
-          className={state.flags.theme === null ? null : (state.flags.theme === true ? classes.succeed : classes.failed)}/>
+        {
+          state.flags.doTheme ?
+            (
+              <TextField id="checking_theme" variant="outlined"
+                value={state.value.theme}
+                onFocus={handleFocus('theme')}
+                onChange={handleChangeValue('theme')}
+                autoComplete="off"
+                required
+                label="주제"
+                className={state.flags.theme === null ? null : (state.flags.theme === true ? classes.succeed : classes.failed)} />
+            ) : <></>
+        }
+
         <div className={classes.row_part}>
           <AutoCompleteBible
             classes={classes}
@@ -63,42 +169,44 @@ export default function ExamContentComponent(props) {
             disabled={true}
             id="checking_bible"
           />
-          <TextField type="number" 
-            value={state.value.chapter} 
-            variant="outlined" 
-            label="장" 
+          <TextField type="number"
+            value={state.value.chapter}
+            variant="outlined"
+            label="장"
             value={quest.chapter}
-            inputProps={{readOnly: true}}
+            inputProps={{ readOnly: true }}
           />
-          <TextField type="number" 
-            value={state.value.f_verse} 
-            variant="outlined" 
-            label="시작 구절" 
+          <TextField type="number"
+            value={state.value.f_verse}
+            variant="outlined"
+            label="시작 구절"
             value={quest.f_verse}
-            inputProps={{readOnly: true}}
+            inputProps={{ readOnly: true }}
           />
-          <TextField type="number" 
-            value={state.value.l_verse} 
-            variant="outlined" 
-            label="끝 구절" 
+          <TextField type="number"
+            value={state.value.l_verse}
+            variant="outlined"
+            label="끝 구절"
             value={quest.l_verse}
-            inputProps={{readOnly: true}}  
+            inputProps={{ readOnly: true }}
           />
         </div>
         <TextField id="checking_content" rows="6" variant="outlined" value={state.value.content}
           multiline
           required
           autoComplete="off"
-          label="내용" 
+          label="내용"
           // className={(state.flags.result ? classes.hide : '')}
-          onChange={handleChangeValue('content')} 
+          onChange={handleChangeValue('content')}
+          onFocus={handleFocus('content')}
+          className={state.flags.content === null ? null : (state.flags.content === true ? classes.succeed : classes.failed)}
         />
         <div className={classes.action_button}>
-          <Button type="button" variant="outlined" color="default" onClick={() => {handleHint()}}>힌트</Button>
-          <Button type="button" variant="contained" color="primary" onClick={() => {handleOnClick()}}>확인</Button>
+          <Button type="button" variant="outlined" color="default" onClick={() => { handleHint() }}>힌트</Button>
+          <Button type="button" variant="contained" color="primary" onClick={() => { handleOnClick() }}>확인</Button>
         </div>
       </form>
-      
+
     </Container>
   )
 }

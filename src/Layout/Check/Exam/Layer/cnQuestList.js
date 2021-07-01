@@ -17,7 +17,7 @@ import ExamContentComponent from './cn';
 export default function CNQuestList(props) {
   const classes = makeStyles((theme) => ({
     root : {
-      height: '70%',
+      height: '80%',
       display: 'flex',
       flexDirection: 'column'
     },
@@ -33,7 +33,8 @@ export default function CNQuestList(props) {
     },
     root_checking : {
       display: 'flex',
-      flexDirection: 'row',
+      flexDirection: 'column',
+      justifyContent: 'center',
       height: '100%'
     },
     shortName: {
@@ -53,6 +54,12 @@ export default function CNQuestList(props) {
         marginRight: '10px'
       }
     },
+    questionIndex: {
+      color: theme.palette.grey[500],
+      textAlign: 'right',
+      paddingLeft: theme.spacing(3),
+      paddingRight: theme.spacing(3),
+    },
     form_checking: {
       margin: 'auto auto',
       display: 'flex',
@@ -69,8 +76,8 @@ export default function CNQuestList(props) {
       flex: 1,
       backgroundColor: theme.palette.action.hover
     },
-    succeed: { backgroundColor: blue[50], '& input': {color : theme.palette.info.main}},
-    failed: { backgroundColor: red[50], '& input': {color : theme.palette.error.main}},
+    succeed: { backgroundColor: blue[50], '& input, & textarea': {color : theme.palette.info.main}},
+    failed: { backgroundColor: red[50], '& input, & textarea': {color : theme.palette.error.main}},
     action_button: {
       display: 'flex',
       flexDirection: 'column',
@@ -105,6 +112,8 @@ export default function CNQuestList(props) {
       color: red[500]
     },
   }))();
+  const themeOf242 = props.themeOf242;
+  const DEF_Deduction = 6;
   const origins = props.origins;
   const addResult = props.setAddResultQuestion;
 
@@ -112,49 +121,58 @@ export default function CNQuestList(props) {
   const initialFlags = {
     theme : null,
     content : null,
-    hint : false,
-    result : false
+    doTheme : true,
+    hintCount : 0
   }
-  const [Deduction, setDeduction] = useState(0);
+  const [Deduction, setDeduction] = useState([]);
   const [StateList, setStateList] = useState([]);
-  const [QuestionIndex, setQuestionIndex] = useState(0)
+  const [QuestionIndex, setQuestionIndex] = useState(0);
   useEffect(() => {
     let initStates = new Array(origins.length);
-    initStates.fill({
-      flags : initialFlags,
-      value : initialValues
-    });
+    let deductionList = new Array(origins.length);
+    origins.forEach((item, idx) => {
+      initStates[idx] = ({
+        flags : {
+          ...initialFlags, 
+          doTheme : (item.series_code % 200 < 100) || ((item.series_code % 300 < 100) && themeOf242)
+        },
+        value : initialValues
+      });
+      deductionList[idx] = DEF_Deduction;
+    })
+    
     setStateList(initStates);
   }, []);
 
-  const updateState = (props, value) => {
+  const updateValue = (item) => {
     var index = QuestionIndex;
-    var originState = StateList[index];
-    var stateItem = {...originState, value : {...originState.value, [props] : value}};
-    setStateList([...StateList.slice(0, index), stateItem, ...StateList.slice(index+1)]);
-  }
+    setStateList([...StateList.slice(0, index), item, ...StateList.slice(index+1)]);
+  };
   const addDeduction = function(point) {
-    setDeduction(Deduction+point);
+    setDeduction([...Deduction.slice(0, QuestionIndex), point > DEF_Deduction ? DEF_Deduction : point, ...Deduction.slice(QuestionIndex+1)]);
   }
   const changeQuestionIndex = function(value) {
     if(QuestionIndex >= 0 || QuestionIndex < origins.length) {
       setQuestionIndex(QuestionIndex + value);
     }
   }
-  const setConfirmQuestion = function() {
-    
-  }
+  
   return (
     StateList.length > 0 ? 
     <Container maxWidth="md" className={classes.root}> 
-      <ExamContentComponent
-        state={StateList[QuestionIndex]}
-        confirm={()=>{}}
-        setDeduction={addDeduction}
-        quest={origins[QuestionIndex]}
-        updateState={updateState}
-        classes={classes}
-      />  
+      <div className={classes.root_checking}>
+        <div className={classes.questionIndex}>
+          <span>(</span><span>{QuestionIndex+1}</span><span>/</span><span>{origins.length}</span><span>)</span>
+        </div>
+        <ExamContentComponent
+          state={StateList[QuestionIndex]}
+          confirm={()=>{}}
+          setDeduction={addDeduction}
+          quest={origins[QuestionIndex]}
+          updateState={updateValue}
+          classes={classes}
+        />  
+      </div>
       <div className={classes.actions}>
         <Button type="button" color="primary" variant="outlined" disabled={QuestionIndex == 0} onClick={() => {changeQuestionIndex(-1)}} ><ArrowLeft />이전 문제</Button>
         <Button type="button" color="primary" variant="outlined" disabled={QuestionIndex >= origins.length-1} onClick={() => {changeQuestionIndex(1)}} >다음 문제 <ArrowRight/></Button>
