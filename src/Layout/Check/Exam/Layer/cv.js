@@ -44,8 +44,27 @@ export default function ExamChapterVerseComponent(props) {
   }
 
   const handleOnClick = function () {
-    var res = {};
+    var res = state.flags;
     var point = 0;
+
+    res.theme = state.value.theme === quest.theme;
+    if(!res.theme) {
+      point += 2;
+    }
+    res.bible_code = state.value.bible_code == quest.bible_code;
+    if(!res.bible_code) {
+      point += 2;
+    }
+    res.chapter = state.value.chapter == quest.chapter;
+    if(!res.chapter) {
+      point += 2;
+    }
+    res.f_verse = state.value.f_verse == quest.f_verse;
+    res.l_verse = state.value.l_verse == quest.l_verse;
+    if(!res.f_verse || !res.l_verse) {
+      point+=2;
+    }
+    
     var updateItem = { ...state, flags: res };
     updateState(updateItem);
 
