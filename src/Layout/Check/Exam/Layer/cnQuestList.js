@@ -6,6 +6,7 @@ import ExamContentComponent from './cn';
 /**
  * @typedef QuestionProps
  * @property {Array} origins 
+ * @property {Boolean} themeOf242
  * @property {Function} setAddResultQuestion
  * @property {Function} setResultDeduction
  */

@@ -36,12 +36,6 @@ export default function ExamContentComponent(props) {
   const { quest, state, updateState, setDeduction, confirm, classes } = props;
   const defPoint = 6;
 
-  function checkEmpty(params) {
-    return params ? params : ''
-  }
-  function getHintText(segments) {
-    return segments[0] + checkEmpty(segments[1]) + checkEmpty(segments[2]) + (segments[0] === " " ? checkEmpty(segments[3]) : "")
-  }
   const handleHint = function () {
     var diffMatchPatch = new DiffMatchPatch.diff_match_patch();
     var res = diffMatchPatch.diff_main(quest.content, state.value.content).filter(item => item[1] != " ");
