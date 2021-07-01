@@ -4,6 +4,7 @@ import React from 'react'
 import TimeProgress from './timeProgress';
 import CNQuestList from './Layer/cnQuestList';
 import RecitationExamPrepareComponent from './Prepare/prepare'
+import CVQuestList from './Layer/cvQuestList';
 
 export default function RecitationExam(props) {
 
@@ -180,7 +181,7 @@ export default function RecitationExam(props) {
         <div className={classes.timeline}>
           <TimeProgress LimitTime={LimitTime}/>
         </div>
-        <AppBar position="static" color="default">
+        <AppBar position="static" color="default" elevation={0}>
           <Tabs
             value={TabIdx}
             onChange={(event, newVal) => { setTabIdx(newVal) }}
@@ -194,10 +195,10 @@ export default function RecitationExam(props) {
         </AppBar>
         <div className={classes.tabPanels}>
           <TabPanel value={TabIdx} index={0} className={classes.tabPanel}>
-            <CNQuestList origins={Source.cn} setAddResultQuestion={addResultQuestion} setResultDeduction={()=>{}} />
+            <CNQuestList origins={Source.cn} themeOf242={Source.themeOf242} setAddResultQuestion={addResultQuestion} setResultDeduction={()=>{}} />
           </TabPanel>
           <TabPanel value={TabIdx} index={1} className={classes.tabPanel}>
-            <h3>여긴 내용</h3>
+            <CVQuestList origins={Source.cv} themeOf242={Source.themeOf242} setAddResultQuestion={addResultQuestion} setResultDeduction={()=>{}} />
           </TabPanel>
         </div>
       </Container>
