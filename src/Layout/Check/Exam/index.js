@@ -7,6 +7,7 @@ import RecitationExamPrepareComponent from './Prepare/prepare'
 import CVQuestList from './Layer/cvQuestList';
 
 const DEF_Deduction = 6;
+const DEF_Point = 100;
 var deductions = {
   cv : new Array(5).fill(DEF_Deduction),
   cn : new Array(5).fill(DEF_Deduction)
@@ -170,10 +171,8 @@ export default function RecitationExam(props) {
 
   React.useEffect(() => {
     
-    if(Source.themeOf242) {
-      setPoint(102);
-    }
-
+    setPoint(DEF_Point + (Source.themeOf242 ? 2 : 0));
+    
   }, []);
   const addResultQuestion = function(question) {
     var resolvedList = Result;
@@ -189,6 +188,7 @@ export default function RecitationExam(props) {
   }
   const closing = function() {
     console.log(deductions);
+
   }
   return (
     <Container maxWidth="md" className={classes.root_exam}>
