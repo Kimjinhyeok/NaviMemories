@@ -1,4 +1,4 @@
-import { AppBar, Box, Container, LinearProgress, makeStyles, Tab, Tabs, Typography, withStyles } from '@material-ui/core'
+import { AppBar, Box, Button, Container, LinearProgress, makeStyles, Tab, Tabs, Typography, withStyles } from '@material-ui/core'
 import { TabPanel } from '@material-ui/lab';
 import React from 'react'
 import TimeProgress from './timeProgress';
@@ -6,6 +6,11 @@ import CNQuestList from './Layer/cnQuestList';
 import RecitationExamPrepareComponent from './Prepare/prepare'
 import CVQuestList from './Layer/cvQuestList';
 
+const DEF_Deduction = 6;
+var deductions = {
+  cv : new Array(5).fill(DEF_Deduction),
+  cn : new Array(5).fill(DEF_Deduction)
+}
 export default function RecitationExam(props) {
 
   const LimitTime = 60*10;
@@ -35,6 +40,10 @@ export default function RecitationExam(props) {
     timeline : {
       marginTop: theme.spacing(1),
       marginBottom: theme.spacing(1)
+    },
+    closing: {
+      marginBottom: theme.spacing(2),
+      fontSize: '1.2em'
     }
   }))();
 
@@ -164,15 +173,22 @@ export default function RecitationExam(props) {
     if(Source.themeOf242) {
       setPoint(102);
     }
+
   }, []);
   const addResultQuestion = function(question) {
     var resolvedList = Result;
     resolvedList.push(question);
     setResult(resolvedList);
   }
+  const setDeduction = (props) => (index, value) => {
+    deductions = {...deductions, [props] : [...deductions[props].slice(0, index), (value > DEF_Deduction ? DEF_Deduction : value), ...deductions[props].slice(index+1)]};
+  }
   const setConfirm = function(deduction) {
     var resultPoint = Point - deduction;
     setPoint(resultPoint);
+  }
+  const closing = function() {
+    console.log(deductions);
   }
   return (
     <Container maxWidth="md" className={classes.root_exam}>
@@ -195,12 +211,13 @@ export default function RecitationExam(props) {
         </AppBar>
         <div className={classes.tabPanels}>
           <TabPanel value={TabIdx} index={0} className={classes.tabPanel}>
-            <CNQuestList origins={Source.cn} themeOf242={Source.themeOf242} setAddResultQuestion={addResultQuestion} setResultDeduction={()=>{}} />
+            <CNQuestList origins={Source.cn} themeOf242={Source.themeOf242} setAddResultQuestion={addResultQuestion} setResultDeduction={setDeduction("cn")} />
           </TabPanel>
           <TabPanel value={TabIdx} index={1} className={classes.tabPanel}>
-            <CVQuestList origins={Source.cv} themeOf242={Source.themeOf242} setAddResultQuestion={addResultQuestion} setResultDeduction={()=>{}} />
+            <CVQuestList origins={Source.cv} themeOf242={Source.themeOf242} setAddResultQuestion={addResultQuestion} setResultDeduction={setDeduction("cv")} />
           </TabPanel>
         </div>
+        <Button className={classes.closing} type="button" variant="contained" color="secondary" onClick={closing}>종료</Button>
       </Container>
     </Container>
   )

@@ -114,9 +114,9 @@ export default function CNQuestList(props) {
     },
   }))();
   const themeOf242 = props.themeOf242;
-  const DEF_Deduction = 6;
   const origins = props.origins;
   const addResult = props.setAddResultQuestion;
+  const setSumDeduction = props.setResultDeduction;
 
   const initialValues = {theme : "", content: ""}
   const initialFlags = {
@@ -125,7 +125,7 @@ export default function CNQuestList(props) {
     doTheme : true,
     hintCount : 0
   }
-  const [Deduction, setDeduction] = useState([]);
+  
   const [StateList, setStateList] = useState([]);
   const [QuestionIndex, setQuestionIndex] = useState(0);
   useEffect(() => {
@@ -139,7 +139,6 @@ export default function CNQuestList(props) {
         },
         value : initialValues
       });
-      deductionList[idx] = DEF_Deduction;
     })
     
     setStateList(initStates);
@@ -150,7 +149,7 @@ export default function CNQuestList(props) {
     setStateList([...StateList.slice(0, index), item, ...StateList.slice(index+1)]);
   };
   const addDeduction = function(point) {
-    setDeduction([...Deduction.slice(0, QuestionIndex), point > DEF_Deduction ? DEF_Deduction : point, ...Deduction.slice(QuestionIndex+1)]);
+    setSumDeduction(QuestionIndex, point);
   }
   const changeQuestionIndex = function(value) {
     if(QuestionIndex >= 0 || QuestionIndex < origins.length) {
