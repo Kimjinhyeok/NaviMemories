@@ -23,7 +23,7 @@ import BibleData from '../Data/bible';
  */
 export default function AutoCompleteBible(props) {
 
-  const { onChange, classes, fullWidth, validator, defaultValue, className, disabled } = props;
+  const { onChange, onFocus, classes, fullWidth, validator, defaultValue, className, disabled } = props;
   
   const id = props.id || "bible_auto_complete";
   const useStyle = makeStyles(theme => ({
@@ -45,13 +45,15 @@ export default function AutoCompleteBible(props) {
     return (
       <TextField 
         key={params.bible_code} 
-        label="성경" {...params} 
+        label="성경"
         fullWidth={fullWidth} 
         // className={classes.autocomplete_textfield} 
         variant="outlined" 
         required
         error={validator}
         helperText={validator ? '성경을 선택해주세요' : ''}
+        onFocus={ onFocus ? onFocus : ()=>{}}
+        {...params} 
       />
     )
   }

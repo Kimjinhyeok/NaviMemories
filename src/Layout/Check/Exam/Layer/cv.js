@@ -102,6 +102,7 @@ export default function ExamChapterVerseComponent(props) {
             id="checking_bible"
             className={state.flags.bible_code === null ? null : (state.flags.bible_code === true ? classes.succeed : classes.failed)}
             onChange={handleBibleChange}
+            onFocus={handleFocus('bible_code')}
             {... (state.flags.result ? { defaultValue: quest.bible_code } : {})}
           />
           <TextField type="number"
@@ -110,6 +111,7 @@ export default function ExamChapterVerseComponent(props) {
             label="장"
             required
             onChange={handleChangeValue('chapter')}
+            onFocus={handleFocus('chapter')}
             className={state.flags.chapter === null ? null : (state.flags.chapter === true ? classes.succeed : classes.failed)} />
           <TextField type="number"
             value={state.value.f_verse}
@@ -117,6 +119,7 @@ export default function ExamChapterVerseComponent(props) {
             label="시작 구절"
             required
             onChange={handleChangeValue('f_verse')}
+            onFocus={handleFocus('f_verse')}
             className={state.flags.f_verse === null ? null : (state.flags.f_verse === true ? classes.succeed : classes.failed)} />
           <TextField type="number"
             value={state.value.l_verse}
@@ -124,6 +127,7 @@ export default function ExamChapterVerseComponent(props) {
             label="끝 구절"
             required
             onChange={handleChangeValue('l_verse')}
+            onFocus={handleFocus('l_verse')}
             className={state.flags.l_verse === null ? null : (state.flags.l_verse === true ? classes.succeed : classes.failed)} />
         </div>
         <TextField id="checking_content" rows="6" variant="outlined" value={quest.content}
