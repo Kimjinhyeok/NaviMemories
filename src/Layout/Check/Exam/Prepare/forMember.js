@@ -4,6 +4,7 @@ import Http from '../../../../Utils/Http';
 
 export default function PrepareForMember(props) {
 
+  const history = props.history;
   const http = Http();
   const InitOptions = {
     participation: 100,
@@ -55,22 +56,18 @@ export default function PrepareForMember(props) {
     },
   }))();
   const loadingCardList = async function() {
-    try {
-      var res = await http.get({query : 'exam/mem', data : {
+
+    history.push({
+      pathname : '/test/loading',
+      state : { 
+        path: '/test/exam',
         version : options.version,
         include242 : options.include242,
-        participation : options.participation
-      }});
-      var cardList = res.data;
-      var options = {
-        themeOf242: options.themeOf242 == "yes",
-        precedence : options.precedence,
+        themeOf242 : options.themeOf242,
+        participation : options.participation,
+        precedence : options.precedence
       }
-
-      console.log(cardList, options);
-    } catch (error) {
-      console.error(error);
-    }
+    });
   }
   return (
     <Card className={classes.prepare_root}>

@@ -1,11 +1,13 @@
 import { Container, makeStyles } from '@material-ui/core';
 import React from 'react'
-import { Route } from 'react-router';
+import { Route, Switch } from 'react-router';
 import AppBarComponent from './appbar';
 import RecitationCardListComponent from './Cards';
 import CardTemplateComponent from './cardTemplate';
 import UnitPageComponent from './Check/Unit/unitPage';
 import RecitationExam from './Check/Exam';
+import PrepareForMember from './Check/Exam/Prepare/forMember';
+import ExamMainPage from './Check/Exam';
 
 
 export default function MainComponent(props) {
@@ -28,10 +30,12 @@ export default function MainComponent(props) {
         <div className={classes.root_container}>
             <AppBarComponent {...props}     />
             <Container className={classes.main_content}>
-                <Route path={`${props.params ? props.params.path: ''}/exam`} render={props => <RecitationExam {...props} />} />
-                <Route path={`${props.params ? props.params.path: ''}/check`} render={props => <UnitPageComponent {...props}/>}/>
-                <Route path={`${props.params ? props.params.path : ''}/recitation/:code`} render={props => <RecitationCardListComponent {...props} />} />
-                <Route path={`${props.params ? props.params.path : ''}/template`} render={props => <CardTemplateComponent {...props}/>} />
+                <Switch>
+                    <Route path={`${props.params ? props.params.path: ''}/test/:path`} render={props => <ExamMainPage {...props} />} />
+                    <Route path={`${props.params ? props.params.path: ''}/check`} render={props => <UnitPageComponent {...props}/>}/>
+                    <Route path={`${props.params ? props.params.path : ''}/recitation/:code`} render={props => <RecitationCardListComponent {...props} />} />
+                    <Route path={`${props.params ? props.params.path : ''}/template`} render={props => <CardTemplateComponent {...props}/>} />
+                </Switch>
             </Container>
         </div>
     )

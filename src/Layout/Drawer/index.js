@@ -79,7 +79,7 @@ export default function DrawerMenuComponent(props) {
             <ListItem button key='암송 구절 체크' onClick={() => {history.push('/check/cv')}} className={classes.nested_1}>
               <ListItemText primary="암송 구절 체크" />
             </ListItem>
-            <ListItem button key='암송 실기 테스트' onClick={() => {history.push('/test/exam')}} className={classes.nested_1}>
+            <ListItem button key='암송 실기 테스트' onClick={() => {history.push('/test/prepare')}} className={classes.nested_1}>
               <ListItemText primary="암송 실기 테스트" />
             </ListItem>
           </List>
