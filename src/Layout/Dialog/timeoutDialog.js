@@ -24,8 +24,8 @@ export default function TimeoutDialog(props) {
   const {action, title, message, timerTime, open} = props;
   const [timer, setTimer] = React.useState(timerTime);
 
-  useInterval(() => {setTimer(timer - 1)}, timer != 0 ? 1000 : null);
-
+  useInterval(() => {setTimer(timer - 1)}, open && (timer != 0) ? 1000 : null);
+  
   React.useEffect(() => {
     if(timer === 0) {
       action();
