@@ -1,8 +1,8 @@
-import { AppBar, Button, Container, makeStyles, Tab, Tabs, Typography, withStyles } from '@material-ui/core'
+import { Button, Container, makeStyles} from '@material-ui/core'
 import React from 'react'
 import TimeProgress from '../timeProgress';
-import CNQuestList from './cnQuestList';
-import CVQuestList from './cvQuestList';
+import TimeoutDialog from '../../../Dialog/timeoutDialog';
+import TestQuestPanel from './questPanel';
 
 const DEF_Deduction = 6;
 const DEF_Point = 100;
@@ -54,7 +54,7 @@ export default function RecitationExam(props) {
     cn : propsState.cardList.cn,
     themeOf242 : propsState.themeOf242,
   });
-  const [TabIdx, setTabIdx] = React.useState(propsState.precedence == "cn" ? 0 : 1)
+  const [DialogOpen, setDialogOpen] = React.useState(false)
 
   React.useEffect(() => {
     
@@ -74,59 +74,21 @@ export default function RecitationExam(props) {
     setPoint(resultPoint);
   }
   const closing = function() {
-    console.log(deductions);
-
+    setDialogOpen(true);
   }
   
-  function TabPanel(props) {
-    const { value, index, className, ...other } = props;
-    return (
-      <div
-        role="tabpanel"
-        hidden={value !== index}
-        id={`full-width-tabpanel-${index}`}
-        aria-label={`full-width-tab-${index}`}
-        className={className}
-        {...other}>
-      </div>
-    )
-  }
-  function a11yProps(index) {
-    return {
-      id: `full-width-tab-${index}`,
-      'aria-controls': `full-width-tabpanel-${index}`,
-    };
-  }
   
   return (
     <Container maxWidth="md" className={classes.root_exam}>
       {/* <RecitationExamPrepareComponent setPrepare={setSource} {...props} /> */}
       <Container maxWidth="md" className={classes.container_exam}>
         <div className={classes.timeline}>
-          <TimeProgress LimitTime={LimitTime}/>
+          <TimeProgress LimitTime={LimitTime} timeOutFunc={closing}/>
         </div>
-        <AppBar position="static" color="default" elevation={0}>
-          <Tabs
-            value={TabIdx}
-            onChange={(event, newVal) => { setTabIdx(newVal) }}
-            indicatorColor="primary"
-            textColor="primary"
-            variant="fullWidth"
-            aria-label="full width tabs cardList">
-            <Tab label="본문" {...a11yProps(0)}></Tab>
-            <Tab label="장절" {...a11yProps(1)}></Tab>
-          </Tabs>
-        </AppBar>
-        <div className={classes.tabPanels}>
-          <TabPanel value={TabIdx} index={0} className={classes.tabPanel}>
-            <CNQuestList origins={Source.cn} themeOf242={Source.themeOf242} setAddResultQuestion={addResultQuestion} setResultDeduction={setDeduction("cn")} />
-          </TabPanel>
-          <TabPanel value={TabIdx} index={1} className={classes.tabPanel}>
-            <CVQuestList origins={Source.cv} themeOf242={Source.themeOf242} setAddResultQuestion={addResultQuestion} setResultDeduction={setDeduction("cv")} />
-          </TabPanel>
-        </div>
+        <TestQuestPanel Source={Source} classes={classes} addResultQuestion={addResultQuestion} setDeduction={setDeduction} precedence={propsState.precedence}/>
         <Button className={classes.closing} type="button" variant="contained" color="secondary" onClick={closing}>종료</Button>
       </Container>
+      <TimeoutDialog open={DialogOpen} title="암송 테스트 종료" action={closing} message="암송 테스트가 종료되었습니다. 결과창으로 이동합니다." timerTime={5}/>
     </Container>
   )
 } 
