@@ -1,6 +1,7 @@
 import { Box, LinearProgress, makeStyles, Typography, withStyles } from '@material-ui/core';
 import { amber, red, lightBlue, grey } from '@material-ui/core/colors'
 import React from 'react'
+import useInterval from '../../../Utils/useInterval';
 
 const lineStyles = (theme, props) => ({
   root: {
@@ -22,12 +23,22 @@ const lineStyles = (theme, props) => ({
     backgroundColor: 'white',
   },
 });
+/**
+ * @typedef TimeProgressProps
+ * @property {Number} LimitTime
+ * @property {Function} timeOutFunc
+ * 
+ * @param {TimeProgressProps} props 
+ * @returns 
+ */
 function TimeProgress(props) {
 
   const [remainTime, setRemainTime] = React.useState({min : 0, second : 0, time: 0});
   const [value, setValue] = React.useState(0);
   const LimitTime = props.LimitTime;
   const classes = props.classes;
+  const timeOutFunc = props.timeOutFunc;
+
   function startTimer() {
     var time = LimitTime; // 10 min
 
@@ -40,14 +51,17 @@ function TimeProgress(props) {
       
       if( --time <= 0 ) {
         clearInterval(handler);
+        timeOutFunc();
       }
       setRemainTime({min, second, time});
-      setValue(100 - ((remainTime.time / LimitTime) * 100));
+      setValue(100 - ((time / LimitTime) * 100));
       
     }, 1000)
     
   }
-  // startTimer();
+
+  React.useEffect(startTimer, [])
+
   return (
     <Box display="flex" alignItems="center">
       <Box width="100%" mr={1}>
