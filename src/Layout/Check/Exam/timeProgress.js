@@ -43,13 +43,14 @@ function TimeProgress(props) {
     var time = LimitTime; // 10 min
 
     var handler = setInterval(() => {
+      time-=1;
       let min = parseInt( time / 60, 10);
       let second = parseInt( time % 60, 10);
 
       min = min < 10 ? "0" + min : min;
       second = second < 10 ? "0" + second : second;
       
-      if( --time <= 0 ) {
+      if( time <= 0 ) {
         clearInterval(handler);
         timeOutFunc();
       }
