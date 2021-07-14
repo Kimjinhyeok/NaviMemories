@@ -5,8 +5,6 @@ import AppBarComponent from './appbar';
 import RecitationCardListComponent from './Cards';
 import CardTemplateComponent from './cardTemplate';
 import UnitPageComponent from './Check/Unit/unitPage';
-import RecitationExam from './Check/Exam';
-import PrepareForMember from './Check/Exam/Prepare/forMember';
 import ExamMainPage from './Check/Exam';
 
 
