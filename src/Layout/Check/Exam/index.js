@@ -2,6 +2,7 @@ import React from 'react'
 import { Route, Switch } from 'react-router'
 import RecitationLoading from './loading'
 import PrepareForMember from './Prepare/forMember'
+import RecitationResult from './result'
 import RecitationExam from './Test'
 
 export default function ExamMainPage(props) {
@@ -20,6 +21,7 @@ export default function ExamMainPage(props) {
       <Route path="/test/exam" render={(props) => <RecitationExam {...props} />}/>
       <Route path="/test/prepare" render={(props) => <PrepareForMember {...props} />}/>
       <Route path="/test/loading" render={(props) => <RecitationLoading {...props} />} />
+      <Route path="/test/result" render={(props) => <RecitationResult {...props} />} />
     </Switch>
   )
 } 

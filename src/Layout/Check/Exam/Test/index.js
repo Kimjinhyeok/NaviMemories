@@ -12,6 +12,7 @@ var deductions = {
 }
 export default function RecitationExam(props) {
 
+  const history = props.history;
   const LimitTime = 60*10;
   const propsState = props.location.state;
   const classes = makeStyles(theme => ({
@@ -76,11 +77,23 @@ export default function RecitationExam(props) {
   const closing = function() {
     setDialogOpen(true);
   }
+  const resultAction = function() {
+    let deduction = 0;
+    deductions.cn.forEach(point => deduction+=point);
+    deductions.cv.forEach(point => deduction+=point);
+    history.push({
+      pathname: "/test/result",
+      state: {
+        point : Point - deduction,
+        quest : Source,
+        deductions : deductions
+      }
+    })
+  }
   
   
   return (
     <Container maxWidth="md" className={classes.root_exam}>
-      {/* <RecitationExamPrepareComponent setPrepare={setSource} {...props} /> */}
       <Container maxWidth="md" className={classes.container_exam}>
         <div className={classes.timeline}>
           <TimeProgress LimitTime={LimitTime} timeOutFunc={closing}/>
@@ -88,7 +101,7 @@ export default function RecitationExam(props) {
         <TestQuestPanel Source={Source} classes={classes} addResultQuestion={addResultQuestion} setDeduction={setDeduction} precedence={propsState.precedence}/>
         <Button className={classes.closing} type="button" variant="contained" color="secondary" onClick={closing}>종료</Button>
       </Container>
-      <TimeoutDialog open={DialogOpen} title="암송 테스트 종료" action={closing} message="암송 테스트가 종료되었습니다. 결과창으로 이동합니다." timerTime={5}/>
+      <TimeoutDialog open={DialogOpen} title="암송 테스트 종료" action={resultAction} message="암송 테스트가 종료되었습니다. 결과창으로 이동합니다." timerTime={5}/>
     </Container>
   )
 } 
