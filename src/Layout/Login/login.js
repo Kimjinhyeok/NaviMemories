@@ -8,9 +8,15 @@ export default function LoginComponent (props) {
 
     const http = Http();
     const useStyles = makeStyles((theme) => ({
-        root : {
+        container_root: {
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center'
+        },
+        content_root : {
             display : 'flex',
-            flexwrap : 'wrap',
+            flexWrap : 'wrap',
             flexDirection : 'column'
         },
         margin : {
@@ -61,33 +67,33 @@ export default function LoginComponent (props) {
                 query : 'auth',
                 data : {
                     id : values.id,
-                    password : values.password
+                    pwd : values.password
                 }
             })
             if(result instanceof Error) {
                 throw new Error("서버와 연결이 지연되고 있습니다. 잠시 후 시도해주세요.")
             }
-            setHeader(result);
+            setHeader(result.data);
             history.push('/recitatoin');
         } catch (error) {
             console.error(error);
         }
     }
     const setHeader = (params) => {
-        var {headers} = params;
-        if(headers.authtoken) {
-            http.setHeader('authToken', headers.authtoken);
+        var token = params;
+        if(token) {
+            http.setHeader('authToken', token);
         } else {
             throw new Error("로그인 처리가 정상적으로 수행되지 않았습니다. 다시 시도해주세요");
         }
     }
 
     return (
-        <Container maxWidth="sm">
+        <Container maxWidth="sm" className={classes.container_root}>
             <Card>
                 <CardHeader title="Navigators 암송 커뮤니티" className={classes.title}/>
                 <CardContent>
-                    <div className={classes.root}>
+                    <div className={classes.content_root}>
                         <FormControl className={clsx(classes.margin, classes.textField)}>
                             <InputLabel htmlFor="login-text-id">ID</InputLabel>
                             <Input

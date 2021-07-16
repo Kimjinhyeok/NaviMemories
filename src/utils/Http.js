@@ -96,10 +96,10 @@ export default function Http() {
     }
   }
   function setHeader(headerName, headerValue) {
-    http.defaults.headers.common[headerName] = headerValue
+    axios.defaults.headers.common[headerName] = headerValue;
   }
   function removeHeader(headerName) {
-    http.defaults.headers.common[headerName] = undefined;
+    axios.defaults.headers.common[headerName] = undefined;
   }
   return ({
     post,
