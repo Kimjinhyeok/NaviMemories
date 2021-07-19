@@ -3,6 +3,8 @@ import { Box, Button, Card, CardActions, CardContent, CardHeader, Container, For
 import { Visibility, VisibilityOff } from '@material-ui/icons'
 import clsx from 'clsx'
 import Http from '../../Utils/Http'
+import { useCookies } from 'react-cookie'
+import jwt from 'jsonwebtoken';
 
 export default function LoginComponent (props) {
 
@@ -44,7 +46,8 @@ export default function LoginComponent (props) {
         password : '',
         id : '',
         showPassword : false,
-    })
+    });
+    const [userName, setUserName] = useCookies({});
 
     const handleChange = (props) => (event) => {
         setValues({...values, [props]: event.target.value });
@@ -73,7 +76,8 @@ export default function LoginComponent (props) {
             if(result instanceof Error) {
                 throw new Error("서버와 연결이 지연되고 있습니다. 잠시 후 시도해주세요.")
             }
-            setHeader(result.data);
+            
+            setUserName(result.data);
             history.push('/recitatoin');
         } catch (error) {
             console.error(error);
