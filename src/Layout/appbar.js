@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import clsx from 'clsx'
 import { Link } from 'react-router-dom'
 import DrawerMenuComponent from './Drawer'
+import Cookies from 'js-cookie'
 
 export default function AppBarComponent(props) {
 
@@ -79,6 +80,8 @@ export default function AppBarComponent(props) {
         }
     }));
     
+    const userName = Cookies.get('username');
+    const isLogin = Cookies.get('authtoken') ? true : false;
     const classes = useStyle();
 
     return (
@@ -99,13 +102,19 @@ export default function AppBarComponent(props) {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" className={classes.title}>Title</Typography>
-                    <Button type="button" color="inherit"><Link to="/login">Login</Link></Button>
+                    {
+                        userName ? 
+                        <span>{userName}님</span>
+                        : 
+                        <Button type="button" color="inherit"><Link to="/login">Login</Link></Button>
+                    }
                 </Toolbar>
             </AppBar>
             <DrawerMenuComponent
                 classes={classes}
                 setOpen={setOpen}
                 open={open}
+                isLogin={isLogin}
                 {...props}
             />
         </div>

@@ -4,12 +4,15 @@ import React from 'react'
 
 export default function DrawerNaviCategoriesComponent(props) {
 
-  const {history, category, classes} = props;
+  const {history, category, classes, isLogin} = props;
   const [open, setopen] = React.useState(false)
   const moveToCategory = function (code) {
     history.push(`/recitation/${code}`)
   }
   const topNaviComponent = function () {
+    if(category.series_code == 500) {
+      if(!isLogin) return <></>;
+    }
     if (!category.children || category.children.length <= 0) {
       return (
         <ListItem button key={category.series_code} onClick={() => {moveToCategory(category.series_code)}} className={classes.nested_1}>

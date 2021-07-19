@@ -15,6 +15,7 @@ export default function DrawerMenuComponent(props) {
   const classes = props.classes;
   const [opened, setCollapseOpened] = useState({recitation: false, cardManage : false, checking : false});
   const setOpen = props.setOpen;
+  const isLogin = props.isLogin;
 
   const handleOpenedClick = (property) => {
       setCollapseOpened({...opened, [property] : !opened[property]})
@@ -58,7 +59,7 @@ export default function DrawerMenuComponent(props) {
           <List>
             {categories.map((ct, idx) => {
               return (
-                <DrawerNaviCategoriesComponent key={idx} category={ct} classes={classes} {...props} />
+                <DrawerNaviCategoriesComponent key={idx} category={ct} classes={classes} isLogin={isLogin} {...props} />
               )
             })}
           </List>
@@ -89,27 +90,29 @@ export default function DrawerMenuComponent(props) {
         {/**
          ********************************  내 카드 관리  *******************************
          */}
-        <ListItem button onClick={() => { handleOpenedClick('cardManage') }}>
-          <ListItemText>내 카드 관리</ListItemText>
-          {opened.cardManage ? <ExpandLess /> : <ExpandMore />}
-        </ListItem>
-        <Collapse in={opened.cardManage} unmountOnExit>
-          <List>
-            <ListItem button key='OYO 입력' onClick={() => {history.push('/template')}} className={classes.nested_1}>
-              <ListItemText primary="OYO 입력" />
-            </ListItem>
-            <ListItem button key='암송카드 관리' onClick={() => {history.push('/')}} className={classes.nested_1}>
-              <ListItemText primary="암송카드 관리" />
-            </ListItem>
-          </List>
-        </Collapse>
-        <Divider />
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
+        {
+          isLogin ? 
+            <>
+              <ListItem button onClick={() => { handleOpenedClick('cardManage') }}>
+                <ListItemText>내 카드 관리</ListItemText>
+                {opened.cardManage ? <ExpandLess /> : <ExpandMore />}
+              </ListItem>
+              <Collapse in={opened.cardManage} unmountOnExit>
+                <List>
+                  <ListItem button key='OYO 입력' onClick={() => {history.push('/template')}} className={classes.nested_1}>
+                    <ListItemText primary="OYO 입력" />
+                  </ListItem>
+                  <ListItem button key='암송카드 관리' onClick={() => {history.push('/')}} className={classes.nested_1}>
+                    <ListItemText primary="암송카드 관리" />
+                  </ListItem>
+                </List>
+              </Collapse>
+              <Divider />
+            </>
+          :
+          <></>
+
+        }
       </List>
     </Drawer>
   )
