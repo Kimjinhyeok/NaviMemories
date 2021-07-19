@@ -2,11 +2,12 @@ import React from 'react';
 import { Accordion, AccordionDetails, AccordionSummary, Checkbox, FormControlLabel, makeStyles } from '@material-ui/core';
 import { ExpandMore } from '@material-ui/icons'
 import Categories from '../Data/categories';
+import Cookies from 'js-cookie';
 
 export default function CategorySelector(props) {
 
   const propsChangeHandle = props.onChange;
-
+  const isLogin = Cookies.get('authtoken') ? true : false;
   const classes = makeStyles(theme => ({
     root: { 
       width: '100%',
@@ -93,7 +94,11 @@ export default function CategorySelector(props) {
     arrayCategory.length > 0 ? 
     <div className={classes.root}>
       {
-        arrayCategory.map((node, idx) => (
+        arrayCategory.map((node, idx) => {
+          if(node.series_code == 500) {
+            if(!isLogin) return <></>
+          }
+          return (
           <Accordion
             key={idx}
             {...( node.children.length == 0 ? {expanded : false} : {})} 
@@ -143,7 +148,7 @@ export default function CategorySelector(props) {
                 : (<></>)
               }
           </Accordion>
-        ))
+        )})
       }
     </div>  
     : <></>

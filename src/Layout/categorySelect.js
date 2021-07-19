@@ -1,4 +1,5 @@
 import { Divider, FormControl, InputLabel, makeStyles, MenuItem, NativeSelect, Select } from '@material-ui/core'
+import Cookies from 'js-cookie';
 import React from 'react'
 import Categories from '../Data/categories'
 
@@ -15,7 +16,7 @@ export default function CategorySelect(props) {
       }
     }
   }))()
-
+  const isLogin = Cookies.get('authtoken') ? true : false;
   const [arrayCategory, setArrayCategory] = React.useState([]);
   React.useEffect(async () => {
     setArrayCategory(Categories);
@@ -29,6 +30,9 @@ export default function CategorySelect(props) {
   const printOptions = function() {
     var optionList = []
     arrayCategory.map((item, parent_idx) => {
+      if(item.series_code == 500) {
+        if(!isLogin) return <></>
+      }
       if(item.children.length > 0) {
         optionList.push(<MenuItem value={item.series_code} key={parent_idx}>{item.series_name}</MenuItem>)
         item.children.forEach((child, children_idx) => {
