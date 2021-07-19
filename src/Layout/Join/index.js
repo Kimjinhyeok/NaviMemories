@@ -10,7 +10,13 @@ export default function JoinComponent(props) {
   const http = Http();
 
   const useStyles = makeStyles((theme) => ({
-    root : {
+    container_root: {
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center'
+    },
+    content_root : {
         display : 'flex',
         flexwrap : 'wrap',
         flexDirection : 'column'
@@ -72,15 +78,22 @@ export default function JoinComponent(props) {
     for(var pt in checkList) {
       if(pt !== 'mobile' && !pt) {
         return false
-      } else if(pt === '') {
-
       }
     }
+    return true;
   }
-  const handleSummit = () => {
+
+  const handleSummit = async function() {
     try {
       if(handleValidate(values)) {
-        var result = http.post({query : 'user/signup', values});
+        var signupValue = {
+          pwd : values.password,
+          id : values.id,
+          name : values.name,
+          email : values.email,
+          mobile : values.mobile,
+        }
+        var result = await http.post({query : 'user/signup', data : signupValue});
 
         history.push('/login');
       }
@@ -92,11 +105,11 @@ export default function JoinComponent(props) {
     history.goBack();
   }
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="sm" className={classes.container_root}>
       <Card>
         <CardHeader title="회원가입" className={classes.title}></CardHeader>
         <CardContent>
-          <div className={classes.root}>
+          <div className={classes.content_root}>
             <TextField
               label="성명"
               value={values.name}
@@ -135,8 +148,8 @@ export default function JoinComponent(props) {
           </div>
         </CardContent>
         <CardActions className={classes.action} disableSpacing={true}>
-          <Button tpye="button" color="secondary" className={classes.subActions} onClick={handleCancel}>취소</Button>
-          <Button type="button" color="primary" variant="contained" className={classes.subActions} onClick={handleSummit}>가입</Button>
+          <Button color="secondary" className={classes.subActions} onClick={handleCancel}>취소</Button>
+          <Button color="primary" variant="contained" className={classes.subActions} onClick={handleSummit}>가입</Button>
         </CardActions>
       </Card>
     </Container>
