@@ -1,4 +1,4 @@
-import { AppBar, Button, IconButton, makeStyles, Toolbar, Typography } from '@material-ui/core'
+import { AppBar, Button, IconButton, makeStyles, Menu, MenuItem, Toolbar, Typography } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
 import React, { useState } from 'react'
 import clsx from 'clsx'
@@ -10,6 +10,7 @@ export default function AppBarComponent(props) {
 
     const drawerWidth = 240;
     
+    const location = props.location;
     const [open, setOpen] = useState(true);
     
     const useStyle = makeStyles((theme) => ({
@@ -83,7 +84,21 @@ export default function AppBarComponent(props) {
     const userName = Cookies.get('username');
     const isLogin = Cookies.get('authtoken') ? true : false;
     const classes = useStyle();
+    const [anchorEl, setAnchorEl] = React.useState(null);
 
+    const handleClick = (event) => {
+      setAnchorEl(event.currentTarget);
+    };
+  
+    const handleClose = () => {
+      setAnchorEl(null);
+    };
+
+    const logout = function() {
+        Cookies.remove('authtoken');
+        Cookies.remove('username');
+        location.reload();
+    }
     return (
         <div className="root">
             <AppBar position="static" 
@@ -104,9 +119,25 @@ export default function AppBarComponent(props) {
                     <Typography variant="h6" className={classes.title}>Title</Typography>
                     {
                         userName ? 
-                        <span>{userName}님</span>
+                        <div>
+                            <Button
+                                aria-controls="simple-menu" 
+                                aria-haspopup="true" 
+                                color="inherit"
+                                onClick={handleClick}
+                            >
+                                {userName}님
+                            </Button>   
+                            <Menu
+                                anchorEl={anchorEl}
+                                open={Boolean(anchorEl)}
+                                onClose={handleClose}
+                            >
+                                <MenuItem onClick={logout}>로그아웃</MenuItem>
+                            </Menu>
+                        </div>
                         : 
-                        <Button type="button" color="inherit"><Link to="/login">Login</Link></Button>
+                        <Button type="button" color="inherit"><Link to="/login">로그인</Link></Button>
                     }
                 </Toolbar>
             </AppBar>
