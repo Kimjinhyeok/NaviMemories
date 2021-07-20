@@ -4,6 +4,7 @@ import { Visibility, VisibilityOff } from '@material-ui/icons'
 import clsx from 'clsx'
 import Http from '../../Utils/Http'
 import Cookies from 'js-cookie'
+import { useSnackbar } from 'notistack'
 
 export default function LoginComponent (props) {
 
@@ -46,6 +47,7 @@ export default function LoginComponent (props) {
         id : '',
         showPassword : false,
     });
+    const { enqueueSnackbar } = useSnackbar();
 
     const handleChange = (props) => (event) => {
         setValues({...values, [props]: event.target.value });
@@ -63,7 +65,10 @@ export default function LoginComponent (props) {
     }
     const handleSummit = async () => {
         try {
-            if(!(values.id) && !(values.password)) return;
+            if(!(values.id) && !(values.password)) {
+                enqueueSnackbar("아이디 또는 비밀번호를 입력해주세요.", {variant: "warning"});
+                return;
+            }
             var result = await http.post({
                 query : 'auth',
                 data : {
@@ -78,15 +83,9 @@ export default function LoginComponent (props) {
             Cookies.set('username', result.data);
             history.push('/recitatoin');
         } catch (error) {
+            const {message} = error.response.data;
+            enqueueSnackbar(message || "로그인 중 오류가 발생했습니다.", {variant : 'error'})
             console.error(error);
-        }
-    }
-    const setHeader = (params) => {
-        var token = params;
-        if(token) {
-            http.setHeader('authToken', token);
-        } else {
-            throw new Error("로그인 처리가 정상적으로 수행되지 않았습니다. 다시 시도해주세요");
         }
     }
 

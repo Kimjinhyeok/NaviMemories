@@ -1,5 +1,6 @@
 import { Button, Card, CardActions, CardContent, CardHeader, Container, makeStyles, TextField } from '@material-ui/core'
 import clsx from 'clsx';
+import { useSnackbar } from 'notistack';
 import React from 'react'
 import Http from '../../Utils/Http';
 import JoinPasswordsComponent from './passwords';
@@ -57,6 +58,7 @@ export default function JoinComponent(props) {
     email : false,
     mobile: false,
   })
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleChange = (props) => (event) => {
     setValues({...values, [props]: event.target.value });
@@ -76,7 +78,7 @@ export default function JoinComponent(props) {
   }
   const handleValidate = (checkList) => {
     for(var pt in checkList) {
-      if(pt !== 'mobile' && !pt) {
+      if(pt !== 'mobile' && !checkList[pt]) {
         return false
       }
     }
@@ -95,9 +97,17 @@ export default function JoinComponent(props) {
         }
         var result = await http.post({query : 'user/signup', data : signupValue});
 
+        if(result instanceof Error) {
+          enqueueSnackbar("회원가입 중 장애가 발생했습니다.", {variant: 'error'});
+          return;
+        } 
         history.push('/login');
+      } else {
+        enqueueSnackbar("필수 입력 항목을 채워주세요.", {variant: 'warning'});
       }
     } catch (error) {
+      const { message } = error.response.data;
+      enqueueSnackbar(message, {variant: 'error'})
       console.error(error);
     }
   }
