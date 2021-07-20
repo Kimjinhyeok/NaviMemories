@@ -24,9 +24,9 @@ function App(props) {
   return (
     <div className="App">
       <Switch>
-        <Route path="/join" render={() => <JoinComponent {...props}/>}></Route>
-        <Route path="/login" render={() => <LoginComponent {...props}/>}></Route>
-        <Route path={["/", "/:path"]} render={() => <MainComponent {...props}/>}></Route>
+        <Route path="/join" render={(props) => <JoinComponent {...props}/>}></Route>
+        <Route path="/login" render={(props) => <LoginComponent {...props}/>}></Route>
+        <Route path={["/", "/:path"]} render={(props) => <MainComponent {...props}/>}></Route>
       </Switch>
     </div>
   );
