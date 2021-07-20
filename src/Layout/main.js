@@ -6,6 +6,7 @@ import RecitationCardListComponent from './Cards';
 import CardTemplateComponent from './cardTemplate';
 import UnitPageComponent from './Check/Unit/unitPage';
 import ExamMainPage from './Check/Exam';
+import IntroPageComponent from './intro.page';
 
 
 export default function MainComponent(props) {
@@ -29,10 +30,11 @@ export default function MainComponent(props) {
             <AppBarComponent {...props}     />
             <Container className={classes.main_content}>
                 <Switch>
-                    <Route path={`${props.params ? props.params.path: ''}/test/:path`} render={props => <ExamMainPage {...props} />} />
-                    <Route path={`${props.params ? props.params.path: ''}/check`} render={props => <UnitPageComponent {...props}/>}/>
-                    <Route path={`${props.params ? props.params.path : ''}/recitation/:code`} render={props => <RecitationCardListComponent {...props} />} />
-                    <Route path={`${props.params ? props.params.path : ''}/template`} render={props => <CardTemplateComponent {...props}/>} />
+                    <Route path="/test/:path" render={props => <ExamMainPage {...props} />} />
+                    <Route path="/check" render={props => <UnitPageComponent {...props}/>}/>
+                    <Route path="/recitation/:code" render={props => <RecitationCardListComponent {...props} />} />
+                    <Route path="/template" render={props => <CardTemplateComponent {...props}/>} />
+                    <Route path="/" render={props => <IntroPageComponent {...props} />} />
                 </Switch>
             </Container>
         </div>

@@ -26,7 +26,7 @@ function App(props) {
       <Switch>
         <Route path="/join" component={JoinComponent}></Route>
         <Route path="/login" component={LoginComponent}></Route>
-        <Route path="/:path" component={MainComponent}></Route>
+        <Route path={["/", "/:path"]} component={MainComponent}></Route>
       </Switch>
     </div>
   );
