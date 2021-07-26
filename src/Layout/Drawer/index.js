@@ -99,10 +99,10 @@ export default function DrawerMenuComponent(props) {
               </ListItem>
               <Collapse in={opened.cardManage} unmountOnExit>
                 <List>
-                  <ListItem button key='OYO 입력' onClick={() => {history.push('/template')}} className={classes.nested_1}>
+                  <ListItem button key='OYO 입력' onClick={() => {history.push('/oyo/template')}} className={classes.nested_1}>
                     <ListItemText primary="OYO 입력" />
                   </ListItem>
-                  <ListItem button key='암송카드 관리' onClick={() => {history.push('/')}} className={classes.nested_1}>
+                  <ListItem button key='암송카드 관리' onClick={() => {history.push('/oyo/manage')}} className={classes.nested_1}>
                     <ListItemText primary="암송카드 관리" />
                   </ListItem>
                 </List>

@@ -3,10 +3,10 @@ import React from 'react'
 import { Route, Switch } from 'react-router';
 import AppBarComponent from './appbar';
 import RecitationCardListComponent from './Cards';
-import CardTemplateComponent from './cardTemplate';
 import UnitPageComponent from './Check/Unit/unitPage';
 import ExamMainPage from './Check/Exam';
 import IntroPageComponent from './intro.page';
+import OYOIndex from './OYO';
 
 
 export default function MainComponent(props) {
@@ -33,7 +33,7 @@ export default function MainComponent(props) {
                     <Route path="/test/:path" render={props => <ExamMainPage {...props} />} />
                     <Route path="/check" render={props => <UnitPageComponent {...props}/>}/>
                     <Route path="/recitation/:code" render={props => <RecitationCardListComponent {...props} />} />
-                    <Route path="/template" render={props => <CardTemplateComponent {...props}/>} />
+                    <Route path="/oyo/:path" render={props => <OYOIndex {...props}/>} />
                     <Route path="/" render={props => <IntroPageComponent {...props} />} />
                 </Switch>
             </Container>

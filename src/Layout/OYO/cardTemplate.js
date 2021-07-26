@@ -1,8 +1,8 @@
 import { Box, Button, Container, Divider, makeStyles, Paper, TextField } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import React from 'react'
-import Http from '../Utils/Http';
-import AutoCompleteBible from './autoCompleteBible';
+import Http from '../../Utils/Http';
+import AutoCompleteBible from '../autoCompleteBible';
 
 export default function CardTemplateComponent(props) {
 
