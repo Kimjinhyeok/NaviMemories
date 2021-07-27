@@ -1,5 +1,6 @@
 import { Box, Button, Container, Divider, makeStyles, Paper, TextField } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import { useSnackbar } from 'notistack';
 import React from 'react'
 import Http from '../../Utils/Http';
 import AutoCompleteBible from '../autoCompleteBible';
@@ -65,6 +66,7 @@ export default function CardTemplateComponent(props) {
     }
   }));
   const classes = useStyle();
+  const {enqueueSnackbar} = useSnackbar();
   const { history } = props;
 
 
@@ -127,6 +129,11 @@ export default function CardTemplateComponent(props) {
     try {
       var result = http.post({ query: "RC/oyo", data: value })
 
+      enqueueSnackbar("새 OYO 카드가 저장되었습니다.", {variant : 'success'});
+
+      if(history.location.state && history.location.state.go) {
+        history.push({pathname : history.location.state.go, state : null});
+      }
       /********** Notice Saved OYO Card **********/
 
       setValue({
@@ -144,7 +151,8 @@ export default function CardTemplateComponent(props) {
         f_verse: false,
         l_verse: false,
         content: false,
-      })
+      });
+
 
     } catch (error) {
       console.error(error);

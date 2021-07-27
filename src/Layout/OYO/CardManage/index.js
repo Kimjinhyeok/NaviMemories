@@ -101,7 +101,9 @@ export default function OYOCardManage(props) {
       enqueueSnackbar(message || "OYO 카드를 불러오는 도중 오류가 발생했습니다.", {variant : 'error'})
     }
   }, [])
-
+  const gotoWrite = function() {
+    history.push('/oyo/template', {go: '/oyo/manage'});
+  }
   const onClickEditCard = function(ev, index, value) {
     ref.current.scrollTo(ev.pageX, ev.clientY);
     setEdit(index, value);
@@ -210,7 +212,7 @@ export default function OYOCardManage(props) {
           variant="contained" 
           color="primary"
           aria-label="create"
-          onClick={() => history.push({pathName: '/oyo/template', state: {go: '/oyo/manage'}})}><AddSharp /></Button>
+          onClick={() => gotoWrite()}><AddSharp /></Button>
       </div>
       {
         dialogOpen ? 
