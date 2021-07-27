@@ -10,7 +10,7 @@ export default function AppBarComponent(props) {
 
     const drawerWidth = 240;
     
-    const location = props.location;
+    const history = props.history;
     const [open, setOpen] = useState(true);
     
     const useStyle = makeStyles((theme) => ({
@@ -97,7 +97,7 @@ export default function AppBarComponent(props) {
     const logout = function() {
         Cookies.remove('authtoken');
         Cookies.remove('username');
-        location.reload();
+        history.push('/');
     }
     return (
         <div className="root">

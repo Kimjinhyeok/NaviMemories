@@ -1,5 +1,5 @@
 import { Container, makeStyles } from '@material-ui/core';
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Route, Switch } from 'react-router';
 import AppBarComponent from './appbar';
 import RecitationCardListComponent from './Cards';
@@ -7,6 +7,8 @@ import UnitPageComponent from './Check/Unit/unitPage';
 import ExamMainPage from './Check/Exam';
 import IntroPageComponent from './intro.page';
 import OYOIndex from './OYO';
+import jwt from 'jsonwebtoken';
+import Cookies from 'js-cookie';
 
 
 export default function MainComponent(props) {
@@ -25,6 +27,20 @@ export default function MainComponent(props) {
         }
     }))
     const classes = useStyle();
+    
+    const checkUserSignuped = function() {
+        var authtoken = Cookies.get('authtoken');
+        var username = Cookies.get('username');
+        if(authtoken && !username) {
+            var decoded = jwt.decode(authtoken);
+            username = decoded.u_n;
+            Cookies.set('username', username);
+        }
+    }
+
+    useEffect(() => {
+        checkUserSignuped();
+    }, [])
     return (
         <div className={classes.root_container}>
             <AppBarComponent {...props}     />
