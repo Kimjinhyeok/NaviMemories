@@ -131,14 +131,14 @@ export default function CheckContentComponent(props) {
           required
           label="주제" 
           className={flags.theme === null ? null : (flags.theme === true ? classes.succeed : classes.failed)}/>
+        <AutoCompleteBible
+          classes={classes}
+          fullWidth={true}
+          defaultValue={origin.bible_code}
+          disabled={true}
+          id="checking_bible"
+        />
         <div className={classes.row_part}>
-          <AutoCompleteBible
-            classes={classes}
-            fullWidth={true}
-            defaultValue={origin.bible_code}
-            disabled={true}
-            id="checking_bible"
-          />
           <TextField type="number" 
             value={value.chapter} 
             variant="outlined" 

@@ -68,15 +68,15 @@ export default function CheckChapterVerseComponent(props) {
           autoComplete="off"
           label="주제" 
           className={flags.theme === null ? null : (flags.theme === true ? classes.succeed : classes.failed)}/>
+        <AutoCompleteBible
+          classes={classes}
+          fullWidth={true}
+          id="checking_bible"
+          className={flags.bible_code === null ? null : (flags.bible_code === true? classes.succeed : classes.failed)}
+          onChange={handleBibleChange}
+          {... (flags.result ? {defaultValue : origin.bible_code } : {})}
+        />
         <div className={classes.row_part}>
-          <AutoCompleteBible
-            classes={classes}
-            fullWidth={true}
-            id="checking_bible"
-            className={flags.bible_code === null ? null : (flags.bible_code === true? classes.succeed : classes.failed)}
-            onChange={handleBibleChange}
-            {... (flags.result ? {defaultValue : origin.bible_code } : {})}
-          />
           <TextField type="number" 
             value={value.chapter} 
             variant="outlined" 
