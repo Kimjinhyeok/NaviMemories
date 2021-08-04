@@ -1,14 +1,27 @@
-import TouchCarousel, { clamp } from 'react-touch-carousel'
-import touchWithMouseHOC from 'react-touch-carousel/lib/touchWithMouseHOC'
 import React from 'react'
-import CarouselContainer from './container'
 import CardHtml from './card_html'
+import { Swiper, SwiperSlide } from 'swiper/react';
 import { makeStyles } from '@material-ui/core'
+import 'swiper/swiper.min.css'
+import "swiper/components/navigation/navigation.min.css"
 
+
+// import Swiper core and required modules
+import SwiperCore, {
+    Navigation
+  } from 'swiper/core';
+  
+  // install Swiper modules
+  SwiperCore.use([Navigation]);
+  
+/**
+ * @typedef CardSlideProps
+ * @property {Array} item
+ * @param {CardSlideProps} props 
+ * @returns 
+ */
 export default function CardSlideComponent(props) {
 
-    const cardSize = 300
-    const carouselWidth = clamp(window.innerWidth, 0, 960)
     const [cardList] = React.useState(props.item)
 
     const useStyle = makeStyles((theme) => ({
@@ -41,10 +54,9 @@ export default function CardSlideComponent(props) {
         carouselCardInner: {
             display: 'flex',
             flexDirection: 'column',
-            width: '290px',
-            height: '290px',
+            width: '400px',
+            height: '400px',
             borderRadius: '5px',
-            // background: '#095080',
             borderColor: theme.palette.primary.main,
             borderWidth: '2px',
             borderStyle: 'solid'
@@ -60,8 +72,8 @@ export default function CardSlideComponent(props) {
         carouselText: {
             display: 'flex',
             flex: 1,
-            flexDirection : 'column',
-            padding: '1em', 
+            flexDirection: 'column',
+            padding: '1em',
             whiteSpace: 'pre-wrap',
             textAlign: 'left',
             color: theme.palette.text.primary,
@@ -80,8 +92,8 @@ export default function CardSlideComponent(props) {
             flex: 1,
         },
         verseText: {
-            marginTop : theme.spacing(1),   
-            flex : 1,
+            marginTop: theme.spacing(1),
+            flex: 1,
         },
         category: {
             color: theme.palette.secondary.main,
@@ -117,24 +129,23 @@ export default function CardSlideComponent(props) {
 
     }))
     const classes = useStyle();
-    function renderContainer(props) {
-        return (<CarouselContainer data={cardList} cardSize={cardSize} carouselWidth={carouselWidth} classes={classes} {...props}></CarouselContainer>)
-    }
-    function renderCard(index, modIndex, cursor) {
-        var item = cardList[modIndex];
+    
+    function renderCard(index, item) {
         return (
-            <CardHtml item={item} key={index} classes={classes} />
+            <SwiperSlide><CardHtml item={item} key={index} classes={classes} /></SwiperSlide>
         )
     }
     return (
         <div className={classes.cardslideContainer}>
-            <TouchCarousel
-                component={touchWithMouseHOC(renderContainer)}
-                cardCount={cardList.length}
-                cardSize={cardSize}
-                renderCard={renderCard}
-                loop={false}
-            ></TouchCarousel>
+            <Swiper 
+                className={classes.carouselContainer}
+                spaceBetween={50}
+                navigation={true} 
+            >
+                {
+                    cardList.length > 0 ? cardList.map((item, idx) => renderCard(idx, item)) : <></>
+                }
+            </Swiper>
         </div>
     )
 }

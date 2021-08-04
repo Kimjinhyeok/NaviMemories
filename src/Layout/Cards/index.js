@@ -62,7 +62,7 @@ export default function RecitationCardListComponent(props) {
     };
   }
   return (
-    <Container aria-label="tabContent" className={classes.tabcontent}>
+    <div aria-label="tabContent" className={classes.tabcontent}>
       {
       cardlist.length > 0 ?
         <>
@@ -91,6 +91,6 @@ export default function RecitationCardListComponent(props) {
         </>
         : <></>
     }
-    </Container>
+    </div>
   )
 }
