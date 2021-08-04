@@ -1,0 +1,530 @@
+[
+    {
+        "bible_code": "01",
+        "bible_name": "창세기",
+        "bible_name_eng": "Genesis",
+        "chapter": "50",
+        "short_name": "창",
+        "short_name_eng": "Gen"
+    },
+    {
+        "bible_code": "02",
+        "bible_name": "출애굽기",
+        "bible_name_eng": "Exodus",
+        "chapter": "40",
+        "short_name": "출",
+        "short_name_eng": "Ex"
+    },
+    {
+        "bible_code": "03",
+        "bible_name": "레위기",
+        "bible_name_eng": "Leviticus",
+        "chapter": "27",
+        "short_name": "레",
+        "short_name_eng": "Lev"
+    },
+    {
+        "bible_code": "04",
+        "bible_name": "민수기",
+        "bible_name_eng": "Numbers",
+        "chapter": "36",
+        "short_name": "민",
+        "short_name_eng": "Num"
+    },
+    {
+        "bible_code": "05",
+        "bible_name": "신명기",
+        "bible_name_eng": "Deuteronomy",
+        "chapter": "34",
+        "short_name": "신",
+        "short_name_eng": "Deut"
+    },
+    {
+        "bible_code": "06",
+        "bible_name": "여호수아",
+        "bible_name_eng": "Joshua",
+        "chapter": "24",
+        "short_name": "수",
+        "short_name_eng": "Josh"
+    },
+    {
+        "bible_code": "07",
+        "bible_name": "사사기",
+        "bible_name_eng": "Judges",
+        "chapter": "21",
+        "short_name": "삿",
+        "short_name_eng": "Judg"
+    },
+    {
+        "bible_code": "08",
+        "bible_name": "룻기",
+        "bible_name_eng": "Ruth",
+        "chapter": "4",
+        "short_name": "룻",
+        "short_name_eng": "Ruth"
+    },
+    {
+        "bible_code": "09",
+        "bible_name": "사무엘상",
+        "bible_name_eng": "1 Samuel",
+        "chapter": "31",
+        "short_name": "삼상",
+        "short_name_eng": "1Sam"
+    },
+    {
+        "bible_code": "10",
+        "bible_name": "사무엘하",
+        "bible_name_eng": "2 Samuel",
+        "chapter": "24",
+        "short_name": "삼하",
+        "short_name_eng": "2Sam"
+    },
+    {
+        "bible_code": "11",
+        "bible_name": "열왕기상",
+        "bible_name_eng": "1 Kings",
+        "chapter": "22",
+        "short_name": "왕상",
+        "short_name_eng": "1Kin"
+    },
+    {
+        "bible_code": "12",
+        "bible_name": "열왕기하",
+        "bible_name_eng": "2 Kings",
+        "chapter": "25",
+        "short_name": "왕하",
+        "short_name_eng": "2Kin"
+    },
+    {
+        "bible_code": "13",
+        "bible_name": "역대상",
+        "bible_name_eng": "1 Chronicles",
+        "chapter": "29",
+        "short_name": "대상",
+        "short_name_eng": "1Chr"
+    },
+    {
+        "bible_code": "14",
+        "bible_name": "역대하",
+        "bible_name_eng": "2 Chronicles",
+        "chapter": "36",
+        "short_name": "대하",
+        "short_name_eng": "2Chr"
+    },
+    {
+        "bible_code": "15",
+        "bible_name": "에스라",
+        "bible_name_eng": "Ezra",
+        "chapter": "10",
+        "short_name": "라",
+        "short_name_eng": "Ezra"
+    },
+    {
+        "bible_code": "16",
+        "bible_name": "느헤미야",
+        "bible_name_eng": "Nehemiah",
+        "chapter": "13",
+        "short_name": "느",
+        "short_name_eng": "Neh"
+    },
+    {
+        "bible_code": "17",
+        "bible_name": "에스더",
+        "bible_name_eng": "Esther",
+        "chapter": "10",
+        "short_name": "더",
+        "short_name_eng": "Esth"
+    },
+    {
+        "bible_code": "18",
+        "bible_name": "욥기",
+        "bible_name_eng": "Job",
+        "chapter": "42",
+        "short_name": "욥",
+        "short_name_eng": "Job"
+    },
+    {
+        "bible_code": "19",
+        "bible_name": "시편",
+        "bible_name_eng": "Psalms",
+        "chapter": "150",
+        "short_name": "시",
+        "short_name_eng": "Ps"
+    },
+    {
+        "bible_code": "20",
+        "bible_name": "잠언",
+        "bible_name_eng": "Proverbs",
+        "chapter": "31",
+        "short_name": "잠",
+        "short_name_eng": "Prov"
+    },
+    {
+        "bible_code": "21",
+        "bible_name": "전도서",
+        "bible_name_eng": "Ecclesiastes",
+        "chapter": "12",
+        "short_name": "전",
+        "short_name_eng": "Eccl"
+    },
+    {
+        "bible_code": "22",
+        "bible_name": "아가",
+        "bible_name_eng": "Song of Solomon",
+        "chapter": "8",
+        "short_name": "아",
+        "short_name_eng": "Song"
+    },
+    {
+        "bible_code": "23",
+        "bible_name": "이사야",
+        "bible_name_eng": "Isaiah",
+        "chapter": "66",
+        "short_name": "사",
+        "short_name_eng": "Is"
+    },
+    {
+        "bible_code": "24",
+        "bible_name": "예레미야",
+        "bible_name_eng": "Jeremiah",
+        "chapter": "52",
+        "short_name": "렘",
+        "short_name_eng": "Jer"
+    },
+    {
+        "bible_code": "25",
+        "bible_name": "예레미야애가",
+        "bible_name_eng": "Lamentations",
+        "chapter": "5",
+        "short_name": "애",
+        "short_name_eng": "Lam"
+    },
+    {
+        "bible_code": "26",
+        "bible_name": "에스겔",
+        "bible_name_eng": "Ezekiel",
+        "chapter": "48",
+        "short_name": "겔",
+        "short_name_eng": "Ezek"
+    },
+    {
+        "bible_code": "27",
+        "bible_name": "다니엘",
+        "bible_name_eng": "Daniel",
+        "chapter": "12",
+        "short_name": "단",
+        "short_name_eng": "Dan"
+    },
+    {
+        "bible_code": "28",
+        "bible_name": "호세아",
+        "bible_name_eng": "Hosea",
+        "chapter": "14",
+        "short_name": "호",
+        "short_name_eng": "Hos"
+    },
+    {
+        "bible_code": "29",
+        "bible_name": "요엘",
+        "bible_name_eng": "Joel",
+        "chapter": "3",
+        "short_name": "욜",
+        "short_name_eng": "Joel"
+    },
+    {
+        "bible_code": "30",
+        "bible_name": "아모스",
+        "bible_name_eng": "Amos",
+        "chapter": "9",
+        "short_name": "암",
+        "short_name_eng": "Amos"
+    },
+    {
+        "bible_code": "31",
+        "bible_name": "오바댜",
+        "bible_name_eng": "Obadiah",
+        "chapter": "1",
+        "short_name": "옵",
+        "short_name_eng": "Obad"
+    },
+    {
+        "bible_code": "32",
+        "bible_name": "요나",
+        "bible_name_eng": "Jonah",
+        "chapter": "4",
+        "short_name": "욘",
+        "short_name_eng": "Jon"
+    },
+    {
+        "bible_code": "33",
+        "bible_name": "미가",
+        "bible_name_eng": "Micah",
+        "chapter": "7",
+        "short_name": "미",
+        "short_name_eng": "Mic"
+    },
+    {
+        "bible_code": "34",
+        "bible_name": "나훔",
+        "bible_name_eng": "Nahum",
+        "chapter": "3",
+        "short_name": "나",
+        "short_name_eng": "Nah"
+    },
+    {
+        "bible_code": "35",
+        "bible_name": "하박국",
+        "bible_name_eng": "Habakkuk",
+        "chapter": "3",
+        "short_name": "합",
+        "short_name_eng": "Hab"
+    },
+    {
+        "bible_code": "36",
+        "bible_name": "스바냐",
+        "bible_name_eng": "Zephaniah",
+        "chapter": "3",
+        "short_name": "습",
+        "short_name_eng": "Zeph"
+    },
+    {
+        "bible_code": "37",
+        "bible_name": "학개",
+        "bible_name_eng": "Haggai",
+        "chapter": "2",
+        "short_name": "학",
+        "short_name_eng": "Hag"
+    },
+    {
+        "bible_code": "38",
+        "bible_name": "스가랴",
+        "bible_name_eng": "Zechariah",
+        "chapter": "14",
+        "short_name": "슥",
+        "short_name_eng": "Zech"
+    },
+    {
+        "bible_code": "39",
+        "bible_name": "말라기",
+        "bible_name_eng": "Malachi",
+        "chapter": "4",
+        "short_name": "말",
+        "short_name_eng": "Mal"
+    },
+    {
+        "bible_code": "40",
+        "bible_name": "마태복음",
+        "bible_name_eng": "Matthew",
+        "chapter": "28",
+        "short_name": "마",
+        "short_name_eng": "Matt"
+    },
+    {
+        "bible_code": "41",
+        "bible_name": "마가복음",
+        "bible_name_eng": "Mark",
+        "chapter": "16",
+        "short_name": "막",
+        "short_name_eng": "Mark"
+    },
+    {
+        "bible_code": "42",
+        "bible_name": "누가복음",
+        "bible_name_eng": "Luke",
+        "chapter": "24",
+        "short_name": "눅",
+        "short_name_eng": "Luke"
+    },
+    {
+        "bible_code": "43",
+        "bible_name": "요한복음",
+        "bible_name_eng": "John",
+        "chapter": "21",
+        "short_name": "요",
+        "short_name_eng": "John"
+    },
+    {
+        "bible_code": "44",
+        "bible_name": "사도행전",
+        "bible_name_eng": "Acts",
+        "chapter": "28",
+        "short_name": "행",
+        "short_name_eng": "Acts"
+    },
+    {
+        "bible_code": "45",
+        "bible_name": "로마서",
+        "bible_name_eng": "Romans",
+        "chapter": "16",
+        "short_name": "롬",
+        "short_name_eng": "Rom"
+    },
+    {
+        "bible_code": "46",
+        "bible_name": "고린도전서",
+        "bible_name_eng": "1 Corinthians",
+        "chapter": "16",
+        "short_name": "고전",
+        "short_name_eng": "1Cor"
+    },
+    {
+        "bible_code": "47",
+        "bible_name": "고린도후서",
+        "bible_name_eng": "2 Corinthians",
+        "chapter": "13",
+        "short_name": "고후",
+        "short_name_eng": "2Cor"
+    },
+    {
+        "bible_code": "48",
+        "bible_name": "갈라디아서",
+        "bible_name_eng": "Galatians",
+        "chapter": "6",
+        "short_name": "갈",
+        "short_name_eng": "Gal"
+    },
+    {
+        "bible_code": "49",
+        "bible_name": "에베소서",
+        "bible_name_eng": "Ephesians",
+        "chapter": "6",
+        "short_name": "엡",
+        "short_name_eng": "Eph"
+    },
+    {
+        "bible_code": "50",
+        "bible_name": "빌립보서",
+        "bible_name_eng": "Philippians",
+        "chapter": "4",
+        "short_name": "빌",
+        "short_name_eng": "Phil"
+    },
+    {
+        "bible_code": "51",
+        "bible_name": "골로새서",
+        "bible_name_eng": "Colossians",
+        "chapter": "4",
+        "short_name": "골",
+        "short_name_eng": "Col"
+    },
+    {
+        "bible_code": "52",
+        "bible_name": "데살로니가전서",
+        "bible_name_eng": "1 Thessalonians",
+        "chapter": "5",
+        "short_name": "살전",
+        "short_name_eng": "1Thess"
+    },
+    {
+        "bible_code": "53",
+        "bible_name": "데살로니가후서",
+        "bible_name_eng": "2 Thessalonians",
+        "chapter": "3",
+        "short_name": "살후",
+        "short_name_eng": "2Thess"
+    },
+    {
+        "bible_code": "54",
+        "bible_name": "디모데전서",
+        "bible_name_eng": "1 Timothy",
+        "chapter": "6",
+        "short_name": "딤전",
+        "short_name_eng": "1Tim"
+    },
+    {
+        "bible_code": "55",
+        "bible_name": "디모데후서",
+        "bible_name_eng": "2 Timothy",
+        "chapter": "4",
+        "short_name": "딤후",
+        "short_name_eng": "2Tim"
+    },
+    {
+        "bible_code": "56",
+        "bible_name": "디도서",
+        "bible_name_eng": "Titus",
+        "chapter": "3",
+        "short_name": "딛",
+        "short_name_eng": "Titus"
+    },
+    {
+        "bible_code": "57",
+        "bible_name": "빌레몬서",
+        "bible_name_eng": "Philemon",
+        "chapter": "1",
+        "short_name": "몬",
+        "short_name_eng": "Philem"
+    },
+    {
+        "bible_code": "58",
+        "bible_name": "히브리서",
+        "bible_name_eng": "Hebrews",
+        "chapter": "13",
+        "short_name": "히",
+        "short_name_eng": "Heb"
+    },
+    {
+        "bible_code": "59",
+        "bible_name": "야고보서",
+        "bible_name_eng": "James",
+        "chapter": "5",
+        "short_name": "약",
+        "short_name_eng": "James"
+    },
+    {
+        "bible_code": "60",
+        "bible_name": "베드로전서",
+        "bible_name_eng": "1 Peter",
+        "chapter": "5",
+        "short_name": "벧전",
+        "short_name_eng": "1Pet"
+    },
+    {
+        "bible_code": "61",
+        "bible_name": "베드로후서",
+        "bible_name_eng": "2 Peter",
+        "chapter": "3",
+        "short_name": "벧후",
+        "short_name_eng": "2Pet"
+    },
+    {
+        "bible_code": "62",
+        "bible_name": "요한일서",
+        "bible_name_eng": "1 John",
+        "chapter": "5",
+        "short_name": "요일",
+        "short_name_eng": "1John"
+    },
+    {
+        "bible_code": "63",
+        "bible_name": "요한이서",
+        "bible_name_eng": "2 John",
+        "chapter": "1",
+        "short_name": "요이",
+        "short_name_eng": "2John"
+    },
+    {
+        "bible_code": "64",
+        "bible_name": "요한삼서",
+        "bible_name_eng": "3 John",
+        "chapter": "1",
+        "short_name": "요삼",
+        "short_name_eng": "3John"
+    },
+    {
+        "bible_code": "65",
+        "bible_name": "유다서",
+        "bible_name_eng": "Jude",
+        "chapter": "1",
+        "short_name": "유",
+        "short_name_eng": "Jude"
+    },
+    {
+        "bible_code": "66",
+        "bible_name": "요한계시록",
+        "bible_name_eng": "Revelation",
+        "chapter": "22",
+        "short_name": "계",
+        "short_name_eng": "Rev"
+    }
+]
