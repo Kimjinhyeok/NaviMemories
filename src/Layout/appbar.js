@@ -82,8 +82,8 @@ export default function AppBarComponent(props) {
         }
     }));
     
-    const userName = Cookies.get('username');
-    const isLogin = Cookies.get('authtoken') ? true : false;
+    const userName = cookies.get('userName');
+    const isLogin = cookies.isLogin();
     const classes = useStyle();
     const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -100,8 +100,7 @@ export default function AppBarComponent(props) {
     };
 
     const logout = function() {
-        Cookies.remove('authtoken');
-        Cookies.remove('username');
+        cookies.reset();
         history.push('/');
     }
     return (

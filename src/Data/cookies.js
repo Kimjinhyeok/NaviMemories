@@ -1,5 +1,6 @@
 import React from 'react'
 import Cookies from 'js-cookie'
+import jwt from 'jsonwebtoken';
 
 /**
  * @typedef page_options
@@ -26,6 +27,11 @@ export default (function() {
 
     if(!configCookie) {
       configCookie = INIT_CONFIG;
+      if(authCookie) {
+        let decoded = jwt.decode(authCookie);
+        let {u_a : userName} = decoded;
+        configCookie.userName = userName;
+      }
       Cookies.set(configCookieName, configCookie);
     } else {
       configCookie = JSON.parse(configCookie);
@@ -57,10 +63,21 @@ export default (function() {
     Cookies.remove(configCookieName);
   }
 
+  function isLogin() {
+    try {
+
+      let decoded = jwt.decode(authCookie) ? true : false;
+      return decoded
+    } catch (error) {
+      return false;
+    }
+  }
+
   init();
   return {
     get,
     set,
-    reset
+    reset,
+    isLogin
   }
 })()
