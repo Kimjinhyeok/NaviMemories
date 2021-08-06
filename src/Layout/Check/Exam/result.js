@@ -43,8 +43,12 @@ export default function RecitationResult(props) {
         fontSize: '1.2em',
       },
       '& .cvn' : {
-        padding : theme.spacing(1)      
-      }
+        padding : theme.spacing(1),      
+        '& .cv': {
+          marginTop : theme.spacing(0.5),
+          marginBottom : theme.spacing(0.5)
+        }
+      },
     },
     questListTitle : {
       position: 'absolute',
@@ -156,8 +160,10 @@ export default function RecitationResult(props) {
       <Paper elevation={1} key={index} className="quest_item">
         <div className="theme">{item.theme}</div>
         <div className="cvn">
-          <span>{getBibleName(item)}</span>
-          <span>{item.chapter}</span>&nbsp;<span>:</span>&nbsp;<span>{item.f_verse}</span><span>{item.l_verse ? `~ ${item.l_verse}` : ""}</span>
+          <div className="cv">
+            <span>{getBibleName(item)}</span>&nbsp;
+            <span>{item.chapter}</span>&nbsp;<span>:</span>&nbsp;<span>{item.f_verse}</span><span>{item.l_verse ? ` ~ ${item.l_verse}` : ""}</span>
+          </div>
           <div>
             {item.content}
           </div>
