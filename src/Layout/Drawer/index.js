@@ -6,6 +6,7 @@ import ExpandMore from '@material-ui/icons/ExpandMore'
 import Categories from '../../Data/categories'
 import DrawerNaviCategoriesComponent from './drawerNaviCategories'
 import Cookie from '../../Data/cookies';
+import cookies from '../../Data/cookies'
 
 export default function DrawerMenuComponent(props) {
 
@@ -13,7 +14,7 @@ export default function DrawerMenuComponent(props) {
   const history = props.history;
   const classes = props.classes;
   const [opened, setCollapseOpened] = useState({ recitation: false, cardManage: false, checking: false });
-  const [BibleVersion, setBibleVersion] = useState(false)
+  const [BibleVersion, setBibleVersion] = useState(cookies.get('bibleVersion'));
   const setOpen = props.setOpen;
   const isLogin = props.isLogin;
 
