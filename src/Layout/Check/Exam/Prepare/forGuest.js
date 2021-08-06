@@ -1,7 +1,8 @@
-import { Button, Card, CardActions, CardContent, CardHeader, FormControl, FormControlLabel, FormLabel, makeStyles, Radio, RadioGroup } from '@material-ui/core'
+import { Button, Card, CardActions, CardContent, CardHeader, Container, FormControl, FormControlLabel, FormLabel, makeStyles, Radio, RadioGroup } from '@material-ui/core'
 import React from 'react'
-import AlertDialog from '../../../alertDialog';
+import AlertDialog from '../../../Dialog/alertDialog';
 import CategorySelector from '../../../categorySelector';
+import cookies from '../../../../Data/cookies';
 
 export default function PrepareForGuest(props) {
 
@@ -50,7 +51,7 @@ export default function PrepareForGuest(props) {
       }
     },
   }))();
-  const [options, setOptions] = React.useState(initialOption);
+  const [options, setOptions] = React.useState({...initialOption, version : cookies.get('bibleVersion') ? 'gae' : 'kor'});
 
   const handleChangeSeries = function (seriesList) {
     setOptions({
@@ -67,42 +68,58 @@ export default function PrepareForGuest(props) {
     });
   }, [options.series])
 
+  const loadingCardList = async function() {
+
+    history.push({
+      pathname : '/test/loading',
+      state : { 
+        mode : "v",
+        path: '/test/exam',
+        version : options.version,
+        include242 : options.include242,
+        themeOf242 : options.themeOf242,
+        series : options.series,
+        precedence : options.precedence
+      }
+    });
+  }
   return (
-    <Card>
-      { options.alert ?
-        <AlertDialog
-          agreeAction={() => { setOptions({ ...options, alert: false }) }}
-          disagreeAction={() => { history.goBack(); }}
-          title="비회원 암송 테스트 안내"
-          message="비회원 암송 테스트는 OYO 카드가 적용되지 않으며 실제 암송 테스트와 다른 결과가 나올 수 있습니다. 진행 하시겠습니까?"
-          open={options.alert}
-        /> : <></>}
-      <CardHeader title="비회원 암송 테스트" />
-      <CardContent className={classes.prepare_content}>
-        <div>
-          <CategorySelector onChange={handleChangeSeries} />
-        </div>
-        {
-          options.include242 ?
-            (
-              <div className={classes.prepare_form}>
-                <FormControl>
-                  <FormLabel component="legend">242 주제 포함</FormLabel>
-                  <RadioGroup value={options.themeOf242} onChange={event => { setOptions({ ...options, themeOf242: event.target.value }) }}>
-                    <FormControlLabel value="true" control={<Radio />} label="네" />
-                    <FormControlLabel value="false" control={<Radio />} label="아니요" />
-                  </RadioGroup>
-                </FormControl>
-              </div>
-            )
-            : <></>
-        }
-        <div className={classes.prepare_form}>
-          <FormControl>
-            <FormLabel component="legend">선행 문제 선택</FormLabel>
+    <Container maxWidth="sm">
+      <Card>
+        {options.alert ?
+          <AlertDialog
+            agreeAction={() => { setOptions({ ...options, alert: false }) }}
+            disagreeAction={() => { history.goBack(); }}
+            title="암송 모의 테스트 안내"
+            message="암송 모의 테스트는 OYO 카드가 적용되지 않으며 실제 암송 테스트와 다른 결과가 나올 수 있습니다. 진행 하시겠습니까?"
+            open={options.alert}
+          /> : <></>}
+        <CardHeader title="암송 모의 테스트" />
+        <CardContent className={classes.prepare_content}>
+          <div>
+            <CategorySelector onChange={handleChangeSeries} />
+          </div>
+          {
+            options.include242 ?
+              (
+                <div className={classes.prepare_form}>
+                  <FormControl>
+                    <FormLabel component="legend">242 주제 포함</FormLabel>
+                    <RadioGroup value={options.themeOf242} onChange={event => { setOptions({ ...options, themeOf242: event.target.value }) }}>
+                      <FormControlLabel value="true" control={<Radio />} label="네" />
+                      <FormControlLabel value="false" control={<Radio />} label="아니요" />
+                    </RadioGroup>
+                  </FormControl>
+                </div>
+              )
+              : <></>
+          }
+          <div className={classes.prepare_form}>
+            <FormControl>
+              <FormLabel component="legend">선행 문제 선택</FormLabel>
               <RadioGroup
                 value={options.precedence}
-                onChange={(event) => {setOptions({...options, precedence : event.target.value})}}>
+                onChange={(event) => { setOptions({ ...options, precedence: event.target.value }) }}>
                 <FormControlLabel
                   label="내용"
                   value="cn"
@@ -114,29 +131,30 @@ export default function PrepareForGuest(props) {
                   control={<Radio />}
                 />
               </RadioGroup>
-          </FormControl>
-          <FormControl>
-            <FormLabel component="legend">역본 선택</FormLabel>
-            <RadioGroup
-              value={options.version}
-              onChange={(event) => { setOptions({ ...options, version: event.target.value }) }}>
-              <FormControlLabel
-                label="개역한글"
-                value="kor"
-                control={<Radio />}
-              />
-              <FormControlLabel
-                label="개역개정"
-                value="gae"
-                control={<Radio />}
-              />
-            </RadioGroup>
-          </FormControl>
-        </div>
-      </CardContent>
-      <CardActions className={classes.prepare_actions}>
-        <Button type="button" variant="contained" color="primary">다음</Button>
-      </CardActions>
-    </Card>
+            </FormControl>
+            <FormControl>
+              <FormLabel component="legend">역본 선택</FormLabel>
+              <RadioGroup
+                value={options.version}
+                onChange={(event) => { setOptions({ ...options, version: event.target.value }) }}>
+                <FormControlLabel
+                  label="개역한글"
+                  value="kor"
+                  control={<Radio />}
+                />
+                <FormControlLabel
+                  label="개역개정"
+                  value="gae"
+                  control={<Radio />}
+                />
+              </RadioGroup>
+            </FormControl>
+          </div>
+        </CardContent>
+        <CardActions className={classes.prepare_actions}>
+          <Button type="button" variant="contained" color="primary" onClick={loadingCardList}>다음</Button>
+        </CardActions>
+      </Card>
+    </Container>
   )
 }

@@ -42,16 +42,21 @@ export default function RecitationLoading(props) {
   }, [])
 
   async function loadingVerses() {
-    let {version, include242, participation} = state;
+    let {mode, version, include242 } = state;
 
+    let data = {
+      version: version,
+      include242: include242
+    }
+    if(mode == "v") {
+      data.series = state.series.toString(",");
+    } else {
+      data.participation = state.participation;
+    }
     var http = Http();
     var res = await http.get({
-      query : "/exam/mem",
-      data: {
-        participation: participation,
-        version: version,
-        include242: include242
-      }
+      query : `exam/${mode === "v" ? "guest": "mem"}`,
+      data: data
     });
 
     var cardList = devideCardList(res.data);
