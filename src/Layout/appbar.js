@@ -1,10 +1,11 @@
 import { AppBar, Button, IconButton, makeStyles, Menu, MenuItem, Toolbar, Typography } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import clsx from 'clsx'
 import { Link } from 'react-router-dom'
 import DrawerMenuComponent from './Drawer'
 import Cookies from 'js-cookie'
+import cookies from '../Data/cookies'
 
 export default function AppBarComponent(props) {
 
@@ -86,6 +87,10 @@ export default function AppBarComponent(props) {
     const classes = useStyle();
     const [anchorEl, setAnchorEl] = React.useState(null);
 
+    useEffect(() => {
+        let collapseDrawer = cookies.get('collapseDrawer');
+        setOpen(collapseDrawer);        
+    }, [])
     const handleClick = (event) => {
       setAnchorEl(event.currentTarget);
     };
@@ -111,7 +116,7 @@ export default function AppBarComponent(props) {
                     <IconButton
                         edge="start"
                         className={clsx(classes.menuButton, open && classes.hide)}
-                        onClick={() => { setOpen(true) }}
+                        onClick={() => { setOpen(true); cookies.set('collapseDrawer', true) }}
                         color="inherit"
                         aria-label="menu">
                         <MenuIcon />
