@@ -1,10 +1,11 @@
 import { AppBar, Button, IconButton, makeStyles, Menu, MenuItem, Toolbar, Typography } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import clsx from 'clsx'
 import { Link } from 'react-router-dom'
 import DrawerMenuComponent from './Drawer'
 import Cookies from 'js-cookie'
+import cookies from '../Data/cookies'
 
 export default function AppBarComponent(props) {
 
@@ -81,11 +82,15 @@ export default function AppBarComponent(props) {
         }
     }));
     
-    const userName = Cookies.get('username');
-    const isLogin = Cookies.get('authtoken') ? true : false;
+    const userName = cookies.get('userName');
+    const isLogin = cookies.isLogin();
     const classes = useStyle();
     const [anchorEl, setAnchorEl] = React.useState(null);
 
+    useEffect(() => {
+        let collapseDrawer = cookies.get('collapseDrawer');
+        setOpen(collapseDrawer);        
+    }, [])
     const handleClick = (event) => {
       setAnchorEl(event.currentTarget);
     };
@@ -95,8 +100,7 @@ export default function AppBarComponent(props) {
     };
 
     const logout = function() {
-        Cookies.remove('authtoken');
-        Cookies.remove('username');
+        cookies.reset();
         history.push('/');
     }
     return (
@@ -111,7 +115,7 @@ export default function AppBarComponent(props) {
                     <IconButton
                         edge="start"
                         className={clsx(classes.menuButton, open && classes.hide)}
-                        onClick={() => { setOpen(true) }}
+                        onClick={() => { setOpen(true); cookies.set('collapseDrawer', true) }}
                         color="inherit"
                         aria-label="menu">
                         <MenuIcon />

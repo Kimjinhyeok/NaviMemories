@@ -5,6 +5,7 @@ import clsx from 'clsx'
 import Http from '../../Utils/Http'
 import Cookies from 'js-cookie'
 import { useSnackbar } from 'notistack'
+import cookies from '../../Data/cookies'
 
 export default function LoginComponent (props) {
 
@@ -80,7 +81,7 @@ export default function LoginComponent (props) {
                 throw new Error("서버와 연결이 지연되고 있습니다. 잠시 후 시도해주세요.")
             }
             
-            Cookies.set('username', result.data);
+            cookies.set('userName', result.data);
             history.push('/recitatoin');
         } catch (error) {
             const {message} = error.response.data;
