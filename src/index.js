@@ -5,13 +5,23 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
+
+const theme = createMuiTheme({
+  typography: {
+    fontFamily: '"Noto Sans KR", serif',
+  },
+});
 
 ReactDOM.render(
-  <BrowserRouter>
-    <SnackbarProvider maxSnack={3}>
-      <App />
-    </SnackbarProvider>
-  </BrowserRouter>,
+  <MuiThemeProvider theme={theme}>
+    <BrowserRouter>
+      <SnackbarProvider maxSnack={3}>
+        <App />
+      </SnackbarProvider>
+    </BrowserRouter>
+  </MuiThemeProvider>
+  ,
   document.getElementById('root')
 );
 
