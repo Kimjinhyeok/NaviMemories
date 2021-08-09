@@ -175,12 +175,14 @@ export default function CheckContentComponent(props) {
           }
         </div>
         <div className={classes.action_button}>
-          <Button type="button" variant="outlined" color="default" onClick={() => {handleHint()}}>힌트</Button>
           {
             flags.result ? 
-            <Button type="button" variant="contained" color="primary" onClick={() => {handleOnRefresh()}}><Refresh />재도전</Button>
+              <Button type="button" variant="contained" color="primary" onClick={() => {handleOnRefresh()}}><Refresh />재도전</Button>
             :
-            <Button type="button" variant="contained" color="primary" onClick={() => {handleOnClick()}}>확인</Button>
+            <>
+              <Button type="button" variant="outlined" color="default" onClick={() => {handleHint()}}>힌트</Button>
+              <Button type="button" variant="contained" color="primary" onClick={() => {handleOnClick()}}>확인</Button>
+            </>
           }
           
         </div>
