@@ -246,7 +246,7 @@ export default function UnitPageComponent(props) {
     setoptions({ ...options, index: 0 })
   }
   return (
-    <Container className={classes.root_unit} >
+    <div className={classes.root_unit} >
 
       <Button type="button" color="default" className={classes.moveButton}
         onClick={() => { setCardContent(options.index - 1) }} disabled={options.index == 0} title="이전 문제"><ArrowBackIos /></Button>
@@ -286,6 +286,6 @@ export default function UnitPageComponent(props) {
       </div>
       <Button type="button" color="default" className={classes.moveButton}
         onClick={() => { setCardContent(options.index + 1) }} disabled={options.index == cardList.length - 1} title="다음 문제"><ArrowForwardIos /></Button>
-    </Container>
+    </div>
   )
 }
