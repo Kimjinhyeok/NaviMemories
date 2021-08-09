@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react'
 import clsx from 'clsx'
 import { Link } from 'react-router-dom'
 import DrawerMenuComponent from './Drawer'
-import Cookies from 'js-cookie'
 import cookies from '../Data/cookies'
 
 export default function AppBarComponent(props) {
@@ -33,7 +32,15 @@ export default function AppBarComponent(props) {
             }),
         },
         title: {
-            flexGrow: 1
+            flexGrow: 1,
+            overflow: 'hidden',
+            whiteSpace: 'nowrap',
+            textOverflow: 'ellipsis',
+        },
+        username: {
+            overflow: 'hidden',
+            whiteSpace: 'nowrap',
+            textOverflow: 'ellipsis',
         },
         menuButton: {
             marginRight: theme.spacing(2),
@@ -130,7 +137,7 @@ export default function AppBarComponent(props) {
                                 color="inherit"
                                 onClick={handleClick}
                             >
-                                {userName}님
+                                <span className={classes.username}>{userName}</span>님
                             </Button>   
                             <Menu
                                 anchorEl={anchorEl}
