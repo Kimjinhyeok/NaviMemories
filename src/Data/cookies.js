@@ -29,7 +29,7 @@ export default (function() {
       configCookie = INIT_CONFIG;
       if(authCookie) {
         let decoded = jwt.decode(authCookie);
-        let {u_a : userName} = decoded;
+        let {u_n : userName} = decoded;
         configCookie.userName = userName;
       }
       Cookies.set(configCookieName, configCookie);
