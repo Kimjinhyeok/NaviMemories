@@ -120,7 +120,7 @@ export default function AppBarComponent(props) {
                         aria-label="menu">
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" className={classes.title}>Title</Typography>
+                    <Typography variant="h6" className={classes.title}><Link to="/" >Navigator Bible Recitation</Link></Typography>
                     {
                         userName ? 
                         <div>

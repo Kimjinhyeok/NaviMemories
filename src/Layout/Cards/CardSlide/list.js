@@ -81,6 +81,7 @@ export default function CardSlideComponent(props) {
         chapterLayer: {
             display: 'flex',
             flexDirection: 'row',
+            alignContent: 'center',
             marginBottom: '5px',
         },
         bibleName: {
