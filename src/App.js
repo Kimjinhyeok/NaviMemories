@@ -11,7 +11,7 @@ const styles = makeStyles(theme => ({
       width: '4px',
     },
     '*::-webkit-scrollbar-track': {
-      backgroundColor: 'transparent'
+      backgroundColor: "#e8eaf6a5"
     },
     '*::-webkit-scrollbar-thumb': {
       borderRadius: '3px',
