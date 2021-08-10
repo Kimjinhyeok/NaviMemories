@@ -20,7 +20,7 @@ export default function OYOCardForView(props) {
         <span aria-label="oyo_chapter_colon">:</span>
         <span aria-label="oyo_f_verse">{v.f_verse}</span>
         {
-          v.l_verse ? (<span aria-label="oyo_l_verse">{v.l_verse}</span>) : <></>
+          v.l_verse ? (<span aria-label="oyo_l_verse">~ {v.l_verse}</span>) : <></>
         }
       </div>
       <div className="cn">
