@@ -8,12 +8,14 @@ import "swiper/components/navigation/navigation.min.css"
 
 // import Swiper core and required modules
 import SwiperCore, {
-    Navigation
+    Navigation,
+    Virtual
   } from 'swiper/core';
   
   // install Swiper modules
-  SwiperCore.use([Navigation]);
+  SwiperCore.use([Navigation, Virtual]);
   
+const UNIT_SIZE = 30;
 /**
  * @typedef CardSlideProps
  * @property {Array} item
@@ -22,7 +24,7 @@ import SwiperCore, {
  */
 export default function CardSlideComponent(props) {
 
-    const [cardList] = React.useState(props.item)
+    const originCardList = props.item;
 
     const useStyle = makeStyles((theme) => ({
         cardslideContainer: {
@@ -128,20 +130,37 @@ export default function CardSlideComponent(props) {
             }
         },
 
-    }))
+    }));
+    const [CardIndex, setCardIndex] = React.useState(originCardList.length > UNIT_SIZE ? UNIT_SIZE : originCardList.length );
+    const [cardList, setCardList] = React.useState(originCardList.slice(0, CardIndex));
     const classes = useStyle();
     
     function renderCard(index, item) {
         return (
-            <SwiperSlide><CardHtml item={item} key={index} classes={classes} /></SwiperSlide>
+            <SwiperSlide virtualIndex={'v'+index}><CardHtml item={item} key={index} classes={classes} /></SwiperSlide>
         )
+    }
+    const onSlideNextTransition = function(swipeInfo) {
+        let { activeIndex } = swipeInfo;
+        /**
+         * 카드가 한계치에 왔을 때 임의치를 더 가져오거나 마무리를 가져온다.
+         */
+        if( activeIndex >= (CardIndex-1) && CardIndex != originCardList.length) {
+            let pinIndex = CardIndex + UNIT_SIZE > originCardList.length ? CardIndex + UNIT_SIZE : originCardList.length
+            let dumyCardList = cardList.concat(originCardList.slice(CardIndex+1, pinIndex));
+            setCardList(dumyCardList);
+            setCardIndex(pinIndex)
+        }
     }
     return (
         <div className={classes.cardslideContainer}>
             <Swiper 
+                id="card_swiper"
                 className={classes.carouselContainer}
                 spaceBetween={50}
                 navigation={true} 
+                onSlideNextTransitionStart={onSlideNextTransition}
+                virtual
             >
                 {
                     cardList.length > 0 ? cardList.map((item, idx) => renderCard(idx, item)) : <></>
