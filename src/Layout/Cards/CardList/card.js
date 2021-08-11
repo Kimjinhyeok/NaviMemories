@@ -1,7 +1,7 @@
 import { Box, Card, CardContent, CardHeader, makeStyles, Typography } from '@material-ui/core'
 import React, { Fragment, useState } from 'react'
 
-export default function CardComponent (props) {
+function CardComponent (props, ref) {
     
     const useStyles = makeStyles((theme) => ({
         root : {
@@ -49,7 +49,7 @@ export default function CardComponent (props) {
         verse_kor : props.item.verse_kor,
     })
     return (
-        <Card className={classes.root}>
+        <Card className={classes.root} ref={ref}>
             <CardHeader title={memory.theme} className={classes.title}>
                 <Box component="span">
                     <Typography color="textPrimary">{memory.theme}</Typography>
@@ -70,3 +70,5 @@ export default function CardComponent (props) {
         </Card>
     )
 }
+
+export default React.forwardRef(CardComponent);
