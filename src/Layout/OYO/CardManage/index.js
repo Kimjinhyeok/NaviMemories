@@ -124,7 +124,7 @@ export default function OYOCardManage(props) {
     var { index, value : target } = delTarget.current;
 
     try {
-      var res = await http.delete({query: `RC/oyo/${target.id}`});
+      var res = await http.delete({query: `RC/oyo/${target.card_num}`});
       if(res instanceof Error) {
         throw res;
       }
@@ -152,7 +152,7 @@ export default function OYOCardManage(props) {
     try {
       
       var res = await http.put({
-        query : `RC/oyo/${origin.id}`,
+        query : `RC/oyo/${origin.card_num}`,
         data : {
           theme : state.theme,
           bible_code : state.bible_code,
