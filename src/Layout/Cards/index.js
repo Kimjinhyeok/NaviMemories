@@ -1,8 +1,9 @@
 import { AppBar, Container, makeStyles, Tab, Tabs } from '@material-ui/core';
+import { useSnackbar } from 'notistack';
 import React from 'react'
 import Http from '../../Utils/Http';
 import CardListComponent from './CardList/list';
-import CardSlideComponent from './CardSlide/list';
+import CardSlideComponent from './CardSlide/slide';
 
 export default function RecitationCardListComponent(props) {
 
@@ -25,12 +26,14 @@ export default function RecitationCardListComponent(props) {
   const classes = useStyle();
   const http = Http();
   const [value, setvalue] = React.useState(0);
+  const { enqueueSnackbar } = useSnackbar();
   
   const handleChange = function (event, newValue) {
     setvalue(newValue);
   }
 
   const [cardlist, setCardList] = React.useState([])
+  const [InitSlide, setInitSlide] = React.useState(0)
 
   React.useEffect(async () => {
     var location = props.location.pathname;
@@ -61,6 +64,25 @@ export default function RecitationCardListComponent(props) {
       'aria-controls': `full-width-tabpanel-${index}`,
     };
   }
+
+  async function updatePassed(event, memory) {
+    try {
+      var checked = event.target.checked;
+      var { card_num, series_code } = memory;
+      await http.put({
+        query: `RC/passed/${series_code}/${card_num}`, 
+        data: {
+          recitation_status : checked
+      }});
+
+      var itemIndex = cardlist.findIndex(item => item.series_code == memory.series_code && item.card_num == memory.card_num);
+      setCardList([...cardlist.slice(0, itemIndex), {...memory, passed : checked}, ...cardlist.slice(itemIndex+1)]);
+      setInitSlide(itemIndex);
+    } catch (error) {
+      console.error(error);
+      enqueueSnackbar("암송 처리 도중 장애가 발생했습니다.", {variant : 'error'})
+    }
+  }
   return (
     <div aria-label="tabContent" className={classes.tabcontent}>
       {
@@ -69,10 +91,10 @@ export default function RecitationCardListComponent(props) {
           <div className={classes.flowPanel}>
             <div className={classes.tabPanels}>
               <TabPanel value={value} index={0} className={classes.tabPanel}>
-                <CardSlideComponent item={cardlist} {...props} />
+                <CardSlideComponent item={cardlist} initSlide={InitSlide} updatePassed={updatePassed} {...props} />
               </TabPanel>
               <TabPanel value={value} index={1} className={classes.tabPanel}>
-                <CardListComponent item={cardlist} {...props} />
+                <CardListComponent item={cardlist} updatePassed={updatePassed} {...props} />
               </TabPanel>
             </div>
           </div>

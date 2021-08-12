@@ -4,16 +4,19 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { makeStyles } from '@material-ui/core'
 import 'swiper/swiper.min.css'
 import "swiper/components/navigation/navigation.min.css"
+import "swiper/components/scrollbar/scrollbar.min.css"
 
 
 // import Swiper core and required modules
 import SwiperCore, {
+    Mousewheel,
     Navigation,
-    Virtual
+    Scrollbar,
+    Virtual,
   } from 'swiper/core';
-  
+
   // install Swiper modules
-  SwiperCore.use([Navigation, Virtual]);
+  SwiperCore.use([Navigation, Virtual, Scrollbar, Mousewheel]);
   
 const UNIT_SIZE = 30;
 /**
@@ -25,7 +28,7 @@ const UNIT_SIZE = 30;
 export default function CardSlideComponent(props) {
 
     const originCardList = props.item;
-
+    const initSlide = props.initSlide;
     const useStyle = makeStyles((theme) => ({
         cardslideContainer: {
             height: '100%'
@@ -48,7 +51,7 @@ export default function CardSlideComponent(props) {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            textAlign: 'center',
+            // textAlign: 'center',
             borderRadius: '5px',
             '-webkit-tap-highlight-color': 'transparent',
         },
@@ -56,6 +59,7 @@ export default function CardSlideComponent(props) {
         carouselCardInner: {
             display: 'flex',
             flexDirection: 'column',
+            position: 'relative',
             width: '400px',
             height: '400px',
             borderRadius: '5px',
@@ -65,17 +69,19 @@ export default function CardSlideComponent(props) {
         },
 
         carouselTitle: {
-            paddingTop: theme.spacing(1),
-            paddingBottom: theme.spacing(1),
+            marginTop: theme.spacing(2),
+            marginBottom : theme.spacing(1),
+            marginLeft: theme.spacing(2),
             fontSize: '1.5em',
-            backgroundColor: theme.palette.primary.main,
-            color: 'white'
+            // backgroundColor: theme.palette.primary.main,
+            // color: 'white'
         },
         carouselText: {
             display: 'flex',
             flex: 1,
             flexDirection: 'column',
             padding: '1em',
+            paddingTop : 0,
             whiteSpace: 'pre-wrap',
             textAlign: 'left',
             color: theme.palette.text.primary,
@@ -129,15 +135,20 @@ export default function CardSlideComponent(props) {
                 background: 'white',
             }
         },
-
+        option : {
+            position: 'absolute',
+            right : theme.spacing(2),
+            // top : theme.spacing(2)
+        }
     }));
     const [CardIndex, setCardIndex] = React.useState(originCardList.length > UNIT_SIZE ? UNIT_SIZE : originCardList.length );
     const [cardList, setCardList] = React.useState(originCardList.slice(0, CardIndex));
+    const [SwiperIndex, setSwiperIndex] = React.useState(0);
     const classes = useStyle();
-    
+
     function renderCard(index, item) {
         return (
-            <SwiperSlide virtualIndex={'v'+index}><CardHtml item={item} key={index} classes={classes} /></SwiperSlide>
+            <SwiperSlide virtualIndex={'v'+index} key={index}><CardHtml item={item} key={index} classes={classes} updatePassed={props.updatePassed}/></SwiperSlide>
         )
     }
     const onSlideNextTransition = function(swipeInfo) {
@@ -145,6 +156,7 @@ export default function CardSlideComponent(props) {
         /**
          * 카드가 한계치에 왔을 때 임의치를 더 가져오거나 마무리를 가져온다.
          */
+        setSwiperIndex(activeIndex);
         if( activeIndex >= (CardIndex-1) && CardIndex != originCardList.length) {
             let pinIndex = CardIndex + UNIT_SIZE > originCardList.length ? CardIndex + UNIT_SIZE : originCardList.length
             let dumyCardList = cardList.concat(originCardList.slice(CardIndex+1, pinIndex));
@@ -152,18 +164,21 @@ export default function CardSlideComponent(props) {
             setCardIndex(pinIndex)
         }
     }
+
     return (
         <div className={classes.cardslideContainer}>
             <Swiper 
-                id="card_swiper"
+                initialSlide={initSlide}
                 className={classes.carouselContainer}
                 spaceBetween={50}
                 navigation={true} 
+                scrollbar={{draggable : true}}
+                mousewheel={true}
                 onSlideNextTransitionStart={onSlideNextTransition}
                 virtual
             >
                 {
-                    cardList.length > 0 ? cardList.map((item, idx) => renderCard(idx, item)) : <></>
+                    originCardList.length > 0 ? originCardList.map((item, idx) => renderCard(idx, item)) : <></>
                 }
             </Swiper>
         </div>
