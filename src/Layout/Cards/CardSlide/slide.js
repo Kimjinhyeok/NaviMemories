@@ -70,7 +70,6 @@ export default function CardSlideComponent(props) {
 
         carouselTitle: {
             marginTop: theme.spacing(2),
-            marginBottom : theme.spacing(1),
             marginLeft: theme.spacing(2),
             fontSize: '1.5em',
             // backgroundColor: theme.palette.primary.main,
@@ -81,7 +80,6 @@ export default function CardSlideComponent(props) {
             flex: 1,
             flexDirection: 'column',
             padding: '1em',
-            paddingTop : 0,
             whiteSpace: 'pre-wrap',
             textAlign: 'left',
             color: theme.palette.text.primary,
