@@ -1,6 +1,6 @@
 import { AppBar, Button, IconButton, makeStyles, Menu, MenuItem, Toolbar, Typography } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import clsx from 'clsx'
 import { Link } from 'react-router-dom'
 import DrawerMenuComponent from './Drawer'
@@ -11,7 +11,6 @@ export default function AppBarComponent(props) {
     const drawerWidth = 240;
     
     const history = props.history;
-    const [open, setOpen] = useState(true);
     
     const useStyle = makeStyles((theme) => ({
         root: {
@@ -92,12 +91,9 @@ export default function AppBarComponent(props) {
     const userName = cookies.get('userName');
     const isLogin = cookies.isLogin();
     const classes = useStyle();
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [open, setOpen] = useState(cookies.get('collapseDrawer'));
 
-    useEffect(() => {
-        let collapseDrawer = cookies.get('collapseDrawer');
-        setOpen(collapseDrawer);        
-    }, [])
     const handleClick = (event) => {
       setAnchorEl(event.currentTarget);
     };
@@ -109,6 +105,7 @@ export default function AppBarComponent(props) {
     const logout = function() {
         cookies.reset();
         history.push('/');
+        window.location.reload();
     }
     return (
         <div className="root">
