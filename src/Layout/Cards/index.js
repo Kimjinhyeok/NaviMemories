@@ -128,7 +128,7 @@ export default function RecitationCardListComponent(props) {
       }
     });
     cpList.sort((a,b) => {
-      return a[sortType] > b[sortType] ? 1 : -1;
+      return a[sortType] > b[sortType] ? 1 : (a[sortType] == b[sortType] ? 0 : -1)
     });
 
     setCardList(cpList);
