@@ -155,14 +155,14 @@ export default function ExamContentComponent(props) {
             ) : <></>
         }
 
+        <AutoCompleteBible
+          classes={classes}
+          fullWidth={true}
+          defaultValue={quest.bible_code}
+          disabled={true}
+          id="checking_bible"
+        />
         <div className={classes.row_part}>
-          <AutoCompleteBible
-            classes={classes}
-            fullWidth={true}
-            defaultValue={quest.bible_code}
-            disabled={true}
-            id="checking_bible"
-          />
           <TextField type="number"
             value={state.value.chapter}
             variant="outlined"

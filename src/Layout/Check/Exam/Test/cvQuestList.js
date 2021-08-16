@@ -19,7 +19,7 @@ export default function CVQuestList(props) {
 
   const classes = makeStyles((theme) => ({
     root : {
-      height: '80%',
+      height: '75vh',
       display: 'flex',
       flexDirection: 'column'
     },
@@ -162,7 +162,7 @@ export default function CVQuestList(props) {
 
   return (
     StateList.length > 0 ? 
-    <Container maxWidth="md" className={classes.root}> 
+    <div className={classes.root}> 
       <div className={classes.root_checking}>
         <div className={classes.questionIndex}>
           <span>(</span><span>{QuestionIndex+1}</span><span>/</span><span>{origins.length}</span><span>)</span>
@@ -180,7 +180,7 @@ export default function CVQuestList(props) {
         <Button type="button" color="primary" variant="outlined" disabled={QuestionIndex == 0} onClick={() => {changeQuestionIndex(-1)}} ><ArrowLeft />이전 문제</Button>
         <Button type="button" color="primary" variant="outlined" disabled={QuestionIndex >= origins.length-1} onClick={() => {changeQuestionIndex(1)}} >다음 문제 <ArrowRight/></Button>
       </div>
-    </Container>
+    </div>
     : <></>
   )
 }

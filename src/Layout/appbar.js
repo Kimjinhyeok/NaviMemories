@@ -1,10 +1,9 @@
 import { AppBar, Button, IconButton, makeStyles, Menu, MenuItem, Toolbar, Typography } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import clsx from 'clsx'
 import { Link } from 'react-router-dom'
 import DrawerMenuComponent from './Drawer'
-import Cookies from 'js-cookie'
 import cookies from '../Data/cookies'
 
 export default function AppBarComponent(props) {
@@ -12,7 +11,6 @@ export default function AppBarComponent(props) {
     const drawerWidth = 240;
     
     const history = props.history;
-    const [open, setOpen] = useState(true);
     
     const useStyle = makeStyles((theme) => ({
         root: {
@@ -33,7 +31,15 @@ export default function AppBarComponent(props) {
             }),
         },
         title: {
-            flexGrow: 1
+            flexGrow: 1,
+            overflow: 'hidden',
+            whiteSpace: 'nowrap',
+            textOverflow: 'ellipsis',
+        },
+        username: {
+            overflow: 'hidden',
+            whiteSpace: 'nowrap',
+            textOverflow: 'ellipsis',
         },
         menuButton: {
             marginRight: theme.spacing(2),
@@ -85,12 +91,9 @@ export default function AppBarComponent(props) {
     const userName = cookies.get('userName');
     const isLogin = cookies.isLogin();
     const classes = useStyle();
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [open, setOpen] = useState(cookies.get('collapseDrawer'));
 
-    useEffect(() => {
-        let collapseDrawer = cookies.get('collapseDrawer');
-        setOpen(collapseDrawer);        
-    }, [])
     const handleClick = (event) => {
       setAnchorEl(event.currentTarget);
     };
@@ -102,6 +105,7 @@ export default function AppBarComponent(props) {
     const logout = function() {
         cookies.reset();
         history.push('/');
+        window.location.reload();
     }
     return (
         <div className="root">
@@ -130,7 +134,7 @@ export default function AppBarComponent(props) {
                                 color="inherit"
                                 onClick={handleClick}
                             >
-                                {userName}님
+                                <span className={classes.username}>{userName}</span>님
                             </Button>   
                             <Menu
                                 anchorEl={anchorEl}

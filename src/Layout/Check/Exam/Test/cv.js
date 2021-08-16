@@ -95,16 +95,16 @@ export default function ExamChapterVerseComponent(props) {
                 className={state.flags.theme === null ? null : (state.flags.theme === true ? classes.succeed : classes.failed)} />
             ) : <></>
         }
+        <AutoCompleteBible
+          classes={classes}
+          fullWidth={true}
+          id="checking_bible"
+          className={state.flags.bible_code === null ? null : (state.flags.bible_code === true ? classes.succeed : classes.failed)}
+          onChange={handleBibleChange}
+          onFocus={handleFocus('bible_code')}
+          {... (state.flags.result ? { defaultValue: quest.bible_code } : {})}
+        />
         <div className={classes.row_part}>
-          <AutoCompleteBible
-            classes={classes}
-            fullWidth={true}
-            id="checking_bible"
-            className={state.flags.bible_code === null ? null : (state.flags.bible_code === true ? classes.succeed : classes.failed)}
-            onChange={handleBibleChange}
-            onFocus={handleFocus('bible_code')}
-            {... (state.flags.result ? { defaultValue: quest.bible_code } : {})}
-          />
           <TextField type="number"
             value={state.value.chapter}
             variant="outlined"

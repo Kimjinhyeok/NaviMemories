@@ -93,15 +93,15 @@ export default function RecitationExam(props) {
   
   
   return (
-    <Container maxWidth="md" className={classes.root_exam}>
-      <Container maxWidth="md" className={classes.container_exam}>
+    <div className={classes.root_exam}>
+      <div className={classes.container_exam}>
         <div className={classes.timeline}>
           <TimeProgress LimitTime={LimitTime} timeOutFunc={closing}/>
         </div>
         <TestQuestPanel Source={Source} classes={classes} addResultQuestion={addResultQuestion} setDeduction={setDeduction} precedence={propsState.precedence}/>
         <Button className={classes.closing} type="button" variant="contained" color="secondary" onClick={closing}>종료</Button>
-      </Container>
+      </div>
       <TimeoutDialog open={DialogOpen} title="암송 테스트 종료" action={resultAction} message="암송 테스트가 종료되었습니다. 결과창으로 이동합니다." timerTime={5}/>
-    </Container>
+    </div>
   )
 } 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Collapse, Divider, Drawer, IconButton, List, ListItem, Switch, ListItemSecondaryAction, ListItemText, ListSubheader } from '@material-ui/core'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ExpandLess from '@material-ui/icons/ExpandLess'
@@ -7,6 +7,7 @@ import Categories from '../../Data/categories'
 import DrawerNaviCategoriesComponent from './drawerNaviCategories'
 import Cookie from '../../Data/cookies';
 import cookies from '../../Data/cookies'
+import { Context, UserConfigAction } from '../../Utils/Context'
 
 export default function DrawerMenuComponent(props) {
 
@@ -14,7 +15,8 @@ export default function DrawerMenuComponent(props) {
   const history = props.history;
   const classes = props.classes;
   const [opened, setCollapseOpened] = useState({ recitation: false, cardManage: false, checking: false });
-  const [BibleVersion, setBibleVersion] = useState(cookies.get('bibleVersion'));
+
+  const {state : {version : BibleVersion}, dispatch} = useContext(Context);
   const setOpen = props.setOpen;
   const isLogin = props.isLogin;
 
@@ -23,8 +25,8 @@ export default function DrawerMenuComponent(props) {
   }
   const handleBibleVersion = () => {
     let value = !BibleVersion;
-    setBibleVersion(value);
     Cookie.set('bibleVersion', value);
+    dispatch({type : UserConfigAction, payload : value})
   }
 
   const [categories, setCategories] = useState([]);

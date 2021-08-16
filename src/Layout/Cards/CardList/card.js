@@ -1,72 +1,49 @@
-import { Box, Card, CardContent, CardHeader, makeStyles, Typography } from '@material-ui/core'
-import React, { Fragment, useState } from 'react'
+import { Box, Card, CardContent, Checkbox, FormControlLabel, makeStyles, Typography } from '@material-ui/core'
+import React, { Fragment } from 'react'
+import cookies from '../../../Data/cookies';
 
-export default function CardComponent (props) {
+function CardComponent (props, ref) {
     
-    const useStyles = makeStyles((theme) => ({
-        root : {
-            margin : theme.spacing(2)
-        },
-        title : {
-            backgroundColor : theme.palette.primary.main,
-            color : theme.palette.primary.contrastText
-        },
-        c_content : {
-            display : 'flex',
-            flexDirection : 'column',
-            textAlign : 'left',
-            marginTop : theme.spacing(1),
-            marginBottom : theme.spacing(1)
-        },
-        bible_code : {
-            marginRight : theme.spacing(1)
-        },
-        chapter : {
-            display : 'flex',
-            flexDirection : 'row',
-        },
-        verse_text : {
-            marginTop : theme.spacing(1),
-            marginBottom : theme.spacing(1)
-        },
-        category : {
-            textAlign : 'end',
-            color : theme.palette.secondary.light
-        }
-    }))
-    const classes = useStyles();
-    const [memory] = useState({
-        bible_code : props.item.bible_code,
-        bible_name : props.item.bible_name,
-        card_num : props.item.card_num,
-        category : props.item.category,
-        chapter : props.item.chapter,
-        f_verse : props.item.f_verse,
-        l_verse : props.item.l_verse,
-        series_code : props.item.series_code,
-        theme : props.item.theme,
-        verse_gae : props.item.verse_gae,
-        verse_kor : props.item.verse_kor,
-    })
+    const { item, classes, updatePassed, version } = props;
     return (
-        <Card className={classes.root}>
-            <CardHeader title={memory.theme} className={classes.title}>
-                <Box component="span">
-                    <Typography color="textPrimary">{memory.theme}</Typography>
-                </Box>
-            </CardHeader>
+        <Card className={classes.root} ref={ref}>
             <CardContent className={classes.c_content}>
+                {
+                    item.theme ? 
+                        <div className={classes.title}>
+                            {item.theme}
+                        </div>
+                    :
+                        <></>
+                }
                 <Box className={classes.chapter}>
-                    <Typography className={classes.bible_code}>{memory.bible_name}</Typography>
-                    <Typography>{memory.chapter}</Typography>:
-                    <Typography>{memory.f_verse}</Typography>
+                    <Typography className={classes.bible_code}>{item.bible_name}</Typography>
+                    <Typography>{item.chapter}</Typography>:
+                    <Typography>{item.f_verse}</Typography>
                     {
-                        memory.l_verse ? <Fragment>~ <Typography>{memory.l_verse}</Typography></Fragment> : <></>
+                        item.l_verse ? <Fragment>~ <Typography>{item.l_verse}</Typography></Fragment> : <></>
                     }
                 </Box>
-                <Box className={classes.verse_text}>{memory.verse_gae}</Box>
-                <Box className={classes.category}>{memory.category}</Box>
+                <Box className={classes.verse_text}>{version ? item.verse_gae : (item.verse_kor || item.verse_gae)}</Box>
+                <Box className={classes.category}>{item.category}</Box>
             </CardContent>
+            {
+                cookies.isLogin() ?
+                    <div className={classes.options}>
+                        <FormControlLabel
+                            checked={(item.passed === null || item.passed === undefined) ? false : item.passed}
+                            value={(item.passed === null || item.passed === undefined) ? false : item.passed}
+                            control={<Checkbox color="primary" />}
+                            label="암송"
+                            labelPlacement="start"
+                            onChange={(ev) => updatePassed(ev, item)}
+                            />
+                    </div>
+                :   <></>
+
+            }
         </Card>
     )
 }
+
+export default React.forwardRef(CardComponent);

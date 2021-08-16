@@ -1,17 +1,20 @@
 import { Button, Card, CardActions, CardContent, CardHeader, FormControl, FormControlLabel, FormLabel, InputAdornment, makeStyles, Radio, RadioGroup, TextField } from '@material-ui/core'
-import React from 'react';
+import React, { useContext } from 'react';
+import { Context } from '../../../../Utils/Context';
 import Http from '../../../../Utils/Http';
 
 export default function PrepareForMember(props) {
 
   const history = props.history;
   const http = Http();
+  
+  const {state : {version}} = useContext(Context);
   const InitOptions = {
     participation: 100,
     include242: "yes",        //with 242 verse
     themeOf242: "yes",
     precedence: "cn",
-    version: "gae"
+    version: version ? 'gae' : 'kor'
   }
 
   const [options, setOptions] = React.useState(InitOptions);

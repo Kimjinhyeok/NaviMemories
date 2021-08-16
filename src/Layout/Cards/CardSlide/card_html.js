@@ -1,38 +1,48 @@
+import { Checkbox, FormControlLabel } from '@material-ui/core';
 import React from 'react'
+import cookies from '../../../Data/cookies';
 export default function CardHtml(props) {
 
-    const [memory] = React.useState({
-        bible_code: props.item.bible_code,
-        bible_name: props.item.bible_name,
-        card_num: props.item.card_num,
-        category: props.item.category,
-        chapter: props.item.chapter,
-        f_verse: props.item.f_verse,
-        l_verse: props.item.l_verse,
-        series_code: props.item.series_code,
-        theme: props.item.theme,
-        verse_gae: props.item.verse_gae,
-        verse_kor: props.item.verse_kor,
-    });
-    const { classes } = props;
+    const { item, classes, updatePassed, version} = props;
 
     return (
         <div className={classes.carouselCard}>
             <div className={classes.carouselCardInner}>
-                <div className={classes.carouselTitle}>{memory.theme}</div>
+                {
+                    item.theme ? 
+                        <div className={classes.carouselTitle}>{item.theme}</div>
+                    :
+                        <></>
+                }
                 <div className={classes.carouselText}>
                     <div className={classes.chapterLayer}>
-                        <div className={classes.bibleName}>{memory.bible_name}</div>
-                        <div className={classes.chapter}>{memory.chapter}</div>
+                        <div className={classes.bibleName}>{item.bible_name}</div>
+                        <div className={classes.chapter}>{item.chapter}</div>
                         <span>:</span>
                         <div className={classes.verses}>
-                            <span>{memory.f_verse}</span>
-                            {memory.l_verse ? <div><span>~</span><span>{memory.l_verse}</span></div> : <></>}
+                            <span>{item.f_verse}</span>
+                            {item.l_verse ? <div><span>~</span><span>{item.l_verse}</span></div> : <></>}
                         </div>
                     </div>
-                    <div className={classes.verseText}><div>{memory.verse_gae}</div></div>
-                    <div className={classes.category}>{memory.category}</div>
+                    <div className={classes.verseText}><div>{version ? item.verse_gae : (item.verse_kor || item.verse_gae)}</div></div>
+                    <div className={classes.category}>{item.category}</div>
                 </div>
+                {
+                    cookies.isLogin() ?
+                        <div className={classes.option}>
+                            <FormControlLabel
+                                checked={(item.passed === null || item.passed === undefined) ? false : item.passed}
+                                value={(item.passed === null || item.passed === undefined) ? false : item.passed}
+                                control={<Checkbox color="primary" />}
+                                label="암송"
+                                labelPlacement="start"
+                                onChange={(ev) => updatePassed(ev, item)}
+                            />
+                        </div>
+                    :
+                        <></>
+
+                }
             </div>
         </div>
     )

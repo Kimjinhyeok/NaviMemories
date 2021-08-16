@@ -83,6 +83,7 @@ export default function LoginComponent (props) {
             
             cookies.set('userName', result.data);
             history.push('/recitatoin');
+            window.location.reload();
         } catch (error) {
             const {message} = error.response.data;
             enqueueSnackbar(message || "로그인 중 오류가 발생했습니다.", {variant : 'error'})

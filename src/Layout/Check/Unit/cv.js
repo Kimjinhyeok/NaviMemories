@@ -31,11 +31,13 @@ export default function CheckChapterVerseComponent(props) {
   }
   const handleOnClick = function () {
     var res = {
-      theme : value.theme === origin.theme,
       bible_code: value.bible_code == origin.bible_code,
       chapter: value.chapter == origin.chapter,
       f_verse: value.f_verse == origin.f_verse
     };
+    if(origin.theme) {
+      res.theme = value.theme === origin.theme;
+    }
     if(origin.l_verse || value.l_verse) {
       res.l_verse = value.l_verse == origin.l_verse;
     }
@@ -67,6 +69,7 @@ export default function CheckChapterVerseComponent(props) {
           required  
           autoComplete="off"
           label="주제" 
+          disabled={!origin.theme}
           className={flags.theme === null ? null : (flags.theme === true ? classes.succeed : classes.failed)}/>
         <AutoCompleteBible
           classes={classes}

@@ -30,12 +30,15 @@ export default function CheckContentComponent(props) {
   
   const handleOnClick = function () {
     var res = {
-      theme : value.theme === origin.theme,
       content : value.content == origin.content,
       result : true
     };
-    if(value.theme !== origin.theme) {
-      setValue({...value, theme: origin.theme})
+    if(origin.theme) {
+      
+      res.theme = value.theme === origin.theme;
+      if(value.theme !== origin.theme) {
+        setValue({...value, theme: origin.theme})
+      }
     }
     setFlags({
       ...flags,
@@ -130,6 +133,7 @@ export default function CheckContentComponent(props) {
           autoComplete="off"
           required
           label="주제" 
+          disabled={!origin.theme}
           className={flags.theme === null ? null : (flags.theme === true ? classes.succeed : classes.failed)}/>
         <AutoCompleteBible
           classes={classes}
@@ -175,12 +179,14 @@ export default function CheckContentComponent(props) {
           }
         </div>
         <div className={classes.action_button}>
-          <Button type="button" variant="outlined" color="default" onClick={() => {handleHint()}}>힌트</Button>
           {
             flags.result ? 
-            <Button type="button" variant="contained" color="primary" onClick={() => {handleOnRefresh()}}><Refresh />재도전</Button>
+              <Button type="button" variant="contained" color="primary" onClick={() => {handleOnRefresh()}}><Refresh />재도전</Button>
             :
-            <Button type="button" variant="contained" color="primary" onClick={() => {handleOnClick()}}>확인</Button>
+            <>
+              <Button type="button" variant="outlined" color="default" onClick={() => {handleHint()}}>힌트</Button>
+              <Button type="button" variant="contained" color="primary" onClick={() => {handleOnClick()}}>확인</Button>
+            </>
           }
           
         </div>
