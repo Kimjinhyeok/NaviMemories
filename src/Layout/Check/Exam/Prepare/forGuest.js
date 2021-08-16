@@ -1,8 +1,9 @@
 import { Button, Card, CardActions, CardContent, CardHeader, Container, FormControl, FormControlLabel, FormLabel, makeStyles, Radio, RadioGroup } from '@material-ui/core'
-import React from 'react'
+import React, { useContext } from 'react'
 import AlertDialog from '../../../Dialog/alertDialog';
 import CategorySelector from '../../../categorySelector';
 import cookies from '../../../../Data/cookies';
+import { Context } from '../../../../Utils/Context';
 
 export default function PrepareForGuest(props) {
 
@@ -51,7 +52,8 @@ export default function PrepareForGuest(props) {
       }
     },
   }))();
-  const [options, setOptions] = React.useState({...initialOption, version : cookies.get('bibleVersion') ? 'gae' : 'kor'});
+  const {state : {version}} = useContext(Context);
+  const [options, setOptions] = React.useState({...initialOption, version: version ? 'gae' : 'kor'});
 
   const handleChangeSeries = function (seriesList) {
     setOptions({
