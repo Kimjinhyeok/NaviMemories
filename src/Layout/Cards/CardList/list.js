@@ -1,6 +1,7 @@
-import React, { useLayoutEffect, useMemo } from 'react'
+import React, { useContext, useLayoutEffect, useMemo } from 'react'
 import CardComponent from './card';
 import { Container, makeStyles } from '@material-ui/core';
+import { Context } from '../../../Utils/Context';
 
 const UNIT_SIZE = 10;
 export default function CardListComponent (props) {
@@ -53,6 +54,7 @@ export default function CardListComponent (props) {
     const containerRef = React.useRef(null);
     const target = React.useRef(null);
 
+    const {state : {version}} = useContext(Context);
     const findFirstElementInViewPort = elements =>
         Array.prototype.find.call(
         elements,
@@ -114,7 +116,7 @@ export default function CardListComponent (props) {
             {
                 cardList.map((item, idx) => {
                     const lastEl = idx === CardIndex - 1;
-                    return <CardComponent item={item} key={idx} ref={lastEl ? target : null} classes={classes} updatePassed={props.updatePassed}></CardComponent>
+                    return <CardComponent item={item} key={idx} ref={lastEl ? target : null} classes={classes}  version={version} updatePassed={props.updatePassed}></CardComponent>
                 })
             }
         </Container>

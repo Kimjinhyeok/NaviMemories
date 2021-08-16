@@ -48,7 +48,7 @@ export default function RecitationCardListComponent(props) {
   const [Options, setOptions] = React.useState({
     sort : category >= 500 ? 'create_at' : 'category',
     filter : 'all',
-  })
+  });
 
   React.useEffect(async () => {
     var location = props.location.pathname;

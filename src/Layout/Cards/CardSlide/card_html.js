@@ -3,7 +3,7 @@ import React from 'react'
 import cookies from '../../../Data/cookies';
 export default function CardHtml(props) {
 
-    const { item, classes, updatePassed } = props;
+    const { item, classes, updatePassed, version} = props;
 
     return (
         <div className={classes.carouselCard}>
@@ -24,7 +24,7 @@ export default function CardHtml(props) {
                             {item.l_verse ? <div><span>~</span><span>{item.l_verse}</span></div> : <></>}
                         </div>
                     </div>
-                    <div className={classes.verseText}><div>{item.verse_gae}</div></div>
+                    <div className={classes.verseText}><div>{version ? item.verse_gae : (item.verse_kor || item.verse_gae)}</div></div>
                     <div className={classes.category}>{item.category}</div>
                 </div>
                 {

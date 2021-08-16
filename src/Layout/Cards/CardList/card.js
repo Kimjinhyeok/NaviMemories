@@ -4,7 +4,7 @@ import cookies from '../../../Data/cookies';
 
 function CardComponent (props, ref) {
     
-    const { item, classes, updatePassed } = props;
+    const { item, classes, updatePassed, version } = props;
     return (
         <Card className={classes.root} ref={ref}>
             <CardContent className={classes.c_content}>
@@ -24,7 +24,7 @@ function CardComponent (props, ref) {
                         item.l_verse ? <Fragment>~ <Typography>{item.l_verse}</Typography></Fragment> : <></>
                     }
                 </Box>
-                <Box className={classes.verse_text}>{item.verse_gae}</Box>
+                <Box className={classes.verse_text}>{version ? item.verse_gae : (item.verse_kor || item.verse_gae)}</Box>
                 <Box className={classes.category}>{item.category}</Box>
             </CardContent>
             {

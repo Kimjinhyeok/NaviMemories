@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import CardHtml from './card_html'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { makeStyles } from '@material-ui/core'
@@ -14,6 +14,7 @@ import SwiperCore, {
     Scrollbar,
     Virtual,
   } from 'swiper/core';
+import { Context } from '../../../Utils/Context';
 
   // install Swiper modules
   SwiperCore.use([Navigation, Virtual, Scrollbar, Mousewheel]);
@@ -144,10 +145,12 @@ export default function CardSlideComponent(props) {
     const [cardList, setCardList] = React.useState(originCardList.slice(0, CardIndex));
     const classes = useStyle();
 
+    const {state : {version}} = useContext(Context);
+
     function renderCard(index, item) {
         return (
             <SwiperSlide virtualIndex={'v'+index} key={index}>
-                <CardHtml item={item} key={index} classes={classes} updatePassed={props.updatePassed}/>
+                <CardHtml item={item} key={index} classes={classes} version={version} updatePassed={props.updatePassed}/>
             </SwiperSlide>
         )
     }
