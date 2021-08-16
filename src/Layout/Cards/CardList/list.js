@@ -45,8 +45,8 @@ export default function CardListComponent (props) {
         },
         options : {
             position: 'absolute',
-            right: theme.spacing(2),
-            top: theme.spacing(1)
+            right: theme.spacing(1),
+            top: 0
         }
     }));
     const classes = useStyle();

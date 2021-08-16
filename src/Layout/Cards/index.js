@@ -1,6 +1,8 @@
-import { AppBar, Container, makeStyles, Tab, Tabs } from '@material-ui/core';
+import { AppBar, Container, FormControl, FormGroup, InputLabel, makeStyles, MenuItem, Select, Tab, Tabs } from '@material-ui/core';
 import { useSnackbar } from 'notistack';
-import React from 'react'
+import React, { useRef } from 'react'
+import { useParams } from 'react-router';
+import cookies from '../../Data/cookies';
 import Http from '../../Utils/Http';
 import CardListComponent from './CardList/list';
 import CardSlideComponent from './CardSlide/slide';
@@ -8,8 +10,15 @@ import CardSlideComponent from './CardSlide/slide';
 export default function RecitationCardListComponent(props) {
 
   const useStyle = makeStyles((theme) => ({
+    options : {
+      flexDirection: 'row',
+      marginTop : theme.spacing(1),
+      '& > .MuiFormControl-root': {
+        flex: 50
+      }
+    },
     tabcontent : {
-      height : '100%',
+      height : 'calc(100% - 50px)',
     },
     flowPanel : {
       maxHeight : 'calc(100% - 48px)',
@@ -26,20 +35,27 @@ export default function RecitationCardListComponent(props) {
   const classes = useStyle();
   const http = Http();
   const [value, setvalue] = React.useState(0);
+  const originList = useRef([]);
+  const category = Number(props.match.params.category);
   const { enqueueSnackbar } = useSnackbar();
   
   const handleChange = function (event, newValue) {
     setvalue(newValue);
   }
 
-  const [cardlist, setCardList] = React.useState([])
-  const [InitSlide, setInitSlide] = React.useState(0)
+  const [cardlist, setCardList] = React.useState([]);
+  const InitSlide = React.useRef(0);
+  const [Options, setOptions] = React.useState({
+    sort : category >= 500 ? 'create_at' : 'category',
+    filter : 'all',
+  })
 
   React.useEffect(async () => {
     var location = props.location.pathname;
-    var code = props.match.params.code;
-    var response = await http.get({query : `RC/${code}`});
+    var response = await http.get({query : `RC/${category}`});
     var recvCardList = response.data;
+
+    originList.current = recvCardList;
     setCardList(recvCardList)
 
     props.history.push(location);
@@ -77,21 +93,80 @@ export default function RecitationCardListComponent(props) {
 
       var itemIndex = cardlist.findIndex(item => item.series_code == memory.series_code && item.card_num == memory.card_num);
       setCardList([...cardlist.slice(0, itemIndex), {...memory, passed : checked}, ...cardlist.slice(itemIndex+1)]);
-      setInitSlide(itemIndex);
+      InitSlide.current = itemIndex;
     } catch (error) {
       console.error(error);
       enqueueSnackbar("암송 처리 도중 장애가 발생했습니다.", {variant : 'error'})
     }
   }
+
+  const updateOptions = (property) => (event) => {
+    let newOptions = {...Options, [property] : event.target.value};
+    setOptions(newOptions);
+
+    let sortType = "";
+    switch(newOptions.sort) {
+      case 'createAt' :
+        sortType = 'create_at';
+        break;
+      case 'category' :
+        sortType = 'series_code';
+        break;
+      case 'bible_code' :
+        sortType = 'bible_code';
+        break;
+    }
+    
+    let cpList = originList.current.filter(item => {
+      switch(newOptions.filter) {
+        case 'all' :
+          return true;
+        case 'memorized':
+          return item.passed;
+        case 'non_memorized':
+          return !item.passed;
+      }
+    });
+    cpList.sort((a,b) => {
+      return a[sortType] > b[sortType] ? 1 : -1;
+    });
+
+    setCardList(cpList);
+  }
   return (
     <div aria-label="tabContent" className={classes.tabcontent}>
+      <Container maxWidth="sm">
+        <FormGroup className={classes.options}>
+          <FormControl variant="standard">
+            <InputLabel>정렬</InputLabel>
+            <Select value={Options.sort} onChange={(e) => updateOptions('sort')(e)}>
+              <MenuItem value={category >= 500 ? "createAt" : "category"}>{category >= 500 ? "등록순" : "시리즈순"}</MenuItem>
+              <MenuItem value="bible_code">성경순</MenuItem>
+            </Select>
+          </FormControl>
+          {
+            cookies.isLogin() ? 
+              <FormControl variant="standard">
+                <InputLabel>필터</InputLabel>
+                <Select value={Options.filter} onChange={(e) => updateOptions('filter')(e)}>
+                  <MenuItem value="all">전체</MenuItem>
+                  <MenuItem value="memorized">암송</MenuItem>
+                  <MenuItem value="non_memorized">미암송</MenuItem>
+                </Select>
+              </FormControl>
+            :
+              <></>
+
+          }
+        </FormGroup>
+      </Container>
       {
       cardlist.length > 0 ?
         <>
           <div className={classes.flowPanel}>
             <div className={classes.tabPanels}>
               <TabPanel value={value} index={0} className={classes.tabPanel}>
-                <CardSlideComponent item={cardlist} initSlide={InitSlide} updatePassed={updatePassed} {...props} />
+                <CardSlideComponent item={cardlist} initSlide={InitSlide.current} setInitSlide={(val) => InitSlide.current = val} updatePassed={updatePassed} {...props} />
               </TabPanel>
               <TabPanel value={value} index={1} className={classes.tabPanel}>
                 <CardListComponent item={cardlist} updatePassed={updatePassed} {...props} />

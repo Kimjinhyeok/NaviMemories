@@ -48,7 +48,7 @@ export default function MainComponent(props) {
                 <Switch>
                     <Route path="/test/:path" render={props => <ExamMainPage {...props} />} />
                     <Route path="/check" render={props => <UnitPageComponent {...props}/>}/>
-                    <Route path="/recitation/:code" render={props => <RecitationCardListComponent {...props} />} />
+                    <Route path="/recitation/:category" render={props => <RecitationCardListComponent {...props} />} />
                     <Route path="/oyo/:path" render={props => <OYOIndex {...props}/>} />
                     <Route path="/" render={props => <IntroPageComponent {...props} />} />
                 </Switch>
