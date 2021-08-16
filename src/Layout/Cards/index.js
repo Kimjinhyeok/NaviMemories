@@ -32,6 +32,17 @@ export default function RecitationCardListComponent(props) {
       height: '100%'
     }
   }));
+
+  const SortOption = {
+    createAt : 'createAt',
+    category : 'category',
+    bible_code : 'bible_code'
+  };
+  const SortProperty = {
+    createAt : 'create_at',
+    category : 'series_code',
+    bible_code : 'bible_code'
+  }
   const classes = useStyle();
   const http = Http();
   const [value, setvalue] = React.useState(0);
@@ -46,7 +57,7 @@ export default function RecitationCardListComponent(props) {
   const [cardlist, setCardList] = React.useState([]);
   const InitSlide = React.useRef(0);
   const [Options, setOptions] = React.useState({
-    sort : category >= 500 ? 'create_at' : 'category',
+    sort : category >= 500 ? SortProperty.createAt : SortProperty.category,
     filter : 'all',
   });
 
@@ -106,14 +117,14 @@ export default function RecitationCardListComponent(props) {
 
     let sortType = "";
     switch(newOptions.sort) {
-      case 'createAt' :
-        sortType = 'create_at';
+      case SortOption.createAt :
+        sortType = SortProperty.createAt;
         break;
-      case 'category' :
-        sortType = 'series_code';
+      case SortOption.category :
+        sortType = SortProperty.category;
         break;
-      case 'bible_code' :
-        sortType = 'bible_code';
+      case SortOption.bible_code :
+        sortType = SortProperty.bible_code;
         break;
     }
     
@@ -140,8 +151,8 @@ export default function RecitationCardListComponent(props) {
           <FormControl variant="standard">
             <InputLabel>정렬</InputLabel>
             <Select value={Options.sort} onChange={(e) => updateOptions('sort')(e)}>
-              <MenuItem value={category >= 500 ? "createAt" : "category"}>{category >= 500 ? "등록순" : "시리즈순"}</MenuItem>
-              <MenuItem value="bible_code">성경순</MenuItem>
+              <MenuItem value={category >= 500 ? SortProperty.createAt : SortProperty.category}>{category >= 500 ? "등록순" : "시리즈순"}</MenuItem>
+              <MenuItem value={SortProperty.bible_code}>성경순</MenuItem>
             </Select>
           </FormControl>
           {
