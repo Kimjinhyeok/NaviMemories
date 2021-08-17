@@ -39,6 +39,7 @@ export default function UnitPageComponent(props) {
       display: 'flex',
       flexDirection: 'column',
       position: 'relative',
+      flex: 90
     },
     content_options: {
       padding: theme.spacing(1),
@@ -76,9 +77,6 @@ export default function UnitPageComponent(props) {
     },
     options_select: {
       // width: '33%'
-    },
-    content_unit: {
-      flex: 90
     },
     moveButton: {
       flex: 5,
@@ -138,10 +136,14 @@ export default function UnitPageComponent(props) {
       paddingBottom: '18.5px',
       paddingLeft: '14px',
       paddingRight: '14px',
-      borderType: '1px solid',
-      borderTypeRadius: '4px',
-      borderTypeColor: theme.palette.action.disabled,
-      overflowY: 'auto'
+      border: `1px solid ${theme.palette.action.disabled}`,
+      borderRadius: '4px',
+      overflowY: 'auto',
+      overflowWrap: 'break-word',
+      '& > span' : {
+        display: 'inline-block',
+        wordBreak: 'break-word',
+      }
     },
     hide: {
       display: 'none'

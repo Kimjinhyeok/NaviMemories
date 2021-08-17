@@ -170,7 +170,7 @@ export default function CheckContentComponent(props) {
           required
           autoComplete="off"
           label="내용" 
-          // className={(flags.result ? classes.hide : '')}
+          className={(flags.result ? classes.hide : '')}
           onChange={handleChangeValue('content')} 
         />
         <div className={(flags.result || flags.hint) ? classes.content_result : classes.hide}>
