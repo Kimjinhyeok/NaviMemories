@@ -9,9 +9,9 @@ import jwt from 'jsonwebtoken';
  */
 
  const INIT_CONFIG = {
-  collapseDrawer : false,
+  collapseDrawer : true,
   userName : "",
-  bibleVersion : true
+  bibleVersion : true // true : 개정개역, false : 개역한글
 }
 
 export default (function() {
