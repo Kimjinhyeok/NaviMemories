@@ -1,8 +1,9 @@
 import { Button, Container, TextField } from '@material-ui/core'
 import React from 'react'
-import DiffMatchPatch from 'diff-match-patch';
+
 import AutoCompleteBible from '../../autoCompleteBible';
 import { Refresh } from '@material-ui/icons';
+import compareText from '../../../Utils/compareText';
 
 export default function CheckContentComponent(props) {
 
@@ -59,8 +60,9 @@ export default function CheckContentComponent(props) {
     return segments[0] + checkEmpty(segments[1]) + checkEmpty(segments[2]) + (segments[0] === " " ? checkEmpty(segments[3]) : "")
   }
   const handleHint = function () {
-    var diffMatchPatch = new DiffMatchPatch.diff_match_patch();
-    var result = diffMatchPatch.diff_main(origin.content, value.content);
+    // var diffMatchPatch = new DiffMatchPatch.diff_match_patch();
+    // var result = diffMatchPatch.diff_main(origin.content, value.content);
+    var result = compareText(value.content, origin.content);
 
     var lastIncorrectIndex = -1;
     var incorrectCount = 0;
@@ -111,8 +113,7 @@ export default function CheckContentComponent(props) {
 
   }
   const compareContent = function () {
-    var diffMatchPatch = new DiffMatchPatch.diff_match_patch();
-    var result = diffMatchPatch.diff_main(origin.content, value.content);
+    var result = compareText(value.content, origin.content);
 
     var spanTagList =  result.map(node => {
       return {

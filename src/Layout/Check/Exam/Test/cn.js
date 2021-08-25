@@ -2,6 +2,7 @@ import { Button, Container, TextField } from '@material-ui/core';
 import React from 'react'
 import AutoCompleteBible from '../../../autoCompleteBible';
 import DiffMatchPatch from 'diff-match-patch';
+import compareText from '../../../../Utils/compareText';
 
 /**
  * @typedef CNQuestion
@@ -104,11 +105,11 @@ export default function ExamContentComponent(props) {
   const handleOnClick = function () {
     var point = 0;
     var res = state.flags;
-    var diffMatchPatch = new DiffMatchPatch.diff_match_patch();
-    var result = diffMatchPatch.diff_main(quest.content, state.value.content).filter(item => item[1] != " ");
+    var result = compareText(state.value.content, quest.content);
 
-    let incorrectText = result.filter(item => item[0] == -1).map(item => item[1]);
+    let incorrectText = result.filter(item => item[0] != 0).map(item => item[1]);
     let sumIncorrectPoint = 0;
+    
     incorrectText.forEach(txt => {
       let segments = txt.split(" ");
       sumIncorrectPoint += ((Math.floor(segments.length / 2)) + (segments.length % 2));
