@@ -102,7 +102,7 @@ export default function ExamChapterVerseComponent(props) {
           className={state.flags.bible_code === null ? null : (state.flags.bible_code === true ? classes.succeed : classes.failed)}
           onChange={handleBibleChange}
           onFocus={handleFocus('bible_code')}
-          {... (state.flags.result ? { defaultValue: quest.bible_code } : {})}
+          {... (state.flags.result ? { defaultValue: quest.bible_code } : {defaultValue : state.value.bible_code})}
         />
         <div className={classes.row_part}>
           <TextField type="number"

@@ -77,7 +77,7 @@ export default function CheckChapterVerseComponent(props) {
           id="checking_bible"
           className={flags.bible_code === null ? null : (flags.bible_code === true? classes.succeed : classes.failed)}
           onChange={handleBibleChange}
-          {... (flags.result ? {defaultValue : origin.bible_code } : {})}
+          {... (flags.result ? {defaultValue : origin.bible_code } : {defaultValue : value.bible_code})}
         />
         <div className={classes.row_part}>
           <TextField type="number" 
