@@ -48,12 +48,13 @@ export default function UnitPageComponent(props) {
       borderColor: theme.palette.action.disabled,
       borderRadius: '3px',
       display: 'flex',
+      flex: 1,
       flexDirection: 'column',
-      position: 'absolute',
+      // position: 'absolute',
       zIndex: 10,
       backgroundColor: grey[50],
-      left: '50%',
-      transform: 'translateX(-50%)',
+      // left: '50%',
+      // transform: 'translateX(-50%)',
       '& > .actions' : {
         display: 'flex',
         flexDirection: 'column',
@@ -141,7 +142,6 @@ export default function UnitPageComponent(props) {
       overflowY: 'auto',
       overflowWrap: 'break-word',
       '& > span' : {
-        display: 'inline-block',
         wordBreak: 'break-word',
       }
     },

@@ -165,7 +165,7 @@ export default function CheckContentComponent(props) {
             inputProps={{readOnly: true}}  
           />
         </div>
-        <TextField id="checking_content" rows="6" variant="outlined" value={value.content}
+        <TextField type="text" id="checking_content" rows="6" variant="outlined" value={value.content}
           multiline
           required
           autoComplete="off"
