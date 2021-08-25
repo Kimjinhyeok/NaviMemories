@@ -172,7 +172,7 @@ export default function RecitationResult(props) {
     )
   }
   return (
-    <Container className={[classes.root_container, returnClass()]} maxWidth="sm">
+    <Container className={`${classes.root_container} ${returnClass()}`} maxWidth="sm">
       <div className={classes.header}>
         <Typography variant="h4" className="title">테스트 결과</Typography>
         <div className={classes.result_circle + ' circle'}>

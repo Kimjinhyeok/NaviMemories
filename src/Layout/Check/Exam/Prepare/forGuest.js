@@ -4,6 +4,7 @@ import AlertDialog from '../../../Dialog/alertDialog';
 import CategorySelector from '../../../categorySelector';
 import cookies from '../../../../Data/cookies';
 import { Context } from '../../../../Utils/Context';
+import { useSnackbar } from 'notistack';
 
 export default function PrepareForGuest(props) {
 
@@ -54,6 +55,7 @@ export default function PrepareForGuest(props) {
   }))();
   const {state : {version}} = useContext(Context);
   const [options, setOptions] = React.useState({...initialOption, version: version ? 'gae' : 'kor'});
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleChangeSeries = function (seriesList) {
     setOptions({
@@ -72,6 +74,10 @@ export default function PrepareForGuest(props) {
 
   const loadingCardList = async function() {
 
+    if(options.series.length <= 0) {
+      enqueueSnackbar("테스트 구절을 하나 이상 선택해주세요.", { variant : 'error'});
+      return;
+    }
     history.push({
       pathname : '/test/loading',
       state : { 
