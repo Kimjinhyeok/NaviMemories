@@ -52,7 +52,7 @@ export default function CategorySelector(props) {
   const extrackCheckedSeries = function() {
     let seriesList = [];
     checkArray.forEach(item => {
-      if(item.master) {
+      if(item.master && !item.indeterminate) {
         seriesList.push(item.series_code)
       } else if(item.children) {
         item.children.forEach(child => {
