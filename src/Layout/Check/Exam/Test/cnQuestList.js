@@ -117,6 +117,8 @@ export default function CNQuestList(props) {
   const origins = props.origins;
   const addResult = props.setAddResultQuestion;
   const setSumDeduction = props.setResultDeduction;
+  const precedence = props.precedence;
+  const moveTab = props.moveTab;
 
   const initialValues = {theme : "", content: ""}
   const initialFlags = {
@@ -152,8 +154,11 @@ export default function CNQuestList(props) {
     setSumDeduction(QuestionIndex, point);
   }
   const changeQuestionIndex = function(value) {
-    if(QuestionIndex >= 0 || QuestionIndex < origins.length) {
-      setQuestionIndex(QuestionIndex + value);
+    let nextIndex = QuestionIndex + value;
+    if(nextIndex >= 0 && (nextIndex < origins.length)) {
+      setQuestionIndex(nextIndex);
+    } else {
+      moveTab();
     }
   }
   
@@ -174,8 +179,8 @@ export default function CNQuestList(props) {
         />  
       </div>
       <div className={classes.actions}>
-        <Button type="button" color="primary" variant="outlined" disabled={QuestionIndex == 0} onClick={() => {changeQuestionIndex(-1)}} ><ArrowLeft />이전 문제</Button>
-        <Button type="button" color="primary" variant="outlined" disabled={QuestionIndex >= origins.length-1} onClick={() => {changeQuestionIndex(1)}} >다음 문제 <ArrowRight/></Button>
+        <Button type="button" color="primary" variant="outlined" disabled={QuestionIndex == 0 && precedence} onClick={() => {changeQuestionIndex(-1)}} ><ArrowLeft />이전 문제</Button>
+        <Button type="button" color="primary" variant="outlined" disabled={QuestionIndex >= origins.length-1 && !precedence } onClick={() => {changeQuestionIndex(1)}} >다음 문제 <ArrowRight/></Button>
       </div>
     </div>
     : <></>

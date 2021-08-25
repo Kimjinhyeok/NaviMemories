@@ -44,10 +44,10 @@ export default function TestQuestPanel(props) {
       </AppBar>
       <div className={classes.tabPanels}>
         <TabPanel value={TabIdx} index={0} className={classes.tabPanel}>
-          <CNQuestList origins={Source.cn} themeOf242={Source.themeOf242} setAddResultQuestion={addResultQuestion} setResultDeduction={setDeduction("cn")} />
+          <CNQuestList origins={Source.cn} themeOf242={Source.themeOf242} precedence={precedence != "cv"} moveTab={() => {setTabIdx(1)}} setAddResultQuestion={addResultQuestion} setResultDeduction={setDeduction("cn")} />
         </TabPanel>
         <TabPanel value={TabIdx} index={1} className={classes.tabPanel}>
-          <CVQuestList origins={Source.cv} themeOf242={Source.themeOf242} setAddResultQuestion={addResultQuestion} setResultDeduction={setDeduction("cv")} />
+          <CVQuestList origins={Source.cv} themeOf242={Source.themeOf242} precedence={precedence == "cv"} moveTab={() => {setTabIdx(0)}} setAddResultQuestion={addResultQuestion} setResultDeduction={setDeduction("cv")} />
         </TabPanel>
       </div>
     </>
