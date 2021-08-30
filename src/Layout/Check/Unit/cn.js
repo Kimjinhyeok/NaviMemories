@@ -59,52 +59,69 @@ export default function CheckContentComponent(props) {
   function getHintText(segments) {
     return segments[0] + checkEmpty(segments[1]) + checkEmpty(segments[2]) + (segments[0] === " " ? checkEmpty(segments[3]) : "")
   }
+  /**
+   * 
+   * @param {String} text 
+   */
+  function get2WorldSegments(text) {
+    let segments = text.split(/(\s+)/);
+
+    if(segments.length <= 2) {
+      return segments.join("");
+    } else {
+
+    }
+  }
   const handleHint = function () {
-    // var diffMatchPatch = new DiffMatchPatch.diff_match_patch();
-    // var result = diffMatchPatch.diff_main(origin.content, value.content);
-    var result = compareText(value.content, origin.content);
+    var res = compareText(value.content, origin.content);
 
-    var lastIncorrectIndex = -1;
-    var incorrectCount = 0;
-    result.forEach((node, idx) => {
-      if(node[0] === -1) {
-        lastIncorrectIndex = idx
-        incorrectCount++; 
-      }
-    });
+    let spanTagList = [];
+    var segmentCount = 0;
+    for (var idx in res) {
+      let segments = [];
+      let segmentsWithSpace
+      switch (res[idx][0]) {
+        case -1:
+          segments = res[idx][1].split(" ").filter(item => item != "");
+          segmentsWithSpace = res[idx][1].split(/(\s+)/);
+          if (segmentCount < 2 && segments.length > 2) {
+            // 2어절 초과인 경우
+            let lastSegment = segments[2 - segmentCount];
+            let idxLastSegment = segmentsWithSpace.findIndex(item => item === lastSegment);
+            if (segmentsWithSpace[idxLastSegment] + 1 == " ") {
+              idxLastSegment++;
+            }
+            spanTagList.push({type : -1, text : segmentsWithSpace.slice(0, idxLastSegment).join("")});
+            segmentCount += 2;
+          } else if (segmentCount < 2) {
+            // 2어절 이하인 경우
+            spanTagList.push({type : -1, text : segmentsWithSpace.join("")});
+            if(res[Number(idx)+1][0] !== 1) {
+              segmentCount += segments.length;
+            }
+          }
+          break;
+        case 0:
+          spanTagList.push({type : 0, text : res[idx][1]});
+          if (segmentCount > 0) segmentCount++;
+          break;
+        case 1:
+          segments = res[idx][1].split(" ").filter(item => item != "");
+          segmentsWithSpace = res[idx][1].split(/(\s+)/);
+          if (segmentCount >= 2) {
+            // 이미 첨삭이 이루어진 경우 빼주지 않음
+            spanTagList.push({type : 1, text : res[idx][1]});
+          }
+          else if (segments.length >= 2) {
+            // 2어절 초과인 경우 2어절, 앞에서 첨삭이 있었으면 남는 만큼만 빼준다
+            let firstSegment = segments[2 - segmentCount];
+            let idxFirstSegment = segmentsWithSpace.findIndex(item => item === firstSegment);
 
-    var spanTagList = [];
-    if(lastIncorrectIndex == 1 && incorrectCount == 1) { // 다 맞다가 모르는 경우
-      spanTagList.push({type : 0, text : result[0][1]});
-      let segments = result[1][1].split(/(\s+)/);
-      if(!segments[0]) {
-        segments.shift(); // ''값이 있을 경우 제거
+            spanTagList.push({type : 1, text : segmentsWithSpace.slice(idxFirstSegment).join("")});
+            segmentCount += 2;
+          }
+          break;
       }
-      let hint = getHintText(segments);
-      spanTagList.push({type : -1, text : hint});
-
-    } else if(lastIncorrectIndex >= 0 && incorrectCount > 1) { // 중간에 틀린 어절이 있는 경우
-      let segmentCount = 0;
-      for(var node of result) {
-        switch(node[0]) {
-          case 0:
-            spanTagList.push({type : 0, text : node[1]})
-            break;
-          case -1:
-            if(node[1] !== " ") segmentCount++;
-            if(segmentCount === 2) break;
-            else spanTagList.push({type : -1, text : node[1]})
-            break;
-          case 1:
-            spanTagList.push({type : 1, text : node[1]})
-            break;
-        }
-        if(segmentCount == 2) break;
-      }
-    } else {  // 그냥 모르는 경우
-      let segments = result[0][1].split(/(\s+)/);
-      let hint = getHintText(segments);
-      spanTagList.push({type : -1, text : hint})
     }
     setMatchResult(spanTagList);
     if(!flags.hint) {

@@ -8,8 +8,8 @@ const diffMatchPatch = new DiffMatchPatch.diff_match_patch();
  */
 function compareText(target, origin) {
   try {
-    if(!target || !origin) {
-      throw new Error("매개변수가 부족합니다.");
+    if(!origin) {
+      throw new Error("정답 문장이 없습니다.");
     }
 
     let result = diffMatchPatch.diff_main(origin, target);
