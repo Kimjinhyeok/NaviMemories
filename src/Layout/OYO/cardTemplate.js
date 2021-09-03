@@ -99,7 +99,24 @@ export default function CardTemplateComponent(props) {
     maxChapter: 999,
     edited: false
   })
-
+  const resetState = () => {
+    setValue({
+      theme: '',
+      bible_code: '',
+      chapter: 0,
+      f_verse: 0,
+      l_verse: 0,
+      content: ''
+    });
+    setValidators({
+      theme: false,
+      bible_code: false,
+      chapter: false,
+      f_verse: false,
+      l_verse: false,
+      content: false,
+    });
+  }
   const goBack = () => {
     history.goBack();
   }
@@ -125,9 +142,9 @@ export default function CardTemplateComponent(props) {
       console.error(error);
     }
   }
-  function onSaveHandling() {
+  async function onSaveHandling() {
     try {
-      var result = http.post({ query: "RC/oyo", data: value })
+      await http.post({ query: "RC/oyo", data: value })
 
       enqueueSnackbar("새 OYO 카드가 저장되었습니다.", {variant : 'success'});
 
@@ -135,26 +152,11 @@ export default function CardTemplateComponent(props) {
         history.push({pathname : history.location.state.go, state : null});
       }
       /********** Notice Saved OYO Card **********/
-
-      setValue({
-        theme: '',
-        bible_code: '',
-        chapter: 0,
-        f_verse: 0,
-        l_verse: 0,
-        content: ''
-      });
-      setValidators({
-        theme: false,
-        bible_code: false,
-        chapter: false,
-        f_verse: false,
-        l_verse: false,
-        content: false,
-      });
-
-
+      resetState();
     } catch (error) {
+      if(error.response.status) {
+        enqueueSnackbar(error.response.data, {variant : 'warning'});
+      }
       console.error(error);
     }
   }
