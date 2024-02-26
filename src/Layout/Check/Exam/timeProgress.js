@@ -1,4 +1,4 @@
-import { Box, LinearProgress, makeStyles, Typography, withStyles } from '@mui/material';
+import { Box, LinearProgress, makeStyles, Typography } from '@mui/material';
 import { amber, red, lightBlue, grey } from '@mui/material/colors'
 import React from 'react'
 import useInterval from '../../../Utils/useInterval';
@@ -79,4 +79,4 @@ function TimeProgress(props) {
 
   )
 }
-export default withStyles(lineStyles)(TimeProgress);
+export default TimeProgress;

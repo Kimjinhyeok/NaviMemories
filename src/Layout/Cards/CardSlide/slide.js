@@ -1,20 +1,14 @@
 import React, { useContext } from 'react'
 import CardHtml from './card_html'
-import { Swiper, SwiperSlide } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import { makeStyles } from '@mui/material'
 import 'swiper/css'
+import 'swiper/css/virtual'
 
-// import Swiper core and required modules
-import SwiperCore, {
-    Mousewheel,
-    Navigation,
-    Scrollbar,
-    Virtual,
-  } from 'swiper/core';
 import { Context } from '../../../Utils/Context';
 
   // install Swiper modules
-  SwiperCore.use([Navigation, Virtual, Scrollbar, Mousewheel]);
+//   SwiperCore.use([Virtual, Scrollbar, Mousewheel]);
   
 const UNIT_SIZE = 30;
 /**
@@ -168,7 +162,7 @@ export default function CardSlideComponent(props) {
     return (
         <div className={classes.cardslideContainer}>
             <Swiper 
-                initialSlide={initSlide}
+                init={initSlide}
                 className={classes.carouselContainer}
                 spaceBetween={50}
                 // navigation={{hideOnClick : true}} 

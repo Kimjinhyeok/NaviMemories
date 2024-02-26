@@ -32,4 +32,4 @@ function App(props) {
   );
 }
 
-export default withStyles(styles)(App);
+export default App;
