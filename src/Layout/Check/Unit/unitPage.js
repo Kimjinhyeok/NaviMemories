@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { Route, Switch } from 'react-router';
-import { Button, Container, FormControl, FormControlLabel, FormLabel, makeStyles, Radio, RadioGroup } from '@mui/material'
-import { ArrowBackIos, ArrowForwardIos, ArrowRightAlt, Shuffle } from '@material-ui/icons'
+import { Route, Routes, } from 'react-router';
+import { Button, FormControl, FormControlLabel, FormLabel, makeStyles, Radio, RadioGroup } from '@mui/material'
+import { ArrowBackIos, ArrowForwardIos, ArrowRightAlt, Shuffle } from '@mui/icons-material'
 import { red, blue, lightBlue, grey } from '@mui/material/colors'
 import CheckContentComponent from './cn';
 import CheckChapterVerseComponent from './cv';
@@ -281,10 +281,10 @@ export default function UnitPageComponent(props) {
           </div>
           <Button variant="outlined" color="default" size="small" onClick={() => setFold(!Fold)}>옵션 {Fold ? '열기' : '닫기'}</Button>
         </div>
-        <Switch>
+        <Routes>
           <Route path={`${props.params ? props.params.path : ''}/check/cv`} render={props => <CheckChapterVerseComponent classes={classes} origin={origin} {...props} />} />
           <Route path={`${props.params ? props.params.path : ''}/check/cn`} render={props => <CheckContentComponent classes={classes} origin={origin} {...props} />} />
-        </Switch>
+        </Routes>
       </div>
       <Button type="button" color="default" className={classes.moveButton}
         onClick={() => { setCardContent(options.index + 1) }} disabled={options.index == cardList.length - 1} title="다음 문제"><ArrowForwardIos /></Button>

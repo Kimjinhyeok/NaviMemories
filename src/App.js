@@ -1,5 +1,5 @@
 import { makeStyles, withStyles } from '@mui/material';
-import { Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router';
 import './App.css';
 import JoinComponent from './Layout/Join';
 import LoginComponent from './Layout/Login/login';
@@ -23,11 +23,11 @@ function App(props) {
 
   return (
     <div className="App">
-      <Switch>
+      <Routes>
         <Route path="/join" render={(props) => <JoinComponent {...props}/>}></Route>
         <Route path="/login" render={(props) => <LoginComponent {...props}/>}></Route>
         <Route path={["/", "/:path"]} render={(props) => <MainComponent {...props}/>}></Route>
-      </Switch>
+      </Routes>
     </div>
   );
 }
