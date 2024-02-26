@@ -7,7 +7,7 @@ import UnitPageComponent from './Check/Unit/unitPage';
 import ExamMainPage from './Check/Exam';
 import IntroPageComponent from './intro.page';
 import OYOIndex from './OYO';
-import jwt from 'jsonwebtoken';
+import { jwtDecode } from 'jwt-decode';
 import Cookies from 'js-cookie';
 import { Provider as ContextProvider } from '../Utils/Context';
 
@@ -33,7 +33,7 @@ export default function MainComponent(props) {
         var authtoken = Cookies.get('authtoken');
         var username = Cookies.get('username');
         if(authtoken && !username) {
-            var decoded = jwt.decode(authtoken);
+            var decoded = jwtDecode(authtoken);
             username = decoded.u_n;
             Cookies.set('username', username);
         }
