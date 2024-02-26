@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box, Button, Card, CardActions, CardContent, CardHeader, Container, FormControl, IconButton, Input, InputAdornment, InputLabel, makeStyles } from '@mui/material'
-import { Visibility, VisibilityOff } from '@material-ui/icons'
+import { Visibility, VisibilityOff } from '@mui/icons-material'
 import clsx from 'clsx'
 import Http from '../../Utils/Http'
 import Cookies from 'js-cookie'

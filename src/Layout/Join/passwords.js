@@ -1,5 +1,5 @@
 import { FormControl, FormHelperText, IconButton, Input, InputAdornment, InputLabel } from '@mui/material'
-import { Visibility, VisibilityOff } from '@material-ui/icons'
+import { Visibility, VisibilityOff } from '@mui/icons-material'
 import clsx from 'clsx';
 import React from 'react'
 

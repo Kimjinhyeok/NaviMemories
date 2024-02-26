@@ -1,6 +1,6 @@
 import React from 'react';
 import { Accordion, AccordionDetails, AccordionSummary, Checkbox, FormControlLabel, makeStyles } from '@mui/material';
-import { ExpandMore } from '@material-ui/icons'
+import { ExpandMore } from '@mui/icons-material'
 import Categories from '../Data/categories';
 import Cookies from 'js-cookie';
 

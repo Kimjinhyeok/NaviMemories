@@ -1,5 +1,5 @@
 import { Collapse, List, ListItem, ListItemText } from '@mui/material';
-import { ExpandLess, ExpandMore } from '@material-ui/icons';
+import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import React from 'react'
 
 export default function DrawerNaviCategoriesComponent(props) {

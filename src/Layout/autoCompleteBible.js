@@ -1,6 +1,6 @@
 import React from 'react'
 import { makeStyles, TextField } from '@mui/material';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import {Autocomplete} from '@mui/material'; 
 import BibleData from '../Data/bible';
 
 /**

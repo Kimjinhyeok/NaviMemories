@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react'
 import { Collapse, Divider, Drawer, IconButton, List, ListItem, Switch, ListItemSecondaryAction, ListItemText, ListSubheader } from '@mui/material'
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
-import ExpandLess from '@material-ui/icons/ExpandLess'
-import ExpandMore from '@material-ui/icons/ExpandMore'
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
+import ExpandLess from '@mui/icons-material/ExpandLess'
+import ExpandMore from '@mui/icons-material/ExpandMore'
 import Categories from '../../Data/categories'
 import DrawerNaviCategoriesComponent from './drawerNaviCategories'
 import Cookie from '../../Data/cookies';
