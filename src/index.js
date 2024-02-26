@@ -5,22 +5,15 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
-import { createMuiTheme, MuiThemeProvider } from '@mui/material';
-
-const theme = createMuiTheme({
-  typography: {
-    fontFamily: '"Noto Sans KR", serif',
-  },
-});
 
 ReactDOM.render(
-  <MuiThemeProvider theme={theme}>
+  //<ThemeUIpro theme={theme}>
     <BrowserRouter>
       <SnackbarProvider maxSnack={3}>
         <App />
       </SnackbarProvider>
     </BrowserRouter>
-  </MuiThemeProvider>
+  //</ThemeUIpro>
   ,
   document.getElementById('root')
 );
