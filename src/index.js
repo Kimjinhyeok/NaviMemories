@@ -1,12 +1,15 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
 
-ReactDOM.render(
+const rootContainer = document.getElementById('root');
+const root = createRoot(rootContainer);
+
+root.render(
   //<ThemeUIpro theme={theme}>
     <BrowserRouter>
       <SnackbarProvider maxSnack={3}>
@@ -14,8 +17,6 @@ ReactDOM.render(
       </SnackbarProvider>
     </BrowserRouter>
   //</ThemeUIpro>
-  ,
-  document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function

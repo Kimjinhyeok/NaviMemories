@@ -7,8 +7,8 @@ export default function OYOIndex(props) {
 
   return (
     <Routes>
-      <Route path="/oyo/template" render={(props) => <CardTemplateComponent {...props}/>}/>
-      <Route path="/oyo/manage" render={(props) => <OYOCardManage {...props}/>}/>
+      <Route path="/oyo/template" element={(props) => <CardTemplateComponent {...props}/>}/>
+      <Route path="/oyo/manage" element={(props) => <OYOCardManage {...props}/>}/>
     </Routes>
   )
 }

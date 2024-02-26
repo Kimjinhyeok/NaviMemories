@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Route, Routes, } from 'react-router';
-import { Button, FormControl, FormControlLabel, FormLabel, makeStyles, Radio, RadioGroup } from '@mui/material'
+import { Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material'
+import { styled } from '@mui/system';
 import { ArrowBackIos, ArrowForwardIos, ArrowRightAlt, Shuffle } from '@mui/icons-material'
 import { red, blue, lightBlue, grey } from '@mui/material/colors'
 import CheckContentComponent from './cn';
@@ -28,7 +29,7 @@ var originalList = [];
 export default function UnitPageComponent(props) {
 
   const http = Http();
-  const useStyle = makeStyles(theme => ({
+  const useStyle = styled(theme => ({
     root_unit: {
       height: '100%',
       padding: '0',
@@ -282,8 +283,8 @@ export default function UnitPageComponent(props) {
           <Button variant="outlined" color="default" size="small" onClick={() => setFold(!Fold)}>옵션 {Fold ? '열기' : '닫기'}</Button>
         </div>
         <Routes>
-          <Route path={`${props.params ? props.params.path : ''}/check/cv`} render={props => <CheckChapterVerseComponent classes={classes} origin={origin} {...props} />} />
-          <Route path={`${props.params ? props.params.path : ''}/check/cn`} render={props => <CheckContentComponent classes={classes} origin={origin} {...props} />} />
+          <Route path={`${props.params ? props.params.path : ''}/check/cv`} element={props => <CheckChapterVerseComponent classes={classes} origin={origin} {...props} />} />
+          <Route path={`${props.params ? props.params.path : ''}/check/cn`} element={props => <CheckContentComponent classes={classes} origin={origin} {...props} />} />
         </Routes>
       </div>
       <Button type="button" color="default" className={classes.moveButton}

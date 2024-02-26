@@ -1,4 +1,5 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, makeStyles } from '@mui/material'
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
+import { styled } from '@mui/system';
 import React from 'react'
 import useInterval from '../../Utils/useInterval';
 /**
@@ -13,7 +14,7 @@ import useInterval from '../../Utils/useInterval';
  */
 export default function TimeoutDialog(props) {
 
-  const classes = makeStyles(theme => ({
+  const classes = styled(theme => ({
     dialog_text: {
       textAlign: 'center'
     },

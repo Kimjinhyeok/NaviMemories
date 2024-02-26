@@ -32,7 +32,7 @@ export default (function() {
         let {u_n : userName} = decoded;
         configCookie.userName = userName;
       }
-      Cookies.set(configCookieName, configCookie);
+      Cookies.set(configCookieName, JSON.stringify(configCookie));
     } else {
       configCookie = JSON.parse(configCookie);
     }

@@ -12,11 +12,11 @@ export default function ExamMainPage(props) {
 
   return (
     <Routes>
-      <Route path="/test/exam" render={(props) => <RecitationExam {...props} />} />
-      <Route path="/test/prepare" render={(props) => <PrepareForMember {...props} />} />
-      <Route path="/test/v_prepare" render={(props) => <PrepareForGuest {...props} />} />
-      <Route path="/test/loading" render={(props) => <RecitationLoading {...props} />} />
-      <Route path="/test/result" render={(props) => <RecitationResult {...props} />} />
+      <Route path="/test/exam" element={(props) => <RecitationExam {...props} />} />
+      <Route path="/test/prepare" element={(props) => <PrepareForMember {...props} />} />
+      <Route path="/test/v_prepare" element={(props) => <PrepareForGuest {...props} />} />
+      <Route path="/test/loading" element={(props) => <RecitationLoading {...props} />} />
+      <Route path="/test/result" element={(props) => <RecitationResult {...props} />} />
     </Routes>
   )
 } 

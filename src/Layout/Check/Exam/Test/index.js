@@ -1,4 +1,5 @@
-import { Button, Container, makeStyles} from '@mui/material'
+import { Button } from '@mui/material'
+import { styled } from '@mui/system';
 import React from 'react'
 import TimeProgress from '../timeProgress';
 import TimeoutDialog from '../../../Dialog/timeoutDialog';
@@ -15,7 +16,7 @@ export default function RecitationExam(props) {
   const history = props.history;
   const LimitTime = 60*10;
   const propsState = props.location.state;
-  const classes = makeStyles(theme => ({
+  const classes = styled(theme => ({
     root_exam: {
       height: '100%'
     },

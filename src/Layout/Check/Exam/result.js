@@ -1,11 +1,12 @@
-import { Container, makeStyles, Paper, Typography } from '@mui/material';
+import { Container, Paper, Typography } from '@mui/material';
+import { styled } from '@mui/system';
 import { lightBlue, lime, teal } from '@mui/material/colors';
 import React from 'react'
 import BibleData from '../../../Data/bible';
 
 export default function RecitationResult(props) {
 
-  const classes = makeStyles(theme => ({
+  const classes = styled(theme => ({
     root_container : {
       display : 'flex',
       flexDirection: 'column'

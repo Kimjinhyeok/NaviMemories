@@ -1,4 +1,5 @@
-import { Button, Card, CardActions, CardContent, CardHeader, Container, FormControl, FormControlLabel, FormLabel, makeStyles, Radio, RadioGroup } from '@mui/material'
+import { Button, Card, CardActions, CardContent, CardHeader, Container, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material'
+import { styled } from '@mui/system';
 import React, { useContext } from 'react'
 import AlertDialog from '../../../Dialog/alertDialog';
 import CategorySelector from '../../../categorySelector';
@@ -17,7 +18,7 @@ export default function PrepareForGuest(props) {
     precedence: "cn",
     version: "gae"
   }
-  const classes = makeStyles(theme => ({
+  const classes = styled(theme => ({
     prepare_root: {
       marginTop: theme.spacing(3),
       width: '100%',

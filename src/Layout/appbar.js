@@ -1,4 +1,5 @@
-import { AppBar, Button, IconButton, makeStyles, Menu, MenuItem, Toolbar, Typography } from '@mui/material'
+import { AppBar, Button, IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material'
+import { styled } from '@mui/system';
 import MenuIcon from '@mui/icons-material/Menu'
 import React, { useState } from 'react'
 import clsx from 'clsx'
@@ -12,7 +13,7 @@ export default function AppBarComponent(props) {
     
     const history = props.history;
     
-    const useStyle = makeStyles((theme) => ({
+    const useStyle = styled((theme) => ({
         root: {
             display: 'flex',
         },

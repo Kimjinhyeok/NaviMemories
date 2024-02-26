@@ -1,4 +1,5 @@
-import { Button, Container, makeStyles, Paper } from '@mui/material';
+import { Button, Container, Paper } from '@mui/material';
+import { styled } from '@mui/system';
 import { AddSharp } from '@mui/icons-material';
 import Http from '../../../Utils/Http';
 import React, { useEffect, useRef, useState } from 'react'
@@ -9,7 +10,7 @@ import AlertDialog from '../../Dialog/alertDialog';
 
 export default function OYOCardManage(props) {
 
-  const classes = makeStyles(theme => ({
+  const classes = styled(theme => ({
     cardManage_root : {
       height: `100%`,
       maxHeight: `100%`,

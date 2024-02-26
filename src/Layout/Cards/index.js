@@ -1,4 +1,5 @@
-import { AppBar, Container, FormControl, FormGroup, InputLabel, makeStyles, MenuItem, Select, Tab, Tabs } from '@mui/material';
+import { AppBar, Container, FormControl, FormGroup, InputLabel, MenuItem, Select, Tab, Tabs } from '@mui/material';
+import { styled } from '@mui/system';
 import { useSnackbar } from 'notistack';
 import React, { useRef } from 'react'
 import { useParams } from 'react-router';
@@ -9,7 +10,7 @@ import CardSlideComponent from './CardSlide/slide';
 
 export default function RecitationCardListComponent(props) {
 
-  const useStyle = makeStyles((theme) => ({
+  const useStyle = styled((theme) => ({
     options : {
       flexDirection: 'row',
       marginTop : theme.spacing(1),

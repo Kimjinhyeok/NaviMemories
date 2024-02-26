@@ -1,4 +1,5 @@
-import { Box, Button, Container, Divider, makeStyles, Paper, TextField } from '@mui/material'
+import { Box, Button, Container, Divider, Paper, TextField } from '@mui/material'
+import { styled } from '@mui/system';
 import { useSnackbar } from 'notistack';
 import React from 'react'
 import Http from '../../Utils/Http';
@@ -7,7 +8,7 @@ import AutoCompleteBible from '../autoCompleteBible';
 export default function CardTemplateComponent(props) {
 
   const http = Http();
-  const useStyle = makeStyles(theme => ({
+  const useStyle = styled(theme => ({
     root_template: {
       height: '100%',
       display: 'flex',

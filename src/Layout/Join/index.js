@@ -1,4 +1,5 @@
-import { Button, Card, CardActions, CardContent, CardHeader, Container, makeStyles, TextField } from '@mui/material'
+import { Button, Card, CardActions, CardContent, CardHeader, Container, TextField } from '@mui/material'
+import { styled } from '@mui/system';
 import clsx from 'clsx';
 import { useSnackbar } from 'notistack';
 import React from 'react'
@@ -10,7 +11,7 @@ export default function JoinComponent(props) {
   const { history } = props;
   const http = Http();
 
-  const useStyles = makeStyles((theme) => ({
+  const useStyles = styled((theme) => ({
     container_root: {
       height: '100%',
       display: 'flex',

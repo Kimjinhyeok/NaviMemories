@@ -1,4 +1,5 @@
-import { Button, Container, makeStyles } from '@mui/material';
+import { Button } from '@mui/material';
+import { styled } from '@mui/system';
 import { blue, grey, lightBlue, red } from '@mui/material/colors';
 import { ArrowLeft, ArrowRight } from '@mui/icons-material';
 import React, {useState, useEffect} from 'react'
@@ -16,7 +17,7 @@ import ExamContentComponent from './cn';
  * @returns 
  */
 export default function CNQuestList(props) {
-  const classes = makeStyles((theme) => ({
+  const classes = styled((theme) => ({
     root : {
       height: '75vh',
       display: 'flex',

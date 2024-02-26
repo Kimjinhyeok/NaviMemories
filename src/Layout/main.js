@@ -1,4 +1,5 @@
-import { Container, makeStyles } from '@mui/material';
+import { Container } from '@mui/material';
+import { styled } from '@mui/system';
 import React, { useEffect } from 'react'
 import { Route, Routes } from 'react-router';
 import AppBarComponent from './appbar';
@@ -14,7 +15,7 @@ import { Provider as ContextProvider } from '../Utils/Context';
 
 export default function MainComponent(props) {
 
-    const useStyle = makeStyles(theme => ({
+    const useStyle = styled(theme => ({
         root_container : {
             height : '100%',
             maxHeight : '100%',
@@ -48,11 +49,11 @@ export default function MainComponent(props) {
                 <AppBarComponent {...props}     />
                 <Container className={classes.main_content}>
                     <Routes>
-                        <Route path="/test/:path" render={props => <ExamMainPage {...props} />} />
-                        <Route path="/check" render={props => <UnitPageComponent {...props}/>}/>
-                        <Route path="/recitation/:category" render={props => <RecitationCardListComponent {...props} />} />
-                        <Route path="/oyo/:path" render={props => <OYOIndex {...props}/>} />
-                        <Route path="/" render={props => <IntroPageComponent {...props} />} />
+                        <Route path="/test/:path" element={<ExamMainPage  />} />
+                        <Route path="/check" element={<UnitPageComponent />}/>
+                        <Route path="/recitation/:category" element={<RecitationCardListComponent  />} />
+                        <Route path="/oyo/:path" element={<OYOIndex />} />
+                        <Route path="/" element={<IntroPageComponent  />} />
                     </Routes>
                 </Container>
             </ContextProvider>

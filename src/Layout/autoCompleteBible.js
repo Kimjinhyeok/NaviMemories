@@ -1,5 +1,6 @@
 import React from 'react'
-import { makeStyles, TextField } from '@mui/material';
+import { TextField } from '@mui/material';
+import { styled } from '@mui/system';
 import {Autocomplete} from '@mui/material'; 
 import BibleData from '../Data/bible';
 
@@ -26,7 +27,7 @@ export default function AutoCompleteBible(props) {
   const { onChange, onFocus, classes, fullWidth, validator, defaultValue, className, disabled } = props;
   
   const id = props.id || "bible_auto_complete";
-  const useStyle = makeStyles(theme => ({
+  const useStyle = styled(theme => ({
     bibleAutoComplete: {
       backgroundColor: theme.palette.action.hover,
       '& .MuiFormLabel-root.Mui-disabled': {

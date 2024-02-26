@@ -1,4 +1,5 @@
-import { Divider, FormControl, InputLabel, makeStyles, MenuItem, NativeSelect, Select } from '@mui/material'
+import { Divider, FormControl, InputLabel, MenuItem, NativeSelect, Select } from '@mui/material'
+import { styled } from '@mui/system';
 import Cookies from 'js-cookie';
 import React from 'react'
 import Categories from '../Data/categories'
@@ -8,7 +9,7 @@ export default function CategorySelect(props) {
   const {onChange} = props;
   const propsValue = props.value;
 
-  const classes = makeStyles(theme => ({
+  const classes = styled(theme => ({
     selector_root: {
       width: '100%',
       '& .MuiFormControl-root': {

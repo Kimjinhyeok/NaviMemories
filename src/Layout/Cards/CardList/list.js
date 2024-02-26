@@ -1,6 +1,7 @@
 import React, { useContext, useLayoutEffect, useMemo } from 'react'
+import { styled } from '@mui/system';
 import CardComponent from './card';
-import { Container, makeStyles } from '@mui/material';
+import { Container } from '@mui/material';
 import { Context } from '../../../Utils/Context';
 
 const UNIT_SIZE = 10;
@@ -9,7 +10,7 @@ export default function CardListComponent (props) {
     const originCardList = props.item;
     const [CardIndex, setCardIndex] = React.useState(originCardList.length > UNIT_SIZE ? UNIT_SIZE : originCardList.length)
     const [cardList, setCardList] = React.useState(originCardList.slice(0, CardIndex));
-    const useStyle = makeStyles(theme => ({
+    const useStyle = styled(theme => ({
         root_container: {
             paddingBottom: '10px'
         },

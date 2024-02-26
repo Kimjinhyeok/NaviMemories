@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import CardHtml from './card_html'
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { makeStyles } from '@mui/material'
+import { styled } from '@mui/system';
 import 'swiper/css'
 import 'swiper/css/virtual'
 
@@ -22,7 +22,7 @@ export default function CardSlideComponent(props) {
     const originCardList = props.item;
     const initSlide = props.initSlide;
     const setInitSlide = props.setInitSlide;
-    const useStyle = makeStyles((theme) => ({
+    const useStyle = styled((theme) => ({
         cardslideContainer: {
             height: '100%'
         },

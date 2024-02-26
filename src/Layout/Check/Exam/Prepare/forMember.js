@@ -1,4 +1,5 @@
-import { Button, Card, CardActions, CardContent, CardHeader, FormControl, FormControlLabel, FormLabel, InputAdornment, makeStyles, Radio, RadioGroup, TextField } from '@mui/material'
+import { Button, Card, CardActions, CardContent, CardHeader, FormControl, FormControlLabel, FormLabel, InputAdornment, Radio, RadioGroup, TextField } from '@mui/material'
+import { styled } from '@mui/system';
 import React, { useContext } from 'react';
 import { Context } from '../../../../Utils/Context';
 import Http from '../../../../Utils/Http';
@@ -19,7 +20,7 @@ export default function PrepareForMember(props) {
 
   const [options, setOptions] = React.useState(InitOptions);
 
-  const classes = makeStyles(theme => ({
+  const classes = styled(theme => ({
     prepare_root: {
       marginTop: theme.spacing(3),
       width: '100%',

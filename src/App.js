@@ -1,11 +1,11 @@
-import { makeStyles, withStyles } from '@mui/material';
 import { Route, Routes } from 'react-router';
 import './App.css';
 import JoinComponent from './Layout/Join';
 import LoginComponent from './Layout/Login/login';
 import MainComponent from './Layout/main';
+import { styled } from '@mui/system';
 
-const styles = makeStyles(theme => ({
+const styles = styled(theme => ({
   '@global': {
     '*::-webkit-scrollbar': {
       width: '4px',
@@ -24,9 +24,10 @@ function App(props) {
   return (
     <div className="App">
       <Routes>
-        <Route path="/join" render={(props) => <JoinComponent {...props}/>}></Route>
-        <Route path="/login" render={(props) => <LoginComponent {...props}/>}></Route>
-        <Route path={["/", "/:path"]} render={(props) => <MainComponent {...props}/>}></Route>
+        <Route path="/" element={<MainComponent />}></Route>
+        <Route path="/join" element={<JoinComponent />}></Route>
+        <Route path="/login" element={<LoginComponent />}></Route>
+        <Route path="/:path" excat element={<MainComponent />}></Route>
       </Routes>
     </div>
   );

@@ -1,5 +1,6 @@
 import React from 'react'
-import { Box, Button, Card, CardActions, CardContent, CardHeader, Container, FormControl, IconButton, Input, InputAdornment, InputLabel, makeStyles } from '@mui/material'
+import { Box, Button, Card, CardActions, CardContent, CardHeader, Container, FormControl, IconButton, Input, InputAdornment, InputLabel } from '@mui/material'
+import { styled } from '@mui/system';
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import clsx from 'clsx'
 import Http from '../../Utils/Http'
@@ -10,7 +11,7 @@ import cookies from '../../Data/cookies'
 export default function LoginComponent (props) {
 
     const http = Http();
-    const useStyles = makeStyles((theme) => ({
+    const useStyles = styled((theme) => ({
         container_root: {
             height: '100%',
             display: 'flex',

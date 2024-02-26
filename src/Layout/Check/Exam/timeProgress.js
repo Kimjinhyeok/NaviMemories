@@ -1,4 +1,5 @@
-import { Box, LinearProgress, makeStyles, Typography } from '@mui/material';
+import { Box, LinearProgress, Typography } from '@mui/material';
+import { styled } from '@mui/system';
 import { amber, red, lightBlue, grey } from '@mui/material/colors'
 import React from 'react'
 import useInterval from '../../../Utils/useInterval';

@@ -1,9 +1,10 @@
-import { Container, makeStyles } from '@mui/material'
+import { Container } from '@mui/material'
+import { styled } from '@mui/system';
 import React from 'react'
 
 export default function IntroPageComponent(props) {
 
-  const classes = makeStyles((theme) => ({
+  const classes = styled((theme) => ({
     intro_root : {
       height: '100%',
       display: 'flex',

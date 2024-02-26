@@ -1,5 +1,6 @@
 import React from 'react';
-import { Accordion, AccordionDetails, AccordionSummary, Checkbox, FormControlLabel, makeStyles } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Checkbox, FormControlLabel } from '@mui/material';
+import { styled } from '@mui/system';
 import { ExpandMore } from '@mui/icons-material'
 import Categories from '../Data/categories';
 import Cookies from 'js-cookie';
@@ -8,7 +9,7 @@ export default function CategorySelector(props) {
 
   const propsChangeHandle = props.onChange;
   const isLogin = Cookies.get('authtoken') ? true : false;
-  const classes = makeStyles(theme => ({
+  const classes = styled(theme => ({
     root: { 
       width: '100%',
       '& .MuiAccordionDetails-root': {
