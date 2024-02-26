@@ -1,4 +1,4 @@
-import { Checkbox, FormControlLabel } from '@material-ui/core';
+import { Checkbox, FormControlLabel } from '@mui/material';
 import React from 'react'
 import cookies from '../../../Data/cookies';
 export default function CardHtml(props) {

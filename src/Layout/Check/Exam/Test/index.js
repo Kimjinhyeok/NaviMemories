@@ -1,4 +1,4 @@
-import { Button, Container, makeStyles} from '@material-ui/core'
+import { Button, Container, makeStyles} from '@mui/material'
 import React from 'react'
 import TimeProgress from '../timeProgress';
 import TimeoutDialog from '../../../Dialog/timeoutDialog';

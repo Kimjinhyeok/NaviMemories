@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Route, Switch } from 'react-router';
-import { Button, Container, FormControl, FormControlLabel, FormLabel, makeStyles, Radio, RadioGroup } from '@material-ui/core'
+import { Button, Container, FormControl, FormControlLabel, FormLabel, makeStyles, Radio, RadioGroup } from '@mui/material'
 import { ArrowBackIos, ArrowForwardIos, ArrowRightAlt, Shuffle } from '@material-ui/icons'
-import { red, blue, lightBlue, grey } from '@material-ui/core/colors'
+import { red, blue, lightBlue, grey } from '@mui/material/colors'
 import CheckContentComponent from './cn';
 import CheckChapterVerseComponent from './cv';
 import CategorySelect from '../../categorySelect';

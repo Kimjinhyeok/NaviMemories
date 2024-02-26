@@ -1,4 +1,4 @@
-import { AppBar, Button, IconButton, makeStyles, Menu, MenuItem, Toolbar, Typography } from '@material-ui/core'
+import { AppBar, Button, IconButton, makeStyles, Menu, MenuItem, Toolbar, Typography } from '@mui/material'
 import MenuIcon from '@material-ui/icons/Menu'
 import React, { useState } from 'react'
 import clsx from 'clsx'

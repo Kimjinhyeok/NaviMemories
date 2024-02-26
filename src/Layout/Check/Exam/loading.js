@@ -1,5 +1,5 @@
-import { CircularProgress, Container, makeStyles } from '@material-ui/core';
-import { lightBlue } from '@material-ui/core/colors';
+import { CircularProgress, Container, makeStyles } from '@mui/material';
+import { lightBlue } from '@mui/material/colors';
 import React, { useEffect, useRef, useState } from 'react'
 import Http from '../../../Utils/Http';
 

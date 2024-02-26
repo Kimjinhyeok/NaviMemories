@@ -1,4 +1,4 @@
-import { makeStyles, withStyles } from '@material-ui/core';
+import { makeStyles, withStyles } from '@mui/material';
 import { Route, Switch } from 'react-router';
 import './App.css';
 import JoinComponent from './Layout/Join';

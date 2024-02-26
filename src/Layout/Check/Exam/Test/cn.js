@@ -1,4 +1,4 @@
-import { Button, Container, TextField } from '@material-ui/core';
+import { Button, Container, TextField } from '@mui/material';
 import React from 'react'
 import AutoCompleteBible from '../../../autoCompleteBible';
 import DiffMatchPatch from 'diff-match-patch';

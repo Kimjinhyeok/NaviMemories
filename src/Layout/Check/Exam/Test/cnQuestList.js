@@ -1,5 +1,5 @@
-import { Button, Container, makeStyles } from '@material-ui/core';
-import { blue, grey, lightBlue, red } from '@material-ui/core/colors';
+import { Button, Container, makeStyles } from '@mui/material';
+import { blue, grey, lightBlue, red } from '@mui/material/colors';
 import { ArrowLeft, ArrowRight } from '@material-ui/icons';
 import React, {useState, useEffect} from 'react'
 import ExamContentComponent from './cn';

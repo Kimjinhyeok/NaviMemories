@@ -1,9 +1,11 @@
-import { Button, Container, TextField } from '@material-ui/core'
+import { Button, Container, TextField } from '@mui/material'
 import React from 'react'
 
 import AutoCompleteBible from '../../autoCompleteBible';
 import { Refresh } from '@material-ui/icons';
 import compareText from '../../../Utils/compareText';
+import TextInput from '../../../Components/TextInput';
+import TextArea from '../../../Components/TextArea';
 
 export default function CheckContentComponent(props) {
 
@@ -161,32 +163,27 @@ export default function CheckContentComponent(props) {
           id="checking_bible"
         />
         <div className={classes.row_part}>
-          <TextField type="number" 
-            value={value.chapter} 
-            variant="outlined" 
-            label="장" 
+          <TextInput
+            type='number'
+            label='장'
             value={origin.chapter}
-            inputProps={{readOnly: true}}
+            props={{readOnly : true}}
           />
-          <TextField type="number" 
-            value={value.f_verse} 
-            variant="outlined" 
+          <TextInput
+            type="number"
+            value={origin.f_verse} 
             label="시작 구절" 
-            value={origin.f_verse}
-            inputProps={{readOnly: true}}
+            props={{readOnly: true}}
           />
-          <TextField type="number" 
-            value={value.l_verse} 
-            variant="outlined" 
+          <TextInput
+            type="number"
+            value={origin.l_verse} 
             label="끝 구절" 
-            value={origin.l_verse}
-            inputProps={{readOnly: true}}  
+            props={{readOnly: true}}
           />
         </div>
-        <TextField type="text" id="checking_content" rows="6" variant="outlined" value={value.content}
-          multiline
-          required
-          autoComplete="off"
+        <TextArea 
+          value={value.content}
           label="내용" 
           className={(flags.result ? classes.hide : '')}
           onChange={handleChangeValue('content')} 

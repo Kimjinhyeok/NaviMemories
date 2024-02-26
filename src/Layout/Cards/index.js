@@ -1,4 +1,4 @@
-import { AppBar, Container, FormControl, FormGroup, InputLabel, makeStyles, MenuItem, Select, Tab, Tabs } from '@material-ui/core';
+import { AppBar, Container, FormControl, FormGroup, InputLabel, makeStyles, MenuItem, Select, Tab, Tabs } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import React, { useRef } from 'react'
 import { useParams } from 'react-router';

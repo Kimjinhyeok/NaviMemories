@@ -1,5 +1,5 @@
-import { Container, makeStyles, Paper, Typography } from '@material-ui/core';
-import { lightBlue, lime, teal } from '@material-ui/core/colors';
+import { Container, makeStyles, Paper, Typography } from '@mui/material';
+import { lightBlue, lime, teal } from '@mui/material/colors';
 import React from 'react'
 import BibleData from '../../../Data/bible';
 

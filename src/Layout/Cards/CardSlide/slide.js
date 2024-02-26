@@ -1,11 +1,8 @@
 import React, { useContext } from 'react'
 import CardHtml from './card_html'
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { makeStyles } from '@material-ui/core'
-import 'swiper/swiper.min.css'
-import "swiper/components/navigation/navigation.min.css"
-import "swiper/components/scrollbar/scrollbar.min.css"
-
+import { Swiper, SwiperSlide } from 'swiper';
+import { makeStyles } from '@mui/material'
+import 'swiper/css'
 
 // import Swiper core and required modules
 import SwiperCore, {

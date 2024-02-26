@@ -1,4 +1,4 @@
-import { Divider, FormControl, InputLabel, makeStyles, MenuItem, NativeSelect, Select } from '@material-ui/core'
+import { Divider, FormControl, InputLabel, makeStyles, MenuItem, NativeSelect, Select } from '@mui/material'
 import Cookies from 'js-cookie';
 import React from 'react'
 import Categories from '../Data/categories'

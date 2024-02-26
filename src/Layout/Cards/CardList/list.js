@@ -1,6 +1,6 @@
 import React, { useContext, useLayoutEffect, useMemo } from 'react'
 import CardComponent from './card';
-import { Container, makeStyles } from '@material-ui/core';
+import { Container, makeStyles } from '@mui/material';
 import { Context } from '../../../Utils/Context';
 
 const UNIT_SIZE = 10;

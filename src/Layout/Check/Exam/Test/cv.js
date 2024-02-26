@@ -1,4 +1,4 @@
-import { Button, Container, Divider, TextField } from '@material-ui/core';
+import { Button, Container, Divider, TextField } from '@mui/material';
 import React from 'react'
 import AutoCompleteBible from '../../../autoCompleteBible';
 

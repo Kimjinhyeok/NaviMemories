@@ -1,4 +1,4 @@
-import { Collapse, List, ListItem, ListItemText } from '@material-ui/core';
+import { Collapse, List, ListItem, ListItemText } from '@mui/material';
 import { ExpandLess, ExpandMore } from '@material-ui/icons';
 import React from 'react'
 
