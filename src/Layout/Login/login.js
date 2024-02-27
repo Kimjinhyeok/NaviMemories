@@ -82,7 +82,7 @@ export default function LoginComponent (props) {
                 throw new Error("서버와 연결이 지연되고 있습니다. 잠시 후 시도해주세요.")
             }
             
-            cookies.set('userName', result.data);
+            cookies.set('userName', JSON.stringify(result.data));
             history.push('/recitatoin');
             window.location.reload();
         } catch (error) {

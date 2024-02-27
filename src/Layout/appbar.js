@@ -13,85 +13,8 @@ export default function AppBarComponent(props) {
     
     const history = props.history;
     
-    const useStyle = styled((theme) => ({
-        root: {
-            display: 'flex',
-        },
-        appBar: {
-            transition: theme.transitions.create(['margin', 'width'], {
-                easing: theme.transitions.easing.sharp,
-                duration: theme.transitions.duration.leavingScreen,
-            }),
-        },
-        appBarShift: {
-            width: `calc(100% - ${drawerWidth}px)`,
-            marginLeft: drawerWidth,
-            transition: theme.transitions.create(['margin', 'width'], {
-                easing: theme.transitions.easing.easeOut,
-                duration: theme.transitions.duration.enteringScreen,
-            }),
-        },
-        title: {
-            flexGrow: 1,
-            overflow: 'hidden',
-            whiteSpace: 'nowrap',
-            textOverflow: 'ellipsis',
-        },
-        username: {
-            overflow: 'hidden',
-            whiteSpace: 'nowrap',
-            textOverflow: 'ellipsis',
-        },
-        menuButton: {
-            marginRight: theme.spacing(2),
-        },
-        hide: {
-            display: 'none',
-        },
-        drawer: {
-            width: drawerWidth,
-            flexShrink: 0,
-        },
-        drawerPaper: {
-            width: drawerWidth,
-        },
-        drawerHeader: {
-            display: 'flex',
-            alignItems: 'center',
-            padding: theme.spacing(0, 1),
-            // necessary for content to be below app bar
-            ...theme.mixins.toolbar,
-            justifyContent: 'flex-end',
-        },
-        content: {
-            flexGrow: 1,
-            padding: theme.spacing(3),
-            transition: theme.transitions.create('margin', {
-                easing: theme.transitions.easing.sharp,
-                duration: theme.transitions.duration.leavingScreen,
-            }),
-            marginLeft: -drawerWidth,
-        },
-        contentShift: {
-            transition: theme.transitions.create('margin', {
-                easing: theme.transitions.easing.easeOut,
-                duration: theme.transitions.duration.enteringScreen,
-            }),
-            marginLeft: 0,
-        },
-        nested_1: {
-            marginLeft: theme.spacing(2),
-            width: `calc(100% - ${theme.spacing(2)}px)`
-        },
-        nested_2: {
-            marginLeft: theme.spacing(4),
-            width: `calc(100% - ${theme.spacing(4)}px)`
-        }
-    }));
-    
     const userName = cookies.get('userName');
     const isLogin = cookies.isLogin();
-    const classes = useStyle();
     const [anchorEl, setAnchorEl] = useState(null);
     const [open, setOpen] = useState(cookies.get('collapseDrawer'));
 
@@ -103,29 +26,30 @@ export default function AppBarComponent(props) {
       setAnchorEl(null);
     };
 
-    const logout = function() {
+    const logout = () => {
         cookies.reset();
         history.push('/');
         window.location.reload();
     }
+    const handleOpenMenu = () => {
+        setOpen(true); 
+        cookies.set('collapseDrawer', true)
+    }
     return (
-        <div className="root">
+        <div className="flex">
             <AppBar position="static" 
-                className={clsx(classes.appBar, {
-                    [classes.appBarShift]: open,
-                })}
                 {...props}
                 >
                 <Toolbar>
                     <IconButton
                         edge="start"
-                        className={clsx(classes.menuButton, open && classes.hide)}
-                        onClick={() => { setOpen(true); cookies.set('collapseDrawer', true) }}
+                        className={`mr-1 ${ open && 'hidden' }`}
+                        onClick={handleOpenMenu}
                         color="inherit"
                         aria-label="menu">
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" className={classes.title}><Link to="/" >Navigator Bible Recitation</Link></Typography>
+                    <Typography variant="h6" className={'grow overflow-hidden whitespace-nowrap text-ellipsis'}><Link to="/" >Navigator Bible Recitation</Link></Typography>
                     {
                         userName ? 
                         <div>
@@ -135,7 +59,7 @@ export default function AppBarComponent(props) {
                                 color="inherit"
                                 onClick={handleClick}
                             >
-                                <span className={classes.username}>{userName}</span>님
+                                <span className={'overflow-hidden whitespace-nowrap text-ellipsis'}>{userName}</span>님
                             </Button>   
                             <Menu
                                 anchorEl={anchorEl}
@@ -151,7 +75,6 @@ export default function AppBarComponent(props) {
                 </Toolbar>
             </AppBar>
             <DrawerMenuComponent
-                classes={classes}
                 setOpen={setOpen}
                 open={open}
                 isLogin={isLogin}

@@ -55,7 +55,7 @@ export default (function() {
    */
   function set(property, value) {
     configCookie[property] = value;
-    Cookies.set(configCookieName, configCookie);
+    Cookies.set(configCookieName, JSON.stringify(configCookie));
   }
 
   function reset() {
