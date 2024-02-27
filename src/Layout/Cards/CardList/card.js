@@ -10,13 +10,13 @@ function CardComponent (props, ref) {
             <CardContent className={classes.c_content}>
                 {
                     item.theme ? 
-                        <div className={classes.title}>
+                        <div className={'text-xl'}>
                             {item.theme}
                         </div>
                     :
                         <></>
                 }
-                <Box className={classes.chapter}>
+                <Box className={'mt-2 flex flex-row space-x-1'}>
                     <Typography className={classes.bible_code}>{item.bible_name}</Typography>
                     <Typography>{item.chapter}</Typography>:
                     <Typography>{item.f_verse}</Typography>
@@ -25,7 +25,7 @@ function CardComponent (props, ref) {
                     }
                 </Box>
                 <Box className={classes.verse_text}>{version ? item.verse_gae : (item.verse_kor || item.verse_gae)}</Box>
-                <Box className={classes.category}>{item.category}</Box>
+                <Box className={'mt-2 text-right'}>{item.category}</Box>
             </CardContent>
             {
                 cookies.isLogin() ?

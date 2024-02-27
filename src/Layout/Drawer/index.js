@@ -7,10 +7,11 @@ import Categories from '../../Data/categories'
 import DrawerNaviCategoriesComponent from './drawerNaviCategories'
 import Cookie from '../../Data/cookies';
 import { Context, UserConfigAction } from '../../Utils/Context'
+import { useNavigate } from 'react-router'
 
 export default function DrawerMenuComponent(props) {
   const drawerWidth = props.drawerWidth;
-  const history = props.history;
+  const navigator = useNavigate();
   const classes = props.classes;
   const [opened, setCollapseOpened] = useState({ recitation: false, cardManage: false, checking: false });
 
@@ -30,8 +31,8 @@ export default function DrawerMenuComponent(props) {
   const [categories, setCategories] = useState([]);
   const [subCt, setSubCt] = useState(null);
 
-  React.useEffect(async () => {
-    var subCtClosed = Categories.map(_ => false);
+  React.useEffect(() => {
+    const subCtClosed = Categories.map(_ => false);
     setSubCt(subCtClosed);
     setCategories(Categories);
   }, [])
@@ -73,18 +74,18 @@ export default function DrawerMenuComponent(props) {
           </ListItem>
           <Collapse in={opened.checking} unmountOnExit>
             <List>
-              <ListItem button key='암송 본문 체크' onClick={() => { history.push('/check/cn') }} sx={{marginLeft: '8px', width: 'calc(100% - 8px) !important'}}>
+              <ListItem button key='암송 본문 체크' onClick={() => { navigator('/check/cn') }} sx={{marginLeft: '8px', width: 'calc(100% - 8px) !important'}}>
                 <ListItemText primary="암송 본문 체크" />
               </ListItem>
-              <ListItem button key='암송 구절 체크' onClick={() => { history.push('/check/cv') }} sx={{marginLeft: '8px', width: 'calc(100% - 8px) !important'}}>
+              <ListItem button key='암송 구절 체크' onClick={() => { navigator('/check/cv') }} sx={{marginLeft: '8px', width: 'calc(100% - 8px) !important'}}>
                 <ListItemText primary="암송 구절 체크" />
               </ListItem>
-              <ListItem button key='암송 모의 테스트' onClick={() => { history.push('/test/v_prepare') }} sx={{marginLeft: '8px', width: 'calc(100% - 8px) !important'}}>
+              <ListItem button key='암송 모의 테스트' onClick={() => { navigator('/test/v_prepare') }} sx={{marginLeft: '8px', width: 'calc(100% - 8px) !important'}}>
                 <ListItemText primary="암송 모의 테스트" />
               </ListItem>
               {
                 isLogin ?
-                  <ListItem button key='암송 실기 테스트' onClick={() => { history.push('/test/prepare') }} sx={{marginLeft: '8px', width: 'calc(100% - 8px) !important'}}>
+                  <ListItem button key='암송 실기 테스트' onClick={() => { navigator('/test/prepare') }} sx={{marginLeft: '8px', width: 'calc(100% - 8px) !important'}}>
                     <ListItemText primary="암송 실기 테스트" />
                   </ListItem>
                   :
@@ -106,10 +107,10 @@ export default function DrawerMenuComponent(props) {
                 </ListItem>
                 <Collapse in={opened.cardManage} unmountOnExit>
                   <List>
-                    <ListItem button key='OYO 입력' onClick={() => { history.push('/oyo/template') }} sx={{marginLeft: '8px', width: 'calc(100% - 8px)'}}>
+                    <ListItem button key='OYO 입력' onClick={() => { navigator('/oyo/template') }} sx={{marginLeft: '8px', width: 'calc(100% - 8px)'}}>
                       <ListItemText primary="OYO 입력" />
                     </ListItem>
-                    <ListItem button key='암송카드 관리' onClick={() => { history.push('/oyo/manage') }} sx={{marginLeft: '8px', width: 'calc(100% - 8px)'}}>
+                    <ListItem button key='암송카드 관리' onClick={() => { navigator('/oyo/manage') }} sx={{marginLeft: '8px', width: 'calc(100% - 8px)'}}>
                       <ListItemText primary="암송카드 관리" />
                     </ListItem>
                   </List>

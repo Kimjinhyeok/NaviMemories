@@ -2,7 +2,7 @@ import { AppBar, Container, FormControl, FormGroup, InputLabel, MenuItem, Select
 import { styled } from '@mui/system';
 import { useSnackbar } from 'notistack';
 import React, { useRef } from 'react'
-import { useParams } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router';
 import cookies from '../../Data/cookies';
 import Http from '../../Utils/Http';
 import CardListComponent from './CardList/list';
@@ -48,7 +48,12 @@ export default function RecitationCardListComponent(props) {
   const http = Http();
   const [value, setvalue] = React.useState(0);
   const originList = useRef([]);
-  const category = Number(props.match.params.category);
+  const params = useParams();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const pathname = location.pathname;
+  const {category = 0} = params;
   const { enqueueSnackbar } = useSnackbar();
   
   const handleChange = function (event, newValue) {
@@ -62,16 +67,17 @@ export default function RecitationCardListComponent(props) {
     filter : 'all',
   });
 
-  React.useEffect(async () => {
-    var location = props.location.pathname;
-    var response = await http.get({query : `RC/${category}`});
-    var recvCardList = response.data;
-
-    originList.current = recvCardList;
-    setCardList(recvCardList)
-
-    props.history.push(location);
-  }, [props.location.pathname])
+  React.useEffect(() => {
+    (async () => {
+      const response = await http.get({query : `RC/${category}`});
+      const recvCardList = response.data;
+  
+      originList.current = recvCardList;
+      setCardList(recvCardList)
+  
+      navigate(pathname);
+    })()
+  }, [pathname])
   
   function TabPanel(props) {
     const { value, index, className, ...other } = props;
@@ -146,9 +152,9 @@ export default function RecitationCardListComponent(props) {
     setCardList(cpList);
   }
   return (
-    <div aria-label="tabContent" className={classes.tabcontent}>
+    <div aria-label="tabContent" className={'h-full flex flex-col'}>
       <Container maxWidth="sm">
-        <FormGroup className={classes.options}>
+        <FormGroup sx={{display: 'flex', flexDirection: 'row', marginTop: '4px'}}>
           <FormControl variant="standard">
             <InputLabel>정렬</InputLabel>
             <Select value={Options.sort} onChange={(e) => updateOptions('sort')(e)}>
@@ -175,12 +181,12 @@ export default function RecitationCardListComponent(props) {
       {
       cardlist.length > 0 ?
         <>
-          <div className={classes.flowPanel}>
-            <div className={classes.tabPanels}>
-              <TabPanel value={value} index={0} className={classes.tabPanel}>
+          <div className='flex-1 flex flex-col h-max-[calc(100%-50px)] py-2'>
+            <div className='flex-1'>
+              <TabPanel value={value} index={0} className={'h-full'}>
                 <CardSlideComponent item={cardlist} initSlide={InitSlide.current} setInitSlide={(val) => InitSlide.current = val} updatePassed={updatePassed} {...props} />
               </TabPanel>
-              <TabPanel value={value} index={1} className={classes.tabPanel}>
+              <TabPanel value={value} index={1} className='h-full max-h-[calc(100vh-(48px*2+64px+20px))] overflow-y-auto'>
                 <CardListComponent item={cardlist} updatePassed={updatePassed} {...props} />
               </TabPanel>
             </div>

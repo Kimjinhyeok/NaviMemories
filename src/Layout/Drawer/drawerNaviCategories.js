@@ -1,15 +1,17 @@
 import { Collapse, List, ListItem, ListItemText } from '@mui/material';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import React from 'react'
+import { useNavigate } from 'react-router';
 
-export default function DrawerNaviCategoriesComponent(props) {
+export default function DrawerNaviCategoriesComponent({category, isLogin=false}) {
 
-  const {history, category, classes, isLogin} = props;
+  const navigator = useNavigate();
   const [open, setopen] = React.useState(false)
-  const moveToCategory = function (code) {
-    history.push(`/recitation/${code}`)
+
+  const moveToCategory = (code) => {
+    navigator(`recitation/${code}`);
   }
-  const topNaviComponent = function () {
+  const topNaviComponent = () => {
     if(category.series_code == 500) {
       if(!isLogin) return <></>;
     }

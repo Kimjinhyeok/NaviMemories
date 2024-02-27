@@ -1,9 +1,11 @@
 import React, { useContext } from 'react'
 import CardHtml from './card_html'
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Virtual, Navigation } from 'swiper/modules'
 import { styled } from '@mui/system';
-import 'swiper/css'
-import 'swiper/css/virtual'
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 
 import { Context } from '../../../Utils/Context';
 
@@ -19,8 +21,8 @@ const UNIT_SIZE = 30;
  */
 export default function CardSlideComponent(props) {
 
-    const originCardList = props.item;
-    const initSlide = props.initSlide;
+    const originCardList = props.item ?? [];
+    const initSlide = props.initSlide ?? [];
     const setInitSlide = props.setInitSlide;
     const useStyle = styled((theme) => ({
         cardslideContainer: {
@@ -160,19 +162,20 @@ export default function CardSlideComponent(props) {
     }
 
     return (
-        <div className={classes.cardslideContainer}>
-            <Swiper 
+        <div className={'h-full w-full'}>
+            <Swiper
+                modules={[Virtual, Navigation]} 
                 init={initSlide}
-                className={classes.carouselContainer}
+                className={'h-full my-auto mx-[1vw] overflow-hidden touch-pan-y'}
                 spaceBetween={50}
-                // navigation={{hideOnClick : true}} 
-                scrollbar={{draggable : true, dragSize : 50}}
+                navigation={true} 
+                // scrollbar={{draggable : true, dragSize : 50}}
                 mousewheel={true}
                 onSlideChange={onSlideNextTransition}
                 virtual
             >
                 {
-                    (originCardList || []).map((item, idx) => renderCard(idx, item))
+                    originCardList.map((item, idx) => renderCard(idx, item))
                 }
             </Swiper>
         </div>

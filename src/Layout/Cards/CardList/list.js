@@ -113,13 +113,15 @@ export default function CardListComponent (props) {
 
 
     return (
-        <Container maxWidth="sm" className={classes.root_container} ref={containerRef}>
-            {
-                cardList.map((item, idx) => {
-                    const lastEl = idx === CardIndex - 1;
-                    return <CardComponent item={item} key={idx} ref={lastEl ? target : null} classes={classes}  version={version} updatePassed={props.updatePassed}></CardComponent>
-                })
-            }
+        <Container maxWidth="sm"  ref={containerRef}>
+            <div className='space-y-2'>
+                {
+                    cardList.map((item, idx) => {
+                        const lastEl = idx === CardIndex - 1;
+                        return <CardComponent item={item} key={idx} ref={lastEl ? target : null} classes={classes}  version={version} updatePassed={props.updatePassed}></CardComponent>
+                    })
+                }
+            </div>
         </Container>
     )
 }
