@@ -24,10 +24,10 @@ function App(props) {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<MainComponent />}></Route>
+        <Route path="/" excat element={<MainComponent />}></Route>
         <Route path="/join" element={<JoinComponent />}></Route>
         <Route path="/login" element={<LoginComponent />}></Route>
-        <Route path="/:path" excat element={<MainComponent />}></Route>
+        <Route path="/*" element={<MainComponent />}></Route>
       </Routes>
     </div>
   );

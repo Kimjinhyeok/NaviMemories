@@ -44,16 +44,16 @@ export default function MainComponent(props) {
         checkUserSignuped();
     }, [])
     return (
-        <div className={classes.root_container}>
+        <div className='h-full flex flex-col'>
             <ContextProvider>
                 <AppBarComponent {...props}     />
-                <Container className={classes.main_content}>
+                <Container className={`flex-1`}>
                     <Routes>
                         <Route path="/test/:path" element={<ExamMainPage  />} />
                         <Route path="/check" element={<UnitPageComponent />}/>
                         <Route path="/recitation/:category" element={<RecitationCardListComponent  />} />
                         <Route path="/oyo/:path" element={<OYOIndex />} />
-                        <Route path="/" element={<IntroPageComponent  />} />
+                        <Route path="/" excat element={<IntroPageComponent  />} />
                     </Routes>
                 </Container>
             </ContextProvider>
