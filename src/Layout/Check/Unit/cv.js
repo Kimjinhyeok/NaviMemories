@@ -60,9 +60,9 @@ export default function CheckChapterVerseComponent(props) {
     setFlags(InitialFlags);
   }
   return (
-    <Container maxWidth="md" className={classes.root_checking}>
+    <Container maxWidth="md" sx={{ display: 'flex', height: '100%' }}>
     
-      <form className={classes.form_checking}>
+      <form className='m-auto flex flex-col w-full space-y-2'>
         <TextField id="checking_theme" variant="outlined" 
           value={value.theme} 
           onChange={handleChangeValue('theme')} 
@@ -70,49 +70,49 @@ export default function CheckChapterVerseComponent(props) {
           autoComplete="off"
           label="주제" 
           disabled={!origin.theme}
-          className={flags.theme === null ? null : (flags.theme === true ? classes.succeed : classes.failed)}/>
+          className={flags.theme === null ? null : (flags.theme === true ? 'bg-blue-500' : 'bg-red-500')}/>
         <AutoCompleteBible
           classes={classes}
           fullWidth={true}
           id="checking_bible"
-          className={flags.bible_code === null ? null : (flags.bible_code === true? classes.succeed : classes.failed)}
+          className={flags.bible_code === null ? null : (flags.bible_code === true? 'bg-blue-500' : 'bg-red-500')}
           onChange={handleBibleChange}
           {... (flags.result ? {defaultValue : origin.bible_code } : {defaultValue : value.bible_code})}
         />
-        <div className={classes.row_part}>
+        <div className='flex space-x-2'>
           <TextField type="number" 
             value={value.chapter} 
             variant="outlined" 
             label="장" 
             required
             onChange={handleChangeValue('chapter')} 
-            className={flags.chapter === null ? null : (flags.chapter === true ? classes.succeed : classes.failed)}/>
+            className={flags.chapter === null ? null : (flags.chapter === true ? 'bg-blue-500' : 'bg-red-500')}/>
           <TextField type="number" 
             value={value.f_verse} 
             variant="outlined" 
             label="시작 구절" 
             required
             onChange={handleChangeValue('f_verse')} 
-            className={flags.f_verse === null ? null : (flags.f_verse === true ? classes.succeed : classes.failed)}/>
+            className={flags.f_verse === null ? null : (flags.f_verse === true ? 'bg-blue-500' : 'bg-red-500')}/>
           <TextField type="number" 
             value={value.l_verse} 
             variant="outlined" 
             label="끝 구절" 
             required
             onChange={handleChangeValue('l_verse')} 
-            className={flags.l_verse === null ? null : (flags.l_verse === true ? classes.succeed : classes.failed)}/>
+            className={flags.l_verse === null ? null : (flags.l_verse === true ? 'bg-blue-500' : 'bg-red-500')}/>
         </div>
         <TextField id="checking_content" rows="6" variant="outlined" value={origin.content}
           inputProps={{readOnly: true}}  
           multiline
           label="내용" 
-          className={classes.content_checking}/>
+          className='flex-1'/>
         <Divider />
         {
             flags.result ? 
-            <Button type="button" variant="contained" color="primary" onClick={() => {handleOnRefresh()}}><Refresh/>재도전</Button>
+            <Button variant="outlined" onClick={handleOnRefresh}><Refresh/>재도전</Button>
             :
-            <Button type="button" variant="contained" color="primary" onClick={() => {handleOnClick()}}>확인</Button>
+            <Button variant="contained" color="primary" onClick={handleOnClick}>확인</Button>
           }
       </form>
       

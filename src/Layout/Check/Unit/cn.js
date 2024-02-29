@@ -144,9 +144,9 @@ export default function CheckContentComponent(props) {
 
   }
   return (
-    <Container maxWidth="md" className={classes.root_checking}>
+    <Container maxWidth="md" className='flex h-full'>
     
-      <form className={classes.form_checking}>
+      <form className='m-auto flex flex-col w-full space-y-2'>
         <TextField id="checking_theme" variant="outlined" 
           value={value.theme} 
           onChange={handleChangeValue('theme')} 
@@ -154,7 +154,7 @@ export default function CheckContentComponent(props) {
           required
           label="주제" 
           disabled={!origin.theme}
-          className={flags.theme === null ? null : (flags.theme === true ? classes.succeed : classes.failed)}/>
+          className={flags.theme === null ? null : (flags.theme === true ? 'bg-blue-500' : 'bg-red-500')}/>
         <AutoCompleteBible
           classes={classes}
           fullWidth={true}
@@ -162,7 +162,7 @@ export default function CheckContentComponent(props) {
           disabled={true}
           id="checking_bible"
         />
-        <div className={classes.row_part}>
+        <div className='flex space-x-2'>
           <TextInput
             type='number'
             label='장'
@@ -185,22 +185,22 @@ export default function CheckContentComponent(props) {
         <TextArea 
           value={value.content}
           label="내용" 
-          className={(flags.result ? classes.hide : '')}
+          className={(flags.result ? 'hidden' : '')}
           onChange={handleChangeValue('content')} 
         />
-        <div className={(flags.result || flags.hint) ? classes.content_result : classes.hide}>
+        <div className={(flags.result || flags.hint) ? 'h-[12vh] py-4 px-3 overflow-y-auto break-words border border-gray-400 rounded-sm' : 'hidden'}>
           {
             matchResult.length > 0 ? (matchResult.map((item, idx) => (<span key={idx} className={item.type===0 ? classes.correct : (item.type === -1 ? classes.incorrect : classes.omitted) }>{item.text}</span>))) : <></>
           }
         </div>
-        <div className={classes.action_button}>
+        <div className={'flex flex-col space-y-2 mt-2'}>
           {
             flags.result ? 
-              <Button type="button" variant="contained" color="primary" onClick={() => {handleOnRefresh()}}><Refresh />재도전</Button>
+              <Button variant="outlined" onClick={handleOnRefresh}><Refresh />재도전</Button>
             :
             <>
-              <Button type="button" variant="outlined" color="default" onClick={() => {handleHint()}}>힌트</Button>
-              <Button type="button" variant="contained" color="primary" onClick={() => {handleOnClick()}}>확인</Button>
+              <Button variant="outlined"  onClick={handleHint}>힌트</Button>
+              <Button variant="contained" color="primary" onClick={handleOnClick}>확인</Button>
             </>
           }
           

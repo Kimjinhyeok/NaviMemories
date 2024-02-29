@@ -50,7 +50,7 @@ export default function MainComponent(props) {
                 <Container className={`flex-1`}>
                     <Routes>
                         <Route path="/test/:path" element={<ExamMainPage  />} />
-                        <Route path="/check" element={<UnitPageComponent />}/>
+                        <Route path="/check/*" element={<UnitPageComponent />}/>
                         <Route path="/recitation/:category" element={<RecitationCardListComponent  />} />
                         <Route path="/oyo/:path" element={<OYOIndex />} />
                         <Route path="/" excat element={<IntroPageComponent  />} />

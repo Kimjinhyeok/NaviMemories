@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Route, Routes, } from 'react-router';
+import React, { useMemo, useState } from 'react'
+import { Route, Routes, useLocation } from 'react-router';
 import { Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material'
 import { styled } from '@mui/system';
 import { ArrowBackIos, ArrowForwardIos, ArrowRightAlt, Shuffle } from '@mui/icons-material'
@@ -164,6 +164,7 @@ export default function UnitPageComponent(props) {
   }));
   const classes = useStyle();
 
+  const location = useLocation();
 
   function setOriginCard(item, version) {
     setOrigin({
@@ -197,6 +198,13 @@ export default function UnitPageComponent(props) {
 
   const [origin, setOrigin] = React.useState(InitialOrigin);
   const [cardList, setCardList] = React.useState([]);
+
+  const path = useMemo(() => {
+    const pathname = location.pathname;
+    const splited = pathname.split('/');
+    return splited[splited.length-1];
+  }, location);
+
   React.useEffect(() => { loadRecitationCards(options.series) }, [])
   const [Fold, setFold] = useState(true)
   const setCardContent = function (index) {
@@ -249,14 +257,14 @@ export default function UnitPageComponent(props) {
     setoptions({ ...options, index: 0 })
   }
   return (
-    <div className={classes.root_unit} >
+    <div className='h-full flex flex-row' >
 
-      <Button type="button" color="default" className={classes.moveButton}
+      <Button variant='contained' sx={{ flex: 5, minWidth: 0 }}
         onClick={() => { setCardContent(options.index - 1) }} disabled={options.index == 0} title="이전 문제"><ArrowBackIos /></Button>
-      <div className={classes.area_content}>
-        <div className={classes.content_options}>
-          <div className={`actions ${Fold ? classes.fold : ''}`}>
-            <div className={classes.options_select}>
+      <div className='flex flex-col relative flex-[90]'>
+        <div className='p-2 mt-4 border rounded-[4px] flex flex-col flex-1'>
+          <div className={`actions ${Fold ? 'overflow-hidden h-[50px]' : ''}`}>
+            <div>
               <CategorySelect value={options.series} onChange={handleSeriesChange} />
             </div>
             <FormControl>
@@ -280,14 +288,15 @@ export default function UnitPageComponent(props) {
                 <></>
             }
           </div>
-          <Button variant="outlined" color="default" size="small" onClick={() => setFold(!Fold)}>옵션 {Fold ? '열기' : '닫기'}</Button>
+          <Button variant="outlined" size="small" onClick={() => setFold(!Fold)}>옵션 {Fold ? '열기' : '닫기'}</Button>
         </div>
-        <Routes>
-          <Route path={`${props.params ? props.params.path : ''}/check/cv`} element={props => <CheckChapterVerseComponent classes={classes} origin={origin} {...props} />} />
-          <Route path={`${props.params ? props.params.path : ''}/check/cn`} element={props => <CheckContentComponent classes={classes} origin={origin} {...props} />} />
-        </Routes>
+        {
+          path == 'cv'
+          ? <CheckChapterVerseComponent classes={classes} origin={origin} />
+          : <CheckContentComponent classes={classes} origin={origin} />
+        }
       </div>
-      <Button type="button" color="default" className={classes.moveButton}
+      <Button variant='contained'  sx={{ flex: 5, minWidth: 0 }}
         onClick={() => { setCardContent(options.index + 1) }} disabled={options.index == cardList.length - 1} title="다음 문제"><ArrowForwardIos /></Button>
     </div>
   )
