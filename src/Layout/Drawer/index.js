@@ -51,7 +51,7 @@ export default function DrawerMenuComponent(props) {
         minWidth={'260px'}
       >
         <List>
-          <ListItem button onClick={() => handleOpenedClick('recitation')}>
+          <ListItem onClick={() => handleOpenedClick('recitation')}>
             <ListItemText>암송 읽기</ListItemText>
             {opened.recitation ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
@@ -68,24 +68,24 @@ export default function DrawerMenuComponent(props) {
           {/**
            ********************************  암송 점검  *******************************
           */}
-          <ListItem button onClick={() => { handleOpenedClick('checking') }}>
+          <ListItem onClick={() => { handleOpenedClick('checking') }}>
             <ListItemText>암송 점검</ListItemText>
             {opened.checking ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
           <Collapse in={opened.checking} unmountOnExit>
             <List>
-              <ListItem button key='암송 본문 체크' onClick={() => { navigator('/check/cn') }} sx={{marginLeft: '8px', width: 'calc(100% - 8px) !important'}}>
+              <ListItem key='암송 본문 체크' onClick={() => { navigator('/check/cn') }} sx={{marginLeft: '8px', width: 'calc(100% - 8px) !important'}}>
                 <ListItemText primary="암송 본문 체크" />
               </ListItem>
-              <ListItem button key='암송 구절 체크' onClick={() => { navigator('/check/cv') }} sx={{marginLeft: '8px', width: 'calc(100% - 8px) !important'}}>
+              <ListItem key='암송 구절 체크' onClick={() => { navigator('/check/cv') }} sx={{marginLeft: '8px', width: 'calc(100% - 8px) !important'}}>
                 <ListItemText primary="암송 구절 체크" />
               </ListItem>
-              <ListItem button key='암송 모의 테스트' onClick={() => { navigator('/test/v_prepare') }} sx={{marginLeft: '8px', width: 'calc(100% - 8px) !important'}}>
+              <ListItem key='암송 모의 테스트' onClick={() => { navigator('/test/v_prepare') }} sx={{marginLeft: '8px', width: 'calc(100% - 8px) !important'}}>
                 <ListItemText primary="암송 모의 테스트" />
               </ListItem>
               {
                 isLogin ?
-                  <ListItem button key='암송 실기 테스트' onClick={() => { navigator('/test/prepare') }} sx={{marginLeft: '8px', width: 'calc(100% - 8px) !important'}}>
+                  <ListItem key='암송 실기 테스트' onClick={() => { navigator('/test/prepare') }} sx={{marginLeft: '8px', width: 'calc(100% - 8px) !important'}}>
                     <ListItemText primary="암송 실기 테스트" />
                   </ListItem>
                   :

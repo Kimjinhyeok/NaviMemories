@@ -47,7 +47,7 @@ export default function MainComponent(props) {
         <div className='h-full flex flex-col'>
             <ContextProvider>
                 <AppBarComponent {...props}     />
-                <Container className={`flex-1`}>
+                <Container className={`flex-1 py-2`}>
                     <Routes>
                         <Route path="/test/:path" element={<ExamMainPage  />} />
                         <Route path="/check/*" element={<UnitPageComponent />}/>

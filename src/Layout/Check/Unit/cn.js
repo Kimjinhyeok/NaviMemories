@@ -144,7 +144,7 @@ export default function CheckContentComponent(props) {
 
   }
   return (
-    <Container maxWidth="md" className='flex h-full'>
+    <Container maxWidth="md" sx={{ display: 'flex', height: '100%', padding: '0 !important' }}>
     
       <form className='m-auto flex flex-col w-full space-y-2'>
         <TextField id="checking_theme" variant="outlined" 

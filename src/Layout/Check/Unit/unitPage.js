@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import { Route, Routes, useLocation } from 'react-router';
-import { Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material'
+import { Button, Container, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material'
 import { styled } from '@mui/system';
 import { ArrowBackIos, ArrowForwardIos, ArrowRightAlt, Shuffle } from '@mui/icons-material'
 import { red, blue, lightBlue, grey } from '@mui/material/colors'
@@ -262,7 +262,7 @@ export default function UnitPageComponent(props) {
       <Button variant='contained' sx={{ flex: 5, minWidth: 0 }}
         onClick={() => { setCardContent(options.index - 1) }} disabled={options.index == 0} title="이전 문제"><ArrowBackIos /></Button>
       <div className='flex flex-col relative flex-[90]'>
-        <div className='p-2 mt-4 border rounded-[4px] flex flex-col flex-1'>
+        <Container maxWidth="md"  sx={{ display: 'flex', height: '100%', padding: '0 !important' }} className='p-2 mt-4 border rounded-[4px] flex flex-col flex-1'>
           <div className={`actions ${Fold ? 'overflow-hidden h-[50px]' : ''}`}>
             <div>
               <CategorySelect value={options.series} onChange={handleSeriesChange} />
@@ -289,7 +289,7 @@ export default function UnitPageComponent(props) {
             }
           </div>
           <Button variant="outlined" size="small" onClick={() => setFold(!Fold)}>옵션 {Fold ? '열기' : '닫기'}</Button>
-        </div>
+        </Container>
         {
           path == 'cv'
           ? <CheckChapterVerseComponent classes={classes} origin={origin} />

@@ -1,22 +1,18 @@
 import { AppBar, Button, IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material'
-import { styled } from '@mui/system';
 import MenuIcon from '@mui/icons-material/Menu'
 import React, { useState } from 'react'
-import clsx from 'clsx'
 import { Link } from 'react-router-dom'
 import DrawerMenuComponent from './Drawer'
 import cookies from '../Data/cookies'
 
 export default function AppBarComponent(props) {
 
-    const drawerWidth = 240;
-    
     const history = props.history;
     
     const userName = cookies.get('userName');
     const isLogin = cookies.isLogin();
     const [anchorEl, setAnchorEl] = useState(null);
-    const [open, setOpen] = useState(cookies.get('collapseDrawer'));
+    const [open, setOpen] = useState(false);
 
     const handleClick = (event) => {
       setAnchorEl(event.currentTarget);
