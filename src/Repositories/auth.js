@@ -18,7 +18,11 @@ const signIn = async (params) => {
 
     return data;
   } catch (error) {
-    
+    if(error.response) {
+      if(error.response.status == 400) {
+        return new Error("NET: 아이디 또는 비밀번호가 일치하지 않습니다.")
+      }
+    }
   }
 }
 
@@ -50,7 +54,6 @@ const leave = async (params) => {
 const AuthRepository = {
   signIn,
   signOut,
-  create,
   leave,
 }
 

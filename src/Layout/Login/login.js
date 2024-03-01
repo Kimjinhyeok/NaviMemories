@@ -14,14 +14,12 @@ import {
   InputLabel,
   useTheme,
 } from "@mui/material";
-import { styled } from "@mui/system";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import clsx from "clsx";
 import Http from "../../Utils/Http";
-import Cookies from "js-cookie";
 import { useSnackbar } from "notistack";
 import cookies from "../../Data/cookies";
 import { useNavigate } from "react-router";
+import AuthUsecase from "../../Usecase/auth/auth";
 
 export default function LoginComponent(props) {
   const http = Http();
@@ -51,28 +49,22 @@ export default function LoginComponent(props) {
   };
   const handleSummit = async () => {
     try {
-      if (!values.id && !values.password) {
-        enqueueSnackbar("아이디 또는 비밀번호를 입력해주세요.", {
+
+      const res = await AuthUsecase.signIn({
+        id: values.id,
+        pwd: values.password,
+      });
+
+      if(res instanceof Error) {
+        enqueueSnackbar(res.message, {
           variant: "warning",
         });
-        return;
-      }
-      var result = await http.post({
-        query: "auth",
-        data: {
-          id: values.id,
-          pwd: values.password,
-        },
-      });
-      if (result instanceof Error) {
-        throw new Error(
-          "서버와 연결이 지연되고 있습니다. 잠시 후 시도해주세요."
-        );
+      } else {
+        cookies.set("userName", JSON.stringify(res));
+        navigator("/recitation/00");
+        window.location.reload();
       }
 
-      cookies.set("userName", JSON.stringify(result.data));
-      navigator("/recitation/00");
-      window.location.reload();
     } catch (error) {
       const { message } = error.response.data;
       enqueueSnackbar(message || "로그인 중 오류가 발생했습니다.", {
