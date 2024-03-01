@@ -27,11 +27,11 @@ export default function Http() {
    * @param {httpPraram} params 
    * @returns {AxiosResponse}
    */
-  async function post(params) {
-    var { query, data } = params;
+  async function post(url, params) {
+    var { data } = params;
     var options = params.options ? params.options : {withCredentials : true};
     try {
-      var result = await http.post(`${ServerUrl}/${query}`, data, options);
+      var result = await http.post(`${ServerUrl}/${url}`, data, options);
       if(result instanceof Error) {
         throw result;
       }
@@ -45,14 +45,14 @@ export default function Http() {
    * @param {httpPraram} params 
    * @returns 
    */
-  async function get(params) {
-    var { query, data } = params;
+  async function get(url, params) {
+    const { data } = params;
     var options = params.options ? params.options : {withCredentials : true};
     if(data) {
-      query+= dataToQuery(data);
+      url += dataToQuery(data);
     }
     try {
-      var result = await http.get(`${ServerUrl}/${query}`, options);
+      var result = await http.get(`${ServerUrl}/${url}`, options);
       if(result instanceof Error) {
         throw result;
       }
@@ -66,11 +66,11 @@ export default function Http() {
    * @param {httpPraram} params 
    * @returns 
    */
-  async function put(params) {
-    var { query, data } = params;
+  async function put(url, params) {
+    const { data } = params;
     var options = params.options ? params.options : {withCredentials : true};
     try {
-      var result = await http.put(`${ServerUrl}/${query}`, data, options);
+      var result = await http.put(`${ServerUrl}/${url}`, data, options);
       if(result instanceof Error) {
         throw result;
       }
@@ -84,14 +84,14 @@ export default function Http() {
    * @param {httpPraram} params 
    * @returns 
    */
-  async function del(params) {
-    var { query, data } = params;
+  async function del(url, params) {
+    const { data } = params;
     var options = params.options ? params.options : {withCredentials : true};
     if(data) {
-      query += dataToQuery(data);
+      url += dataToQuery(data);
     }
     try {
-      var result = await http.delete(`${ServerUrl}/${query}`, options);
+      var result = await http.delete(`${ServerUrl}/${url}`, options);
       if(result instanceof Error) {
         throw result;
       }

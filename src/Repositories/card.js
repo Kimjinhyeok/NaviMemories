@@ -2,13 +2,22 @@ import Http from "../Utils/Http";
 
 const http = Http();
 
-export const getCardByCategory = async (category="") => {
+const Paths = {
+  gets : '/RC',
+}
+const gets = async (category="") => {
   try {
-    var response = await http.get({query : `RC/${category}`});
-    const data = response.data;
+    const res = await http.get(`${Paths.gets}/${category}`);
+    const { data } = res;
     return data ?? [];
   } catch (error) {
     console.error(error);
     return []
   }
 }
+
+const CardRepository = {
+  gets,
+}
+
+export default CardRepository;
