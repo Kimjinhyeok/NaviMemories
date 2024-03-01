@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Collapse, Divider, List, ListItem, Switch, ListItemSecondaryAction, ListItemText, ListSubheader, Drawer, Box } from '@mui/material'
+import { Collapse, Divider, List, ListItem, Switch, ListItemSecondaryAction, ListItemText, ListSubheader, Drawer, Box, ListItemButton } from '@mui/material'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ExpandLess from '@mui/icons-material/ExpandLess'
 import ExpandMore from '@mui/icons-material/ExpandMore'
@@ -51,10 +51,10 @@ export default function DrawerMenuComponent(props) {
         minWidth={'260px'}
       >
         <List>
-          <ListItem onClick={() => handleOpenedClick('recitation')}>
+          <ListItemButton onClick={() => handleOpenedClick('recitation')}>
             <ListItemText>암송 읽기</ListItemText>
             {opened.recitation ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
+          </ListItemButton>
           <Collapse in={opened.recitation} unmountOnExit>
             <List>
               {categories.map((ct, idx) => {
@@ -68,26 +68,26 @@ export default function DrawerMenuComponent(props) {
           {/**
            ********************************  암송 점검  *******************************
           */}
-          <ListItem onClick={() => { handleOpenedClick('checking') }}>
+          <ListItemButton onClick={() => { handleOpenedClick('checking') }}>
             <ListItemText>암송 점검</ListItemText>
             {opened.checking ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
+          </ListItemButton>
           <Collapse in={opened.checking} unmountOnExit>
             <List>
-              <ListItem key='암송 본문 체크' onClick={() => { navigator('/check/cn') }} sx={{marginLeft: '8px', width: 'calc(100% - 8px) !important'}}>
+              <ListItemButton key='암송 본문 체크' onClick={() => { navigator('/check/cn') }} sx={{marginLeft: '8px', width: 'calc(100% - 8px) !important'}}>
                 <ListItemText primary="암송 본문 체크" />
-              </ListItem>
-              <ListItem key='암송 구절 체크' onClick={() => { navigator('/check/cv') }} sx={{marginLeft: '8px', width: 'calc(100% - 8px) !important'}}>
+              </ListItemButton>
+              <ListItemButton key='암송 구절 체크' onClick={() => { navigator('/check/cv') }} sx={{marginLeft: '8px', width: 'calc(100% - 8px) !important'}}>
                 <ListItemText primary="암송 구절 체크" />
-              </ListItem>
-              <ListItem key='암송 모의 테스트' onClick={() => { navigator('/test/v_prepare') }} sx={{marginLeft: '8px', width: 'calc(100% - 8px) !important'}}>
+              </ListItemButton>
+              <ListItemButton key='암송 모의 테스트' onClick={() => { navigator('/test/v_prepare') }} sx={{marginLeft: '8px', width: 'calc(100% - 8px) !important'}}>
                 <ListItemText primary="암송 모의 테스트" />
-              </ListItem>
+              </ListItemButton>
               {
                 isLogin ?
-                  <ListItem key='암송 실기 테스트' onClick={() => { navigator('/test/prepare') }} sx={{marginLeft: '8px', width: 'calc(100% - 8px) !important'}}>
+                  <ListItemButton key='암송 실기 테스트' onClick={() => { navigator('/test/prepare') }} sx={{marginLeft: '8px', width: 'calc(100% - 8px) !important'}}>
                     <ListItemText primary="암송 실기 테스트" />
-                  </ListItem>
+                  </ListItemButton>
                   :
                   <></>
               }
@@ -101,18 +101,18 @@ export default function DrawerMenuComponent(props) {
           {
             isLogin ?
               <>
-                <ListItem button onClick={() => { handleOpenedClick('cardManage') }}>
+                <ListItemButton onClick={() => { handleOpenedClick('cardManage') }}>
                   <ListItemText>내 카드 관리</ListItemText>
                   {opened.cardManage ? <ExpandLess /> : <ExpandMore />}
-                </ListItem>
+                </ListItemButton>
                 <Collapse in={opened.cardManage} unmountOnExit>
                   <List>
-                    <ListItem button key='OYO 입력' onClick={() => { navigator('/oyo/template') }} sx={{marginLeft: '8px', width: 'calc(100% - 8px)'}}>
+                    <ListItemButton key='OYO 입력' onClick={() => { navigator('/oyo/template') }} sx={{marginLeft: '8px', width: 'calc(100% - 8px)'}}>
                       <ListItemText primary="OYO 입력" />
-                    </ListItem>
-                    <ListItem button key='암송카드 관리' onClick={() => { navigator('/oyo/manage') }} sx={{marginLeft: '8px', width: 'calc(100% - 8px)'}}>
+                    </ListItemButton>
+                    <ListItemButton key='암송카드 관리' onClick={() => { navigator('/oyo/manage') }} sx={{marginLeft: '8px', width: 'calc(100% - 8px)'}}>
                       <ListItemText primary="암송카드 관리" />
-                    </ListItem>
+                    </ListItemButton>
                   </List>
                 </Collapse>
                 <Divider />
@@ -123,7 +123,7 @@ export default function DrawerMenuComponent(props) {
           }
         </List>
         <List subheader={<ListSubheader>성경 번역</ListSubheader>}>
-          <ListItem>
+          <ListItemButton>
             <ListItemText id="switch-list-label-wifi" primary={BibleVersion ? "개정개역" : "개역한글"} />
             <ListItemSecondaryAction>
               <Switch
@@ -134,7 +134,7 @@ export default function DrawerMenuComponent(props) {
                 color="primary"
               />
             </ListItemSecondaryAction>
-          </ListItem>
+          </ListItemButton>
         </List>
       </Box>
     </Drawer>
