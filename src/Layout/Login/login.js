@@ -71,7 +71,7 @@ export default function LoginComponent(props) {
       }
 
       cookies.set("userName", JSON.stringify(result.data));
-      navigator("/recitatoin");
+      navigator("/recitation/00");
       window.location.reload();
     } catch (error) {
       const { message } = error.response.data;

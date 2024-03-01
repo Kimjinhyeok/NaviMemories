@@ -28,7 +28,7 @@ export default function RecitationCardListComponent(props) {
   const navigate = useNavigate();
 
   const pathname = location.pathname;
-  const {category = 0} = params;
+  const {category = '00'} = params;
   const { enqueueSnackbar } = useSnackbar();
   
   const handleChange = function (event, newValue) {
