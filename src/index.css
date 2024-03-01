@@ -17,3 +17,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+input {
+  /* input Padding 사라지는 이슈 수정 */
+  padding-left: 14px !important;
+  padding-right: 14px !important;
+}
