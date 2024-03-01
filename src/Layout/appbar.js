@@ -1,13 +1,13 @@
 import { AppBar, Button, IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import DrawerMenuComponent from './Drawer'
 import cookies from '../Data/cookies'
 
 export default function AppBarComponent(props) {
 
-    const history = props.history;
+    const navigator = useNavigate();
     
     const userName = cookies.get('userName');
     const isLogin = cookies.isLogin();
@@ -24,7 +24,7 @@ export default function AppBarComponent(props) {
 
     const logout = () => {
         cookies.reset();
-        history.push('/');
+        navigator('/');
         window.location.reload();
     }
     const handleOpenMenu = () => {
