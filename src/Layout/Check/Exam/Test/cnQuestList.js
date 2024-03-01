@@ -165,9 +165,9 @@ export default function CNQuestList(props) {
   
   return (
     StateList.length > 0 ? 
-    <div className={classes.root}> 
-      <div className={classes.root_checking}>
-        <div className={classes.questionIndex}>
+    <div className={'flex-1 flex flex-col'}> 
+      <div className={'h-full flex flex-col justify-center'}>
+        <div className={'text-gray-500 text-right px-3'}>
           <span>(</span><span>{QuestionIndex+1}</span><span>/</span><span>{origins.length}</span><span>)</span>
         </div>
         <ExamContentComponent
@@ -179,9 +179,9 @@ export default function CNQuestList(props) {
           classes={classes}
         />  
       </div>
-      <div className={classes.actions}>
-        <Button type="button" color="primary" variant="outlined" disabled={QuestionIndex == 0 && precedence} onClick={() => {changeQuestionIndex(-1)}} ><ArrowLeft />이전 문제</Button>
-        <Button type="button" color="primary" variant="outlined" disabled={QuestionIndex >= origins.length-1 && !precedence } onClick={() => {changeQuestionIndex(1)}} >다음 문제 <ArrowRight/></Button>
+      <div className={'mt-4 w-full flex justify-between space-x-2'}>
+        <Button color="primary" fullWidth variant="outlined" disabled={QuestionIndex == 0 && precedence} onClick={() => {changeQuestionIndex(-1)}} ><ArrowLeft />이전 문제</Button>
+        <Button color="primary" fullWidth variant="outlined" disabled={QuestionIndex >= origins.length-1 && !precedence } onClick={() => {changeQuestionIndex(1)}} >다음 문제 <ArrowRight/></Button>
       </div>
     </div>
     : <></>

@@ -22,7 +22,6 @@ import AutoCompleteBible from '../../../autoCompleteBible';
  * @property {Function} updateState
  * @property {addDeduction} setDeduction
  * @property {Function} confirm
- * @property {ClassNameMap} classes
  * 
  */
 /**
@@ -32,7 +31,7 @@ import AutoCompleteBible from '../../../autoCompleteBible';
  */
 export default function ExamChapterVerseComponent(props) {
 
-  const { quest, state, updateState, setDeduction, confirm, classes } = props;
+  const { quest, state, updateState, setDeduction, confirm } = props;
 
   const handleChangeValue = (props) => (event) => {
     var updateItem = { ...state, value: { ...state.value, [props]: event.target.value } }
@@ -79,9 +78,9 @@ export default function ExamChapterVerseComponent(props) {
     event.stopPropagation();
   }
   return (
-    <Container>
+    <Container sx={{padding: '0 !important'}}>
 
-      <form className={classes.form_checking}>
+      <form className={'w-full m-auto flex flex-col space-y-2'}>
         {
           state.flags.doTheme ?
             (
@@ -92,19 +91,18 @@ export default function ExamChapterVerseComponent(props) {
                 autoComplete="off"
                 required
                 label="주제"
-                className={state.flags.theme === null ? null : (state.flags.theme === true ? classes.succeed : classes.failed)} />
+                className={state.flags.theme === null ? null : (state.flags.theme === true ? 'bg-blue-500' : 'bg-red-500')} />
             ) : <></>
         }
         <AutoCompleteBible
-          classes={classes}
           fullWidth={true}
           id="checking_bible"
-          className={state.flags.bible_code === null ? null : (state.flags.bible_code === true ? classes.succeed : classes.failed)}
+          className={state.flags.bible_code === null ? null : (state.flags.bible_code === true ? 'bg-blue-500' : 'bg-red-500')}
           onChange={handleBibleChange}
           onFocus={handleFocus('bible_code')}
           {... (state.flags.result ? { defaultValue: quest.bible_code } : {defaultValue : state.value.bible_code})}
         />
-        <div className={classes.row_part}>
+        <div className={'flex space-x-2'}>
           <TextField type="number"
             value={state.value.chapter}
             variant="outlined"
@@ -112,7 +110,7 @@ export default function ExamChapterVerseComponent(props) {
             required
             onChange={handleChangeValue('chapter')}
             onFocus={handleFocus('chapter')}
-            className={state.flags.chapter === null ? null : (state.flags.chapter === true ? classes.succeed : classes.failed)} />
+            className={state.flags.chapter === null ? null : (state.flags.chapter === true ? 'bg-blue-500' : 'bg-red-500')} />
           <TextField type="number"
             value={state.value.f_verse}
             variant="outlined"
@@ -120,7 +118,7 @@ export default function ExamChapterVerseComponent(props) {
             required
             onChange={handleChangeValue('f_verse')}
             onFocus={handleFocus('f_verse')}
-            className={state.flags.f_verse === null ? null : (state.flags.f_verse === true ? classes.succeed : classes.failed)} />
+            className={state.flags.f_verse === null ? null : (state.flags.f_verse === true ? 'bg-blue-500' : 'bg-red-500')} />
           <TextField type="number"
             value={state.value.l_verse}
             variant="outlined"
@@ -128,15 +126,15 @@ export default function ExamChapterVerseComponent(props) {
             required
             onChange={handleChangeValue('l_verse')}
             onFocus={handleFocus('l_verse')}
-            className={state.flags.l_verse === null ? null : (state.flags.l_verse === true ? classes.succeed : classes.failed)} />
+            className={state.flags.l_verse === null ? null : (state.flags.l_verse === true ? 'bg-blue-500' : 'bg-red-500')} />
         </div>
         <TextField id="checking_content" rows="6" variant="outlined" value={quest.content}
           inputProps={{ readOnly: true }}
           multiline
           label="내용"
-          className={classes.content_checking} />
+          className={'flex-1'} />
         <Divider />
-        <Button type="button" variant="contained" color="primary" onClick={() => { handleOnClick() }}>확인</Button>
+        <Button  variant="contained" color="primary" onClick={handleOnClick}>확인</Button>
       </form>
 
     </Container>

@@ -250,8 +250,8 @@ export default function CardTemplateComponent(props) {
           />
           <Divider />
           <div className={classes.action_buttons}>
-            <Button type="button" color="secondary" aria-label="oyo-cancel" variant="outlined" onClick={goBack}>취소</Button>
-            <Button type="button" color="primary" aria-label="oyo-write" variant="contained" onClick={onSaveHandling}>저장</Button>
+            <Button  color="secondary" aria-label="oyo-cancel" variant="outlined" onClick={goBack}>취소</Button>
+            <Button  color="primary" aria-label="oyo-write" variant="contained" onClick={onSaveHandling}>저장</Button>
           </div>
         </Paper>
       </div>

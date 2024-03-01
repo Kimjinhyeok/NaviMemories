@@ -66,7 +66,7 @@ export default function AppBarComponent(props) {
                             </Menu>
                         </div>
                         : 
-                        <Button type="button" color="inherit"><Link to="/login">로그인</Link></Button>
+                        <Button  color="inherit"><Link to="/login">로그인</Link></Button>
                     }
                 </Toolbar>
             </AppBar>

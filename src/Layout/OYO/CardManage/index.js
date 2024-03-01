@@ -188,8 +188,8 @@ export default function OYOCardManage(props) {
             <></>
           :
             <div className={classes.card_action}>
-              <Button variant="text" size="small" color="default" onClick={(ev) => onClickEditCard(ev, idx, item)}>편집</Button>
-              <Button variant="text" size="small" color="default" onClick={() => setDelete(idx, item)}>삭제</Button>
+              <Button variant="text" size="small" onClick={(ev) => onClickEditCard(ev, idx, item)}>편집</Button>
+              <Button variant="text" size="small" onClick={() => setDelete(idx, item)}>삭제</Button>
             </div>
         }
         {

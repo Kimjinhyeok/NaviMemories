@@ -14,14 +14,6 @@ import useInterval from '../../Utils/useInterval';
  */
 export default function TimeoutDialog(props) {
 
-  const classes = styled(theme => ({
-    dialog_text: {
-      textAlign: 'center'
-    },
-    action_button: {
-      width: '100%'
-    }
-  }))();
   const {action, title, message, timerTime, open} = props;
   const [timer, setTimer] = React.useState(timerTime);
 
@@ -41,10 +33,10 @@ export default function TimeoutDialog(props) {
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <DialogContentText>{message}</DialogContentText>
-        <DialogContentText className={classes.dialog_text}>{timer}초 후 이동합니다.</DialogContentText>
+        <DialogContentText className={'text-center'}>{timer}초 후 이동합니다.</DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button variant="contained" onClick={action} className={classes.action_button}>확인</Button>
+        <Button variant="contained" color='primary' onClick={action} fullWidth={true}>확인</Button>
       </DialogActions>
     </Dialog>
   )

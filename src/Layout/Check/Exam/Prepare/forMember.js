@@ -143,7 +143,7 @@ export default function PrepareForMember(props) {
         </div>
       </CardContent>
       <CardActions className={classes.prepare_actions}>
-        <Button type="button" color="primary" variant="contained" onClick={loadingCardList}>다음</Button>
+        <Button  color="primary" variant="contained" onClick={loadingCardList}>다음</Button>
       </CardActions>
     </Card>
   )
