@@ -10,48 +10,7 @@ export default function CardListComponent (props) {
     const originCardList = props.item;
     const [CardIndex, setCardIndex] = React.useState(originCardList.length > UNIT_SIZE ? UNIT_SIZE : originCardList.length)
     const [cardList, setCardList] = React.useState(originCardList.slice(0, CardIndex));
-    const useStyle = styled(theme => ({
-        root_container: {
-            paddingBottom: '10px'
-        },
-        root : {
-            margin : theme.spacing(2),
-            position: 'relative'
-        },
-        title : {
-            marginTop: theme.spacing(1),
-            marginBottom: theme.spacing(1),
-            fontSize: '1.2rem !important'
-        },
-        c_content : {
-            display : 'flex',
-            flexDirection : 'column',
-            textAlign : 'left',
-            marginTop : theme.spacing(1),
-            marginBottom : theme.spacing(1)
-        },
-        bible_code : {
-            marginRight : theme.spacing(1)
-        },
-        chapter : {
-            display : 'flex',
-            flexDirection : 'row',
-        },
-        verse_text : {
-            marginTop : theme.spacing(1),
-            marginBottom : theme.spacing(1)
-        },
-        category : {
-            textAlign : 'end',
-            color : theme.palette.secondary.light
-        },
-        options : {
-            position: 'absolute',
-            right: theme.spacing(1),
-            top: 0
-        }
-    }));
-    const classes = useStyle();
+   
     const containerRef = React.useRef(null);
     const target = React.useRef(null);
 
@@ -118,7 +77,7 @@ export default function CardListComponent (props) {
                 {
                     cardList.map((item, idx) => {
                         const lastEl = idx === CardIndex - 1;
-                        return <CardComponent item={item} key={idx} ref={lastEl ? target : null} classes={classes}  version={version} updatePassed={props.updatePassed}></CardComponent>
+                        return <CardComponent item={item} key={idx} ref={lastEl ? target : null}  version={version} updatePassed={props.updatePassed}></CardComponent>
                     })
                 }
             </div>

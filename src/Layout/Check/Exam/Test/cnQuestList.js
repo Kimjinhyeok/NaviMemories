@@ -17,103 +17,7 @@ import ExamContentComponent from './cn';
  * @returns 
  */
 export default function CNQuestList(props) {
-  const classes = styled((theme) => ({
-    root : {
-      height: '75vh',
-      display: 'flex',
-      flexDirection: 'column'
-    },
-
-    actions: {
-      display: 'flex',
-      flexDirection: 'row',
-      '& > button' : {
-        flex: 1,
-        display: 'flex',
-        fontSize: '1.2em'
-      }
-    },
-    root_checking : {
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      height: '100%'
-    },
-    shortName: {
-      marginRight: '10px'
-    },
-    row_part: {
-      display: 'flex',
-      flexDirection: 'row',
-      '& .MuiFormControl-root': {
-        flex: 20
-      },
-      '& .MuiFormControl-root:not(:last-child)': {
-        marginRight: '10px'
-      },
-      '& .MuiAutocomplete-root': {
-        flex: 30,
-        marginRight: '10px'
-      }
-    },
-    questionIndex: {
-      color: theme.palette.grey[500],
-      textAlign: 'right',
-      paddingLeft: theme.spacing(3),
-      paddingRight: theme.spacing(3),
-    },
-    form_checking: {
-      margin: 'auto auto',
-      display: 'flex',
-      flexDirection: 'column',
-      width: '100%',
-      '& > div': {
-        margin: '10px 0'
-      },
-      '& input:read-only' : {
-        backgroundColor: theme.palette.action.hover
-      }
-    },
-    content_checking: {
-      flex: 1,
-      backgroundColor: theme.palette.action.hover
-    },
-    succeed: { backgroundColor: blue[50], '& input, & textarea': {color : theme.palette.info.main}},
-    failed: { backgroundColor: red[50], '& input, & textarea': {color : theme.palette.error.main}},
-    action_button: {
-      display: 'flex',
-      flexDirection: 'column',
-      '& button': {
-        marginTop: '10px'
-      }
-    },
-    content_result: {
-      height: '12vh',
-      paddingTop: '18.5px',
-      paddingBottom: '18.5px',
-      paddingLeft: '14px',
-      paddingRight: '14px',
-      borderType: '1px solid',
-      borderTypeRadius: '4px',
-      borderTypeColor: theme.palette.action.disabled,
-      overflowY: 'auto'
-    },
-    hide : {
-      display : 'none'
-    },
-    correct : {
-      backgroundColor: lightBlue[50],
-    },
-    omitted : {
-      backgroundColor: grey[50],
-      color: grey[500],
-      textDecoration: 'line-through',
-    },
-    incorrect : {
-      backgroundColor: red[50],
-      color: red[500]
-    },
-  }))();
+  
   const themeOf242 = props.themeOf242;
   const origins = props.origins;
   const addResult = props.setAddResultQuestion;
@@ -176,7 +80,6 @@ export default function CNQuestList(props) {
           setDeduction={addDeduction}
           quest={origins[QuestionIndex]}
           updateState={updateValue}
-          classes={classes}
         />  
       </div>
       <div className={'mt-4 w-full flex justify-between space-x-2'}>

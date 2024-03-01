@@ -1,11 +1,11 @@
-import { FormControl, FormHelperText, IconButton, Input, InputAdornment, InputLabel } from '@mui/material'
+import { FormControl, FormHelperText, IconButton, Input, InputAdornment, InputLabel, OutlinedInput } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import clsx from 'clsx';
 import React from 'react'
 
 export default function JoinPasswordsComponent(props) {
 
-  const {value, classes, handleChange} = props;
+  const {value, handleChange} = props;
   
   const [show, setShow] = React.useState({
     password: false,
@@ -27,9 +27,9 @@ export default function JoinPasswordsComponent(props) {
   }
   return (
     <>
-      <FormControl className={clsx(classes.margin, classes.textField)} required={true} error={handlePasswordMinValidate()}>
-        <InputLabel htmlFor="join-password">비밀번호</InputLabel>
-        <Input
+      <FormControl variant='outlined' required={true} error={handlePasswordMinValidate()}>
+        <InputLabel sx={{ backgroundColor: 'white' }} htmlFor="join-password">비밀번호</InputLabel>
+        <OutlinedInput
           id="join-password"
           type={show.password ? 'text' : 'password'}
           value={value.password}
@@ -46,12 +46,12 @@ export default function JoinPasswordsComponent(props) {
             </InputAdornment>
           }
         >
-        </Input>
+        </OutlinedInput>
         <FormHelperText>{handlePasswordMinValidate() ? "비밀번호는 최소 8자 이상이어야합니다." : ''}</FormHelperText>
       </FormControl>
-      <FormControl className={clsx(classes.margin, classes.textField)} required={true} error={handlePasswordEqualValidate()}>
-        <InputLabel htmlFor="join-repeat">비밀번호 확인</InputLabel>
-        <Input
+      <FormControl variant='outlined'  required={true} error={handlePasswordEqualValidate()}>
+        <InputLabel sx={{ backgroundColor: 'white' }} htmlFor="join-repeat">비밀번호 확인</InputLabel>
+        <OutlinedInput
           id="join-repeat"
           type={show.repeat ? 'text' : 'password'}
           value={value.passwordRepeat}
@@ -68,7 +68,7 @@ export default function JoinPasswordsComponent(props) {
             </InputAdornment>
           }
         >
-        </Input>
+        </OutlinedInput>
         <FormHelperText>{handlePasswordEqualValidate() ? "비밀번호가 일치하지 않습니다." : ""}</FormHelperText>
       </FormControl>
     </>

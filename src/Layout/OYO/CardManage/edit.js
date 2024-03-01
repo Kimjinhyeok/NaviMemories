@@ -5,7 +5,6 @@ import AutoCompleteBible from '../../autoCompleteBible'
 /**
  * @typedef OYOCardForEditProps
  * @property {Object} v
- * @property {Object} classes
  * @property {Function} cancelEdit
  * @property {Function} runEdit
  * 
@@ -14,7 +13,6 @@ import AutoCompleteBible from '../../autoCompleteBible'
  */
 export default function OYOCardForEdit(props) {
 
-  const classes = props.classes;
   const {cancelEdit, runEdit} = props;
   const [CardInfo, setCardInfo] = useState(props.v);
 
@@ -31,7 +29,7 @@ export default function OYOCardForEdit(props) {
     });
   }
   return (
-    <div className={classes.oyo_card_edit}>
+    <div className={'p-2 pt-0'}>
       <TextField id="card_theme" value={CardInfo.theme} onChange={onChangeHandling('theme')} label="주제" variant="outlined" fullWidth={true}/>
       <AutoCompleteBible
         fullWidth={true}
@@ -39,7 +37,7 @@ export default function OYOCardForEdit(props) {
         onChange={onChangeHandleBible}
         defaultValue={CardInfo.bible_code} 
         variant="outlined"
-        renderOption={(params) => (<><span className={classes.shortName}>{params.short_name}</span>{params.bible_name}</>)}
+        renderOption={(params) => (<><span className={'mr-3'}>{params.short_name}</span>{params.bible_name}</>)}
       />
       <div className="cv">
         <TextField id="card_chapter" value={CardInfo.chapter} onChange={onChangeHandling('chapter')} label="장" variant="outlined"/>

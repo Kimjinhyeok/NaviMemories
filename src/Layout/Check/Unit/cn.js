@@ -9,7 +9,7 @@ import TextArea from '../../../Components/TextArea';
 
 export default function CheckContentComponent(props) {
 
-  const { classes, origin} = props;
+  const { origin} = props;
 
   const initialValues = {theme : "", content: ""}
   const initialFlags = {
@@ -156,7 +156,6 @@ export default function CheckContentComponent(props) {
           disabled={!origin.theme}
           className={flags.theme === null ? null : (flags.theme === true ? 'bg-blue-500' : 'bg-red-500')}/>
         <AutoCompleteBible
-          classes={classes}
           fullWidth={true}
           defaultValue={origin.bible_code}
           disabled={true}
@@ -190,7 +189,7 @@ export default function CheckContentComponent(props) {
         />
         <div className={(flags.result || flags.hint) ? 'h-[12vh] py-4 px-3 overflow-y-auto break-words border border-gray-400 rounded-sm' : 'hidden'}>
           {
-            matchResult.length > 0 ? (matchResult.map((item, idx) => (<span key={idx} className={item.type===0 ? classes.correct : (item.type === -1 ? classes.incorrect : classes.omitted) }>{item.text}</span>))) : <></>
+            matchResult.length > 0 ? (matchResult.map((item, idx) => (<span key={idx} className={item.type===0 ? 'bg-sky-50' : (item.type === -1 ? 'bg-red-50 text-red-500' : 'bg-gray-50 text-gray-500 line-through') }>{item.text}</span>))) : <></>
           }
         </div>
         <div className={'flex flex-col space-y-2 mt-2'}>

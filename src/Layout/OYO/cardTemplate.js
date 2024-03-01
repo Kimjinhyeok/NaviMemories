@@ -8,64 +8,6 @@ import AutoCompleteBible from '../autoCompleteBible';
 export default function CardTemplateComponent(props) {
 
   const http = Http();
-  const useStyle = styled(theme => ({
-    root_template: {
-      height: '100%',
-      display: 'flex',
-      flexDirection: 'column',
-      '& .MuiFormHelperText-root': {
-        marginLeft: '0px'
-      }
-    },
-    content_wrap: {
-      display: 'flex',
-      flexDirection: 'column',
-      margin: 'auto'
-    },
-    content_teamplte: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      flexDirection: 'column',
-      padding: '10px',
-      '& .MuiTextField-root': {
-        margin: theme.spacing(1),
-      }
-    },
-    head_title: {
-      width: '100%',
-      textAlign: 'center'
-    },
-    shortName: {
-      marginRight: '10px'
-    },
-    autocomplete_textfield: {
-      width: 'calc(100% - 15px)'
-    },
-    row_field: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      flexDirection: 'row',
-      '& >*': {
-        flex: 1
-      }
-    },
-    tilde: {
-      flex: '0.1',
-      alignItems: 'center',
-      display: 'flex',
-      justifyContent: 'center',
-    },
-    action_buttons: {
-      display: 'flex',
-      flexDirection: 'row',
-      margin: '10px',
-      justifyContent: 'space-between',
-      '& > button': {
-        width: '47%'
-      }
-    }
-  }));
-  const classes = useStyle();
   const {enqueueSnackbar} = useSnackbar();
   const { history } = props;
 
@@ -180,10 +122,10 @@ export default function CardTemplateComponent(props) {
   }
 
   return (
-    <Container maxWidth="sm" className={classes.root_template}>
-      <div className={classes.content_wrap}>
-        <Paper elevation={2} variant="outlined" className={classes.content_teamplte}>
-          <Box component="h3" className={classes.head_title}>사용자 구절(OYO) 추가</Box>
+    <Container maxWidth="sm" sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+      <div className={'flex flex-col m-auto space-y-2'}>
+        <Paper elevation={2} variant="outlined" sx={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'column', padding: '12px' }}>
+          <Box component="h3" sx={{ width: '100%', textAlign: 'center' }}>사용자 구절(OYO) 추가</Box>
           <TextField
             id="teamplte_theme"
             type="text"
@@ -192,16 +134,15 @@ export default function CardTemplateComponent(props) {
             variant="outlined"
             onChange={onChangeHandling('theme')}
           />
-          <div className={classes.row_field}>
+          <div className={'flex flex-wrap flex-row space-x-2 mt-2'}>
             <AutoCompleteBible
               id="template_bible"
-              classes={classes}
               fullWidth={true}
               onChange={onChangeAutocomplete}
               defaultValue={value.bible_code}
-              renderOption={(params) => (<><span className={classes.shortName}>{params.short_name}</span>{params.bible_name}</>)}
+              renderOption={(params) => (<><span className={'mr-3'}>{params.short_name}</span>{params.bible_name}</>)}
             />
-            <Box component="h4" className={classes.tilde}> </Box>
+            <Box component="h4" sx={{ flex: '0.1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}> </Box>
             <TextField
               id="template_chapter"
               label="장"
@@ -214,7 +155,7 @@ export default function CardTemplateComponent(props) {
               error={validators.chapter}
             />
           </div>
-          <div className={classes.row_field}>
+          <div className={'flex flex-wrap flex-row space-x-2 mt-2'}>
             <TextField
               id="template_fverse"
               type="number"
@@ -225,7 +166,7 @@ export default function CardTemplateComponent(props) {
               onChange={onChangeHandling('f_verse')}
               error={validators.f_verse}
             />
-            <Box component="h4" className={classes.tilde}>~</Box>
+            <Box component="h4" sx={{ flex: '0.1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>~</Box>
             <TextField
               id="template_lverse"
               type="number"
@@ -249,9 +190,9 @@ export default function CardTemplateComponent(props) {
             helperText={validators.content ? '내용을 입력하거나 확인해주세요' : ''}
           />
           <Divider />
-          <div className={classes.action_buttons}>
-            <Button  color="secondary" aria-label="oyo-cancel" variant="outlined" onClick={goBack}>취소</Button>
-            <Button  color="primary" aria-label="oyo-write" variant="contained" onClick={onSaveHandling}>저장</Button>
+          <div className={'flex flex-row m-3 justify-between space-x-2'}>
+            <Button fullWidth color="secondary" aria-label="oyo-cancel" variant="outlined" onClick={goBack}>취소</Button>
+            <Button fullWidth color="primary" aria-label="oyo-write" variant="contained" onClick={onSaveHandling}>저장</Button>
           </div>
         </Paper>
       </div>

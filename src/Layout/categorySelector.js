@@ -9,19 +9,6 @@ export default function CategorySelector(props) {
 
   const propsChangeHandle = props.onChange;
   const isLogin = Cookies.get('authtoken') ? true : false;
-  const classes = styled(theme => ({
-    root: { 
-      width: '100%',
-      '& .MuiAccordionDetails-root': {
-        display: 'flex',
-        flexDirection: 'column',
-        paddingLeft: theme.spacing(3),
-      }
-    },
-    accordion_label: {
-      width : '100%',
-    },
-  }))();
   
   const [checkArray, setCheckArray] = React.useState([]);
 
@@ -93,7 +80,7 @@ export default function CategorySelector(props) {
 
   return (
     arrayCategory.length > 0 ? 
-    <div className={classes.root}>
+    <div className={'w-full'}>
       {
         arrayCategory.map((node, idx) => {
           if(node.series_code == 500) {
@@ -121,7 +108,7 @@ export default function CategorySelector(props) {
                   {...{indeterminate : checkArray[idx].indeterminate}}
                 />}
                 label={node.series_name}
-                className={classes.accordion_label}
+                className={'w-full'}
               />  
               
             </AccordionSummary>

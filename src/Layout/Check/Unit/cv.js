@@ -5,7 +5,7 @@ import AutoCompleteBible from '../../autoCompleteBible';
 
 export default function CheckChapterVerseComponent(props) {
 
-  const {classes, origin} = props;
+  const {origin} = props;
 
   const InitialValues = {theme : "", bible_code: 0, chapter: 0, f_verse: 0, l_verse: 0};
   const InitialFlags = {
@@ -72,7 +72,6 @@ export default function CheckChapterVerseComponent(props) {
           disabled={!origin.theme}
           className={flags.theme === null ? null : (flags.theme === true ? 'bg-blue-500' : 'bg-red-500')}/>
         <AutoCompleteBible
-          classes={classes}
           fullWidth={true}
           id="checking_bible"
           className={flags.bible_code === null ? null : (flags.bible_code === true? 'bg-blue-500' : 'bg-red-500')}

@@ -29,141 +29,6 @@ var originalList = [];
 export default function UnitPageComponent(props) {
 
   const http = Http();
-  const useStyle = styled(theme => ({
-    root_unit: {
-      height: '100%',
-      padding: '0',
-      display: 'flex',
-      flexDirection: 'row',
-    },
-    area_content: {
-      display: 'flex',
-      flexDirection: 'column',
-      position: 'relative',
-      flex: 90
-    },
-    content_options: {
-      padding: theme.spacing(1),
-      marginTop: '15px',
-      border: '1px solid',
-      borderColor: theme.palette.action.disabled,
-      borderRadius: '3px',
-      display: 'flex',
-      flex: 1,
-      flexDirection: 'column',
-      // position: 'absolute',
-      zIndex: 10,
-      backgroundColor: grey[50],
-      // left: '50%',
-      // transform: 'translateX(-50%)',
-      '& > .actions' : {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        '& > *:not(:first-child)': {
-          marginTop: theme.spacing(1),
-          marginBottom: theme.spacing(1),
-        },
-        '& > *': {
-          width: '20em',
-          maxWidth: '400px'
-        },
-        '& > * .MuiFormControlLabel-label': {
-          display: 'flex'
-        }
-      }
-    },
-    fold: {
-      overflow: 'hidden',
-      height: '50px',
-    },
-    options_select: {
-      // width: '33%'
-    },
-    moveButton: {
-      flex: 5,
-      minWidth: '0px',
-      color: theme.palette.text.hint
-    },
-    root_checking: {
-      display: 'flex',
-      flexDirection: 'row',
-      height: '100%'
-    },
-    shortName: {
-      marginRight: '10px'
-    },
-    row_part: {
-      display: 'flex',
-      flexDirection: 'row',
-      '& .MuiFormControl-root': {
-        flex: 20
-      },
-      '& .MuiFormControl-root:not(:last-child)': {
-        marginRight: '10px'
-      },
-      '& .MuiAutocomplete-root': {
-        flex: 30,
-        marginRight: '10px'
-      }
-    },
-    form_checking: {
-      margin: 'auto auto',
-      display: 'flex',
-      flexDirection: 'column',
-      width: '100%',
-      '& > div': {
-        margin: '10px 0'
-      },
-      '& input:read-only': {
-        backgroundColor: theme.palette.action.hover
-      }
-    },
-    content_checking: {
-      flex: 1,
-      backgroundColor: theme.palette.action.hover
-    },
-    succeed: { backgroundColor: blue[50], '& input': { color: theme.palette.info.main } },
-    failed: { backgroundColor: red[50], '& input': { color: theme.palette.error.main } },
-    action_button: {
-      display: 'flex',
-      flexDirection: 'column',
-      '& button': {
-        marginTop: '10px'
-      }
-    },
-    content_result: {
-      height: '12vh',
-      paddingTop: '18.5px',
-      paddingBottom: '18.5px',
-      paddingLeft: '14px',
-      paddingRight: '14px',
-      border: `1px solid ${theme.palette.action.disabled}`,
-      borderRadius: '4px',
-      overflowY: 'auto',
-      overflowWrap: 'break-word',
-      '& > span' : {
-        wordBreak: 'break-word',
-      }
-    },
-    hide: {
-      display: 'none'
-    },
-    correct: {
-      backgroundColor: lightBlue[50],
-    },
-    omitted: {
-      backgroundColor: grey[50],
-      color: grey[500],
-      textDecoration: 'line-through',
-    },
-    incorrect: {
-      backgroundColor: red[50],
-      color: red[500]
-    },
-  }));
-  const classes = useStyle();
-
   const location = useLocation();
 
   function setOriginCard(item, version) {
@@ -292,8 +157,8 @@ export default function UnitPageComponent(props) {
         </Container>
         {
           path == 'cv'
-          ? <CheckChapterVerseComponent classes={classes} origin={origin} />
-          : <CheckContentComponent classes={classes} origin={origin} />
+          ? <CheckChapterVerseComponent origin={origin} />
+          : <CheckContentComponent origin={origin} />
         }
       </div>
       <Button variant='contained'  sx={{ flex: 5, minWidth: 0 }}

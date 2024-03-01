@@ -34,7 +34,7 @@ import compareText from '../../../../Utils/compareText';
  */
 export default function ExamContentComponent(props) {
 
-  const { quest, state, updateState, setDeduction, confirm, classes } = props;
+  const { quest, state, updateState, setDeduction, confirm } = props;
   const defPoint = 6;
 
   const handleHint = function () {
@@ -152,7 +152,7 @@ export default function ExamContentComponent(props) {
                 autoComplete="off"
                 required
                 label="주제"
-                className={state.flags.theme === null ? null : (state.flags.theme === true ? classes.succeed : classes.failed)} />
+                className={state.flags.theme === null ? null : (state.flags.theme === true ? 'bg-blue-500' : 'bg-red-500')} />
             ) : <></>
         }
 
@@ -191,7 +191,7 @@ export default function ExamContentComponent(props) {
           // className={(state.flags.result ? classes.hide : '')}
           onChange={handleChangeValue('content')}
           onFocus={handleFocus('content')}
-          className={state.flags.content === null ? null : (state.flags.content === true ? classes.succeed : classes.failed)}
+          className={state.flags.content === null ? null : (state.flags.content === true ? 'bg-blue-500' : 'bg-red-500')}
         />
         <div className={'flex justify-end space-x-2'}>
           <Button variant="outlined" onClick={handleHint}>힌트</Button>

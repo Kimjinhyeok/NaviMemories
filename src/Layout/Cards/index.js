@@ -9,31 +9,6 @@ import CardListComponent from './CardList/list';
 import CardSlideComponent from './CardSlide/slide';
 
 export default function RecitationCardListComponent(props) {
-
-  const useStyle = styled((theme) => ({
-    options : {
-      flexDirection: 'row',
-      marginTop : theme.spacing(1),
-      '& > .MuiFormControl-root': {
-        flex: 50
-      }
-    },
-    tabcontent : {
-      height : 'calc(100% - 50px)',
-    },
-    flowPanel : {
-      maxHeight : 'calc(100% - 48px)',
-      height: 'calc(100% - 48px)',
-      overflowY : 'auto'
-    },
-    tabPanels : {
-      height : '100%',
-    },
-    tabPanel : {
-      height: '100%'
-    }
-  }));
-
   const SortOption = {
     createAt : 'createAt',
     category : 'category',
@@ -44,7 +19,7 @@ export default function RecitationCardListComponent(props) {
     category : 'series_code',
     bible_code : 'bible_code'
   }
-  const classes = useStyle();
+  
   const http = Http();
   const [value, setvalue] = React.useState(0);
   const originList = useRef([]);

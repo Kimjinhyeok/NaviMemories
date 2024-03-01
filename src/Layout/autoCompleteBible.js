@@ -27,19 +27,7 @@ export default function AutoCompleteBible(props) {
   const { onChange, onFocus, classes, fullWidth, validator, defaultValue, className, disabled } = props;
   
   const id = props.id || "bible_auto_complete";
-  const useStyle = styled(theme => ({
-    bibleAutoComplete: {
-      backgroundColor: theme.palette.action.hover,
-      '& .MuiFormLabel-root.Mui-disabled': {
-        color: theme.palette.text.hint
-      },
-      '& .MuiInputBase-root.Mui-disabled': {
-        color: theme.palette.text.primary
-      }
-    }
-  }));
-  const styles = useStyle();
-
+ 
   const renderOption = props.renderOption || ((params) => (<><span className={classes.shortName}>{params.short_name}</span>{params.bible_name}</>))
   const autocompleteTextfieldRender = props.autocompleteTextfieldRender || 
     function autocompleteTextfieldRender(params) {
@@ -80,7 +68,7 @@ export default function AutoCompleteBible(props) {
       onChange={onHandleChange}
       disabled={disabled}
       fullWidth={fullWidth}
-      className={`${disabled ? styles.bibleAutoComplete : ''} ${className}`}
+      // className={`${disabled ? styles.bibleAutoComplete : ''} ${className}`}
       renderOption={renderOption}
       renderInput={autocompleteTextfieldRender}
       value={value}

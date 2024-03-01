@@ -9,14 +9,6 @@ export default function CategorySelect(props) {
   const {onChange} = props;
   const propsValue = props.value;
 
-  const classes = styled(theme => ({
-    selector_root: {
-      width: '100%',
-      '& .MuiFormControl-root': {
-        width: '100%'
-      }
-    }
-  }))()
   const isLogin = Cookies.get('authtoken') ? true : false;
   const [arrayCategory, setArrayCategory] = React.useState([]);
   React.useEffect(async () => {
@@ -47,7 +39,7 @@ export default function CategorySelect(props) {
     return optionList;
   }
   return (
-    <div className={classes.selector_root}>
+    <div className={'w-full'}>
       <FormControl>
         <InputLabel htmlFor="recitationCategorySelector">구절 분류 선택</InputLabel>
         <Select id="recitationCategorySelector" value={value} onChange={onHandleChange}>

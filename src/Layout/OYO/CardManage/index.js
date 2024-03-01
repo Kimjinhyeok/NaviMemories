@@ -10,77 +10,6 @@ import AlertDialog from '../../Dialog/alertDialog';
 
 export default function OYOCardManage(props) {
 
-  const classes = styled(theme => ({
-    cardManage_root : {
-      height: `100%`,
-      maxHeight: `100%`,
-      overflowY: 'auto',
-      padding: '0'
-    },
-    card_action: {
-      display: 'flex',
-      justifyContent: 'flex-end'
-    },
-    oyo_list : {
-      padding: theme.spacing(1),
-      '& > div': {
-        marginTop: theme.spacing(1),
-        marginBottom: theme.spacing(1),
-      },
-      position: 'relative'
-    },
-    write: {
-      width: '3.5em',
-      minWidth: '3.5em',
-      height: '3.5em',
-      minHeight: '3.5em',
-      borderRadius: '5em',
-      opacity: 0.9,
-      position: '-webkit-sticky',
-      position: 'sticky',
-      bottom: theme.spacing(1),
-    },
-    oyo_card_view: {
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2),
-      paddingBottom: theme.spacing(2),
-      '& .theme': {
-        lineHeight : '1.5em',
-        fontSize: '1.2em'
-      },
-      '& .bcv': {
-        '& > *:not(:first-child)' : {
-          paddingLeft: theme.spacing(.8)
-        }
-      },
-      '& .cn': {
-        paddingTop: theme.spacing(1),
-        paddingBottom: theme.spacing(1)
-      }
-    },
-    oyo_card_edit: {
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2),
-      paddingBottom: theme.spacing(2),
-      '& > *': {
-        marginTop: theme.spacing(1),
-        marginBottom: theme.spacing(1),
-      },
-      '& .cv': {
-        marginTop: theme.spacing(2)
-      },
-      '& .cv > div:not(:first-child)': {
-        paddingLeft: theme.spacing(1)
-      },
-      '& .cv, .actions': {
-        display: 'flex',
-        '& > *': {
-          flex: 1
-        }
-      },
-    }
-  }))();
-
   const http = Http();
   const history = props.history;
   const { enqueueSnackbar } = useSnackbar();
@@ -187,29 +116,31 @@ export default function OYOCardManage(props) {
           item.edit ? 
             <></>
           :
-            <div className={classes.card_action}>
+            <div className={'flex justify-end'}>
               <Button variant="text" size="small" onClick={(ev) => onClickEditCard(ev, idx, item)}>편집</Button>
               <Button variant="text" size="small" onClick={() => setDelete(idx, item)}>삭제</Button>
             </div>
         }
         {
           item.edit ? 
-            <OYOCardForEdit v={item} classes={classes} runEdit={runEdit(idx, item)} cancelEdit={() => cancelEdit(idx, item)}/>
+            <OYOCardForEdit v={item} runEdit={runEdit(idx, item)} cancelEdit={() => cancelEdit(idx, item)}/>
           :
-            <OYOCardForView v={item} classes={classes} /> 
+            <OYOCardForView v={item} /> 
         }
 
       </Paper>
     )
   }
   return (
-    <Container className={classes.cardManage_root} maxWidth="sm" ref={ref}>
-      <div className={classes.oyo_list}>
+    <Container maxWidth="sm" ref={ref} sx={{ height: '100%', maxHeight: '100%', overflowY: 'auto', padding: '0 !important' }}>
+      <div className={'p-1 relative'}>
         {
           OYORow.map((item, idx) => {return renderCard(idx, item)})
         }
         <Button
-          className={classes.write} 
+          sx={{
+            width: '3.5em', minWidth: '3.5em', height: '3.5em', minHeight: '3.5em', borderRadius: '5em', opacity: 0.9, position: 'sticky', bottom: '4px'
+          }}
           variant="contained" 
           color="primary"
           aria-label="create"

@@ -9,10 +9,9 @@ import React from 'react'
  * @returns 
  */
 export default function OYOCardForView(props) {
-  const classes = props.classes;
   const v = props.v;
   return (
-    <div className={classes.oyo_card_view}>
+    <div className={'p-2 pt-0'}>
       <div className="theme"><span aria-label="oyo_theme">{v.theme}</span></div>
       <div className="bcv">
         <span aria-label="oyo_bible">{v.bible_name}</span>

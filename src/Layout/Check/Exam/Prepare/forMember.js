@@ -20,45 +20,6 @@ export default function PrepareForMember(props) {
 
   const [options, setOptions] = React.useState(InitOptions);
 
-  const classes = styled(theme => ({
-    prepare_root: {
-      marginTop: theme.spacing(3),
-      width: '100%',
-      maxHeight: '100%',
-    },
-    prepare_content: {
-      display: 'flex',
-      flexDirection: 'column',
-      maxHeight: '75vh',
-    },
-    prepare_form: {
-      display: 'flex',
-      flexDirection: 'column',
-      '& > *': {
-        margin: theme.spacing(2),
-        borderBottom: `1px solid ${theme.palette.action.focus}`,
-      },
-      '& div.MuiFormControl-root.MuiTextField-root > label.MuiFormLabel-filled, div.MuiFormControl-root.MuiTextField-root > label.Mui_focused': {
-        fontSize: '1.4rem'
-      },
-      '& .MuiFormGroup-root[role=radiogroup]': {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        '& label.MuiFormControlLabel-root': {
-          flex: 1,
-          justifyContent: 'center'
-        }
-      }
-    },
-    prepare_actions: {
-      display: 'flex',
-      flexDirection: 'row',
-      '& > button': {
-        flex: 1
-      }
-    },
-  }))();
   const loadingCardList = async function() {
 
     history.push({
@@ -74,10 +35,10 @@ export default function PrepareForMember(props) {
     });
   }
   return (
-    <Card className={classes.prepare_root}>
+    <Card sx={{ marginTop: '12px', width: '100%', maxHeight: '100%' }}>
       <CardHeader title="암송 실기 테스트" />
-      <CardContent className={classes.prepare_content}>
-        <div className={classes.prepare_form}>
+      <CardContent sx={{ display: 'flex', flexDirection: 'column', maxHeight: '75vh' }}>
+        <div className={'flex, flex-col'}>
           <TextField
             label="출전 구절 수"
             type="number"
@@ -142,8 +103,8 @@ export default function PrepareForMember(props) {
           </FormControl>
         </div>
       </CardContent>
-      <CardActions className={classes.prepare_actions}>
-        <Button  color="primary" variant="contained" onClick={loadingCardList}>다음</Button>
+      <CardActions className={'flex'}>
+        <Button color="primary" fullWidth variant="contained" onClick={loadingCardList}>다음</Button>
       </CardActions>
     </Card>
   )
