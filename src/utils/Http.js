@@ -1,5 +1,5 @@
-import axios, {AxiosResponse, AxiosRequestConfig} from 'axios';
-import { ServerUrl } from '../Data/url'
+import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
+import { ServerUrl } from "../Data/url";
 /**
  * @typedef {Object} httpPraram
  * @property {String} query
@@ -10,29 +10,28 @@ import { ServerUrl } from '../Data/url'
 axios.defaults.baseURL = ServerUrl;
 
 export default function Http() {
-
   const http = axios.create({
-    timeout : 10000
+    timeout: 10000,
   });
 
   function dataToQuery(params) {
     var query = "?";
-    for(var itr in params) {
+    for (var itr in params) {
       query += `${itr}=${params[itr]}&`;
     }
     return query;
   }
   /**
-   * 
-   * @param {httpPraram} params 
+   *
+   * @param {httpPraram} params
    * @returns {AxiosResponse}
    */
-  async function post(url, params) {
+  async function post(url, params={ data: {}, options : {} }) {
     var { data } = params;
-    var options = params.options ? params.options : {withCredentials : true};
+    var options = params.options ? params.options : { withCredentials: true };
     try {
       var result = await http.post(`${ServerUrl}/${url}`, data, options);
-      if(result instanceof Error) {
+      if (result instanceof Error) {
         throw result;
       }
       return result;
@@ -41,19 +40,19 @@ export default function Http() {
     }
   }
   /**
-   * 
-   * @param {httpPraram} params 
-   * @returns 
+   *
+   * @param {httpPraram} params
+   * @returns
    */
-  async function get(url, params) {
+  async function get(url = "", params = { data: {}, options: {} }) {
     const { data } = params;
-    var options = params.options ? params.options : {withCredentials : true};
-    if(data) {
+    var options = params.options ? params.options : { withCredentials: true };
+    if (data) {
       url += dataToQuery(data);
     }
     try {
       var result = await http.get(`${ServerUrl}/${url}`, options);
-      if(result instanceof Error) {
+      if (result instanceof Error) {
         throw result;
       }
       return result;
@@ -62,16 +61,16 @@ export default function Http() {
     }
   }
   /**
-   * 
-   * @param {httpPraram} params 
-   * @returns 
+   *
+   * @param {httpPraram} params
+   * @returns
    */
-  async function put(url, params) {
+  async function put(url, params={ data: {}, options : {} }) {
     const { data } = params;
-    var options = params.options ? params.options : {withCredentials : true};
+    var options = params.options ? params.options : { withCredentials: true };
     try {
       var result = await http.put(`${ServerUrl}/${url}`, data, options);
-      if(result instanceof Error) {
+      if (result instanceof Error) {
         throw result;
       }
       return result;
@@ -80,19 +79,19 @@ export default function Http() {
     }
   }
   /**
-   * 
-   * @param {httpPraram} params 
-   * @returns 
+   *
+   * @param {httpPraram} params
+   * @returns
    */
-  async function del(url, params) {
+  async function del(url, params={ data: {}, options : {} }) {
     const { data } = params;
-    var options = params.options ? params.options : {withCredentials : true};
-    if(data) {
+    var options = params.options ? params.options : { withCredentials: true };
+    if (data) {
       url += dataToQuery(data);
     }
     try {
       var result = await http.delete(`${ServerUrl}/${url}`, options);
-      if(result instanceof Error) {
+      if (result instanceof Error) {
         throw result;
       }
       return result;
@@ -106,12 +105,12 @@ export default function Http() {
   function removeHeader(headerName) {
     axios.defaults.headers.common[headerName] = undefined;
   }
-  return ({
+  return {
     post,
     get,
     put,
-    delete : del,
+    delete: del,
     setHeader,
-    removeHeader
-  })
+    removeHeader,
+  };
 }
