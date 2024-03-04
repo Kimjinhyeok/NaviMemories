@@ -2,19 +2,22 @@ import Http from "../Utils/Http";
 
 const http = Http();
 
-const RootPath = '/oyo'
+const RootPath = '/RC';
+
 const Paths = {
-  gets: RootPath,
-  create : RootPath,
-  update : RootPath,
-  delete : RootPath,
+  gets : `${RootPath}`,
+  create : `${RootPath}/oyo`,
+  update: `${RootPath}/oyo`,
+  delete: `${RootPath}/oyo`,
 }
 
 const gets = async (params) => {
   try {
-    const res = await http.get(`${Paths.gets}`);
+    const {category = 0} = params
+    const res = await http.get(`${Paths.gets}/${category}`)
 
     const { data } = res;
+
     return data;
   } catch (error) {
     
@@ -22,9 +25,11 @@ const gets = async (params) => {
 }
 const create = async (params) => {
   try {
-    const res = await http.post(`${Paths.create}`, params);
+
+    const res = await http.post(Paths.create, params);
 
     const { data } = res;
+
     return data;
   } catch (error) {
     
@@ -32,19 +37,23 @@ const create = async (params) => {
 }
 const update = async (params) => {
   try {
-    const {id} = params;
-    const res = await http.put(`${Paths.gets}/${id}`, params);
+    
+    const { id } = params;
+    const res = await http.put(`${Paths.update}/${id}`, params);
 
     const { data } = res;
+
     return data;
   } catch (error) {
     
   }
 }
+
 const remove = async (params) => {
   try {
-    const {id} = params;
-    const res = await http.delete(`${Paths.delete}/${id}`);
+    
+    const { id } = params;
+    const res = await http.delete(`${Paths.delete}/${id}`, params);
 
     const { data } = res;
     return data;
@@ -52,12 +61,11 @@ const remove = async (params) => {
     
   }
 }
-
 const OyoRepository = {
   gets,
   create,
   update,
-  delete : remove,
+  delete : remove
 }
 
 export default OyoRepository;

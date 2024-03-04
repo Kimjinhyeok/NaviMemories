@@ -2,22 +2,27 @@ import Http from "../Utils/Http";
 
 const http = Http();
 
+const RootPath = '/RC';
+
 const Paths = {
-  gets : '/RC',
+  gets : `${RootPath}`
 }
-const gets = async (category="") => {
+
+const gets = async (params) => {
   try {
-    const res = await http.get(`${Paths.gets}/${category}`);
+    const {category = 0} = params
+    const res = await http.get(`${Paths.gets}/${category}`)
+
     const { data } = res;
-    return data ?? [];
+
+    return data;
   } catch (error) {
-    console.error(error);
-    return []
+    return new Error("NET: ");
   }
 }
 
 const CardRepository = {
-  gets,
+  gets
 }
 
 export default CardRepository;

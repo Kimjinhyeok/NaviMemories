@@ -7,6 +7,7 @@ import cookies from '../../Data/cookies';
 import Http from '../../Utils/Http';
 import CardListComponent from './CardList/list';
 import CardSlideComponent from './CardSlide/slide';
+import CardUsecase from '../../Usecase/card/card';
 
 export default function RecitationCardListComponent(props) {
   const SortOption = {
@@ -44,13 +45,17 @@ export default function RecitationCardListComponent(props) {
 
   React.useEffect(() => {
     (async () => {
-      const response = await http.get({query : `RC/${category}`});
-      const recvCardList = response.data;
-  
-      originList.current = recvCardList;
-      setCardList(recvCardList)
-  
-      navigate(pathname);
+      const res = await CardUsecase.getCardList(category);
+      if(res instanceof Error) {
+        enqueueSnackbar(res.message, {
+          variant: "warning",
+        });
+      } else {
+        originList.current = res;
+        setCardList(res)
+    
+        navigate(pathname);
+      }
     })()
   }, [pathname])
   
