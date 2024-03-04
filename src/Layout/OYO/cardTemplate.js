@@ -2,7 +2,7 @@ import { Box, Button, Container, Divider, Paper, TextField } from '@mui/material
 import { useSnackbar } from 'notistack';
 import React from 'react'
 import Http from '../../Utils/Http';
-import AutoCompleteBible from '../autoCompleteBible';
+import AutoCompleteBible from '../../Components/autoCompleteBible';
 
 export default function CardTemplateComponent(props) {
 

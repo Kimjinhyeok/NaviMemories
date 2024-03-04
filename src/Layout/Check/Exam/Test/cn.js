@@ -1,6 +1,6 @@
 import { Button, Container, TextField } from '@mui/material';
 import React from 'react'
-import AutoCompleteBible from '../../../autoCompleteBible';
+import AutoCompleteBible from '../../../../Components/autoCompleteBible';
 import DiffMatchPatch from 'diff-match-patch';
 import compareText from '../../../../Utils/compareText';
 

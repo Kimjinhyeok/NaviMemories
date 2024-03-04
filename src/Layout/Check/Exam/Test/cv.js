@@ -1,6 +1,6 @@
 import { Button, Container, Divider, TextField } from '@mui/material';
 import React from 'react'
-import AutoCompleteBible from '../../../autoCompleteBible';
+import AutoCompleteBible from '../../../../Components/autoCompleteBible';
 
 /**
  * @typedef CNQuestion

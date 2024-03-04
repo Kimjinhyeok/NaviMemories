@@ -1,7 +1,7 @@
 import { Button, Container, TextField } from '@mui/material'
 import React from 'react'
 
-import AutoCompleteBible from '../../autoCompleteBible';
+import AutoCompleteBible from '../../../Components/autoCompleteBible';
 import { Refresh } from '@mui/icons-material';
 import compareText from '../../../Utils/compareText';
 import TextInput from '../../../Components/TextInput';
