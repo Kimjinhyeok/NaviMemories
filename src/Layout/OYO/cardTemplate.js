@@ -1,5 +1,4 @@
 import { Box, Button, Container, Divider, Paper, TextField } from '@mui/material'
-import { styled } from '@mui/system';
 import { useSnackbar } from 'notistack';
 import React from 'react'
 import Http from '../../Utils/Http';
@@ -123,78 +122,80 @@ export default function CardTemplateComponent(props) {
 
   return (
     <Container maxWidth="sm" sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-      <div className={'flex flex-col m-auto space-y-2'}>
-        <Paper elevation={2} variant="outlined" sx={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'column', padding: '12px' }}>
-          <Box component="h3" sx={{ width: '100%', textAlign: 'center' }}>사용자 구절(OYO) 추가</Box>
-          <TextField
-            id="teamplte_theme"
-            type="text"
-            label="암송 주제"
-            value={value.theme}
-            variant="outlined"
-            onChange={onChangeHandling('theme')}
+      <div className={'flex flex-col m-auto space-y-2 border border-gray-200 rounded-md p-4'}>
+        <Box component="h3" sx={{ width: '100%', textAlign: 'center' }}>사용자 구절(OYO) 추가</Box>
+        <div className='mt-2'></div>
+        <TextField
+          id="teamplte_theme"
+          type="text"
+          label="암송 주제"
+          value={value.theme}
+          variant="outlined"
+          onChange={onChangeHandling('theme')}
+        />
+        <div className={'flex flex-wrap flex-row space-x-2 mt-2'}>
+          <AutoCompleteBible
+            id="template_bible"
+            fullWidth={true}
+            onChange={onChangeAutocomplete}
+            defaultValue={value.bible_code}
+            renderOption={(params) => (<><span className={'mr-3'}>{params.short_name}</span>{params.bible_name}</>)}
           />
-          <div className={'flex flex-wrap flex-row space-x-2 mt-2'}>
-            <AutoCompleteBible
-              id="template_bible"
-              fullWidth={true}
-              onChange={onChangeAutocomplete}
-              defaultValue={value.bible_code}
-              renderOption={(params) => (<><span className={'mr-3'}>{params.short_name}</span>{params.bible_name}</>)}
-            />
-            <Box component="h4" sx={{ flex: '0.1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}> </Box>
-            <TextField
-              id="template_chapter"
-              label="장"
-              type="number"
-              value={value.chapter}
-              variant="outlined"
-              required
-              onChange={onChangeHandling('chapter')}
-              InputProps={{ inputProps: { min: 0, max: option.maxChapter } }}
-              error={validators.chapter}
-            />
-          </div>
-          <div className={'flex flex-wrap flex-row space-x-2 mt-2'}>
-            <TextField
-              id="template_fverse"
-              type="number"
-              label="시작 절"
-              value={value.f_verse}
-              variant="outlined"
-              required
-              onChange={onChangeHandling('f_verse')}
-              error={validators.f_verse}
-            />
-            <Box component="h4" sx={{ flex: '0.1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>~</Box>
-            <TextField
-              id="template_lverse"
-              type="number"
-              label="끝 절"
-              value={value.l_verse}
-              variant="outlined"
-              onChange={onChangeHandling('l_verse')}
-            />
-          </div>
+          <Box component="h4" sx={{ flex: '0.1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}> </Box>
+        </div>
+        <div className={'flex flex-row space-x-2 mt-2'}>
           <TextField
-            id="teamplte_content"
-            type="text"
-            label="내용을 입력해주세요."
-            value={value.content}
+            id="template_chapter"
+            label="장"
+            type="number"
+            value={value.chapter}
             variant="outlined"
-            multiline
-            rows="5"
             required
-            onChange={onChangeHandling('content')}
-            error={validators.content}
-            helperText={validators.content ? '내용을 입력하거나 확인해주세요' : ''}
+            onChange={onChangeHandling('chapter')}
+            InputProps={{ inputProps: { min: 0, max: option.maxChapter } }}
+            error={validators.chapter}
+            sx={{ flex: 1 }}
           />
-          <Divider />
-          <div className={'flex flex-row m-3 justify-between space-x-2'}>
-            <Button fullWidth color="secondary" aria-label="oyo-cancel" variant="outlined" onClick={goBack}>취소</Button>
-            <Button fullWidth color="primary" aria-label="oyo-write" variant="contained" onClick={onSaveHandling}>저장</Button>
-          </div>
-        </Paper>
+          <TextField
+            id="template_fverse"
+            type="number"
+            label="시작 절"
+            value={value.f_verse}
+            variant="outlined"
+            required
+            onChange={onChangeHandling('f_verse')}
+            error={validators.f_verse}
+            sx={{ flex: 1 }}
+          />
+          {/* <Box component="h4" sx={{ flex: '0.1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>~</Box> */}
+          <TextField
+            id="template_lverse"
+            type="number"
+            label="끝 절"
+            value={value.l_verse}
+            variant="outlined"
+            onChange={onChangeHandling('l_verse')}
+            sx={{ flex: 1 }}
+          />
+        </div>
+        <TextField
+          id="teamplte_content"
+          type="text"
+          label="내용을 입력해주세요."
+          value={value.content}
+          variant="outlined"
+          multiline
+          rows="5"
+          required
+          onChange={onChangeHandling('content')}
+          error={validators.content}
+          helperText={validators.content ? '내용을 입력하거나 확인해주세요' : ''}
+        />
+        <Divider />
+        <div className={'flex flex-row m-3 justify-between space-x-2'}>
+          <Button fullWidth color="secondary" aria-label="oyo-cancel" variant="outlined" onClick={goBack}>취소</Button>
+          <Button fullWidth color="primary" aria-label="oyo-write" variant="contained" onClick={onSaveHandling}>저장</Button>
+        </div>
       </div>
     </Container>
 

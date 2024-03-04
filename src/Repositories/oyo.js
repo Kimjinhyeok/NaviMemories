@@ -5,7 +5,7 @@ const http = Http();
 const RootPath = '/RC';
 
 const Paths = {
-  gets : `${RootPath}`,
+  gets : `${RootPath}/500`,
   create : `${RootPath}/oyo`,
   update: `${RootPath}/oyo`,
   delete: `${RootPath}/oyo`,
@@ -13,8 +13,7 @@ const Paths = {
 
 const gets = async (params) => {
   try {
-    const {category = 0} = params
-    const res = await http.get(`${Paths.gets}/${category}`)
+    const res = await http.get(Paths.gets);
 
     const { data } = res;
 

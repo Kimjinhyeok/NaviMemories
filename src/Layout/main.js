@@ -1,12 +1,10 @@
 import { Container } from "@mui/material";
-import { styled } from "@mui/system";
 import React, { useEffect } from "react";
 import { Route, Routes } from "react-router";
 import AppBarComponent from "./appbar";
 import RecitationCardListComponent from "./Cards";
 import UnitPageComponent from "./Check/Unit/unitPage";
 import IntroPageComponent from "./intro.page";
-import OYOIndex from "./OYO";
 import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
 import { Provider as ContextProvider } from "../Utils/Context";
@@ -15,6 +13,8 @@ import PrepareForMember from "./Check/Exam/Prepare/forMember";
 import PrepareForGuest from "./Check/Exam/Prepare/forGuest";
 import RecitationLoading from "./Check/Exam/loading";
 import RecitationResult from "./Check/Exam/result";
+import CardTemplateComponent from "./OYO/cardTemplate";
+import OyoManagePage from "./OYO/CardManage";
 
 export default function MainComponent(props) {
   const checkUserSignuped = function () {
@@ -48,7 +48,10 @@ export default function MainComponent(props) {
               path="/recitation/:category"
               element={<RecitationCardListComponent />}
             />
-            <Route path="/oyo/:path" element={<OYOIndex />} />
+            <Route path="/oyo" >
+              <Route path="template" element={<CardTemplateComponent />}/>
+              <Route path="manage" element={<OyoManagePage />}/>
+            </Route>
             <Route path="/" excat element={<IntroPageComponent />} />
           </Routes>
         </Container>
