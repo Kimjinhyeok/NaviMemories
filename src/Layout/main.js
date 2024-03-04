@@ -22,8 +22,8 @@ export default function MainComponent(props) {
     const username = Cookies.get("username");
     if (authtoken && !username) {
       const decoded = jwtDecode(authtoken);
-      username = decoded.u_n;
-      Cookies.set("username", username);
+      const decodedUsername = decoded.u_n;
+      Cookies.set("username", decodedUsername);
     }
   };
 
