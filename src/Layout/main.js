@@ -34,7 +34,7 @@ export default function MainComponent(props) {
     <div className="h-full flex flex-col">
       <ContextProvider>
         <AppBarComponent {...props} />
-        <Container className={`flex-1 py-2`}>
+        <Container className={`flex-1 py-2 max-h-[100vh] overflow-y-auto`}>
           <Routes>
             <Route path="/test">
               <Route path="exam" element={<RecitationExam />} />
