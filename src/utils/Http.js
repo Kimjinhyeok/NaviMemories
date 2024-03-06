@@ -1,5 +1,6 @@
 import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
 import { ServerUrl } from "../Data/url";
+import { isEmpty } from 'lodash';
 /**
  * @typedef {Object} httpPraram
  * @property {String} query
@@ -12,6 +13,7 @@ axios.defaults.baseURL = ServerUrl;
 export default function Http() {
   const http = axios.create({
     timeout: 10000,
+    withCredentials: true
   });
 
   function dataToQuery(params) {
@@ -27,8 +29,7 @@ export default function Http() {
    * @returns {AxiosResponse}
    */
   async function post(url, params={ data: {}, options : {} }) {
-    var { data } = params;
-    var options = params.options ? params.options : { withCredentials: true };
+    const { data, options } = params;
     try {
       var result = await http.post(`${ServerUrl}/${url}`, data, options);
       if (result instanceof Error) {
@@ -45,9 +46,8 @@ export default function Http() {
    * @returns
    */
   async function get(url = "", params = { data: {}, options: {} }) {
-    const { data } = params;
-    var options = params.options ? params.options : { withCredentials: true };
-    if (data) {
+    const { data, options } = params;
+    if (!isEmpty(data)) {
       url += dataToQuery(data);
     }
     try {
@@ -66,10 +66,9 @@ export default function Http() {
    * @returns
    */
   async function put(url, params={ data: {}, options : {} }) {
-    const { data } = params;
-    var options = params.options ? params.options : { withCredentials: true };
+    const { data, options } = params;
     try {
-      var result = await http.put(`${ServerUrl}/${url}`, data, options);
+      var result = await http.put(`${ServerUrl}/${url}`, data ?? {}, options ?? {});
       if (result instanceof Error) {
         throw result;
       }
@@ -84,9 +83,8 @@ export default function Http() {
    * @returns
    */
   async function del(url, params={ data: {}, options : {} }) {
-    const { data } = params;
-    var options = params.options ? params.options : { withCredentials: true };
-    if (data) {
+    const { data, options } = params;
+    if (!isEmpty(data)) {
       url += dataToQuery(data);
     }
     try {
