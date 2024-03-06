@@ -1,5 +1,5 @@
 import { Container, Paper, Typography } from '@mui/material';
-import { styled } from '@mui/system';
+
 import { lightBlue, lime, teal } from '@mui/material/colors';
 import React from 'react'
 import BibleData from '../../../Data/bible';

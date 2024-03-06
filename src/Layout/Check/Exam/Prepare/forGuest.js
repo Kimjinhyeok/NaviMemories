@@ -1,9 +1,8 @@
 import { Button, Card, CardActions, CardContent, CardHeader, Container, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material'
-import { styled } from '@mui/system';
+
 import React, { useContext } from 'react'
 import AlertDialog from '../../../Dialog/alertDialog';
 import CategorySelector from '../../../categorySelector';
-import cookies from '../../../../Data/cookies';
 import { Context } from '../../../../Utils/Context';
 import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router';

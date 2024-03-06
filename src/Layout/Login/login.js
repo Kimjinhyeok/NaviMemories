@@ -22,7 +22,6 @@ import { useNavigate } from "react-router";
 import AuthUsecase from "../../Usecase/auth/auth";
 
 export default function LoginComponent(props) {
-  const http = Http();
   const navigator = useNavigate();
   const theme = useTheme();
 

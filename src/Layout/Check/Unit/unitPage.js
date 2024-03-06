@@ -1,9 +1,8 @@
 import React, { useMemo, useState } from 'react'
-import { Route, Routes, useLocation } from 'react-router';
+import { useLocation } from 'react-router';
 import { Button, Container, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material'
-import { styled } from '@mui/system';
+
 import { ArrowBackIos, ArrowForwardIos, ArrowRightAlt, Shuffle } from '@mui/icons-material'
-import { red, blue, lightBlue, grey } from '@mui/material/colors'
 import CheckContentComponent from './cn';
 import CheckChapterVerseComponent from './cv';
 import CategorySelect from '../../categorySelect';

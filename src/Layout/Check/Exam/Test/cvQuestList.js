@@ -1,6 +1,5 @@
 import { Button } from '@mui/material';
-import { styled } from '@mui/system';
-import { blue, grey, lightBlue, red } from '@mui/material/colors';
+
 import { ArrowLeft, ArrowRight } from '@mui/icons-material';
 import React, {useState, useEffect} from 'react'
 import ExamChapterVerseComponent from './cv';

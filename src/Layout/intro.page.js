@@ -1,5 +1,5 @@
 import { Container } from '@mui/material'
-import { styled } from '@mui/system';
+
 import React from 'react'
 
 export default function IntroPageComponent(props) {

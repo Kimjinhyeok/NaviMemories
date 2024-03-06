@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, Checkbox, FormControlLabel, styled, Typography } from '@mui/material'
+import { Box, Card, CardContent, Checkbox, FormControlLabel, Typography } from '@mui/material'
 import React, { Fragment } from 'react'
 import cookies from '../../../Data/cookies';
 

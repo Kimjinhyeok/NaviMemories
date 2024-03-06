@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Collapse, Divider, List, ListItem, Switch, ListItemSecondaryAction, ListItemText, ListSubheader, Drawer, Box, ListItemButton } from '@mui/material'
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
+import { Collapse, Divider, List, Switch, ListItemSecondaryAction, ListItemText, ListSubheader, Drawer, Box, ListItemButton } from '@mui/material'
 import ExpandLess from '@mui/icons-material/ExpandLess'
 import ExpandMore from '@mui/icons-material/ExpandMore'
 import Categories from '../../Data/categories'

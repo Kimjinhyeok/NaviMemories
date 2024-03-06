@@ -1,5 +1,5 @@
-import { Divider, FormControl, InputLabel, MenuItem, NativeSelect, Select } from '@mui/material'
-import { styled } from '@mui/system';
+import { Divider, FormControl, InputLabel, MenuItem, Select } from '@mui/material'
+
 import Cookies from 'js-cookie';
 import React from 'react'
 import Categories from '../Data/categories'

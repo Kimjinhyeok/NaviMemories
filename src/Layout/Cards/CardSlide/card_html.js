@@ -1,7 +1,6 @@
 import { Checkbox, FormControlLabel } from '@mui/material';
 import React from 'react'
 import cookies from '../../../Data/cookies';
-import { SwiperSlide } from 'swiper/react';
 export default function CardHtml(props) {
 
     const { item, classes, updatePassed, version } = props;

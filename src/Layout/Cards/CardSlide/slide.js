@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import CardHtml from './card_html'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Virtual, Navigation } from 'swiper/modules'
-import { styled } from '@mui/system';
+
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';

@@ -1,6 +1,5 @@
-import { FormControl, FormHelperText, IconButton, Input, InputAdornment, InputLabel, OutlinedInput } from '@mui/material'
+import { FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
-import clsx from 'clsx';
 import React from 'react'
 
 export default function JoinPasswordsComponent(props) {
