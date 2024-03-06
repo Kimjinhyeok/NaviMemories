@@ -117,7 +117,7 @@ export default function CardTemplateComponent(props) {
   }
 
   return (
-    <Container maxWidth="sm" sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+    <Container maxWidth="sm" sx={{ height: '100%', display: 'flex', flexDirection: 'column', padding: 0 }}>
       <div className={'flex flex-col m-auto space-y-2 border border-gray-200 rounded-md p-4'}>
         <Box component="h3" sx={{ width: '100%', textAlign: 'center' }}>사용자 구절(OYO) 추가</Box>
         <div className='mt-2'></div>
@@ -160,6 +160,7 @@ export default function CardTemplateComponent(props) {
             variant="outlined"
             required
             onChange={onChangeHandling('f_verse')}
+            InputProps={{ inputProps: { min: 0 } }}
             error={validators.f_verse}
             sx={{ flex: 1 }}
           />
@@ -171,6 +172,7 @@ export default function CardTemplateComponent(props) {
             value={value.l_verse}
             variant="outlined"
             onChange={onChangeHandling('l_verse')}
+            InputProps={{ inputProps: { min: 0 } }}
             sx={{ flex: 1 }}
           />
         </div>
@@ -188,7 +190,7 @@ export default function CardTemplateComponent(props) {
           helperText={validators.content ? '내용을 입력하거나 확인해주세요' : ''}
         />
         <Divider />
-        <div className={'flex flex-row m-3 justify-between space-x-2'}>
+        <div className={'flex flex-row mt-3 justify-between space-x-2'}>
           <Button fullWidth color="secondary" aria-label="oyo-cancel" variant="outlined" onClick={goBack}>취소</Button>
           <Button fullWidth color="primary" aria-label="oyo-write" variant="contained" onClick={onSaveHandling}>저장</Button>
         </div>
