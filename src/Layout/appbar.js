@@ -45,7 +45,7 @@ export default function AppBarComponent(props) {
                         aria-label="menu">
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" className={'grow overflow-hidden whitespace-nowrap text-ellipsis'}><Link to="/" >Navigator Bible Recitation</Link></Typography>
+                    <Typography variant="h6" className={'grow overflow-hidden whitespace-nowrap text-ellipsis'}><Link to="/" >네비게이토 암송</Link></Typography>
                     {
                         userName ? 
                         <div>
