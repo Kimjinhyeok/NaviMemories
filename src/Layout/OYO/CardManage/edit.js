@@ -1,6 +1,6 @@
 import { Button, TextField } from '@mui/material'
 import React, { useState } from 'react'
-import AutoCompleteBible from '../../autoCompleteBible'
+import AutoCompleteBible from '../../../Components/autoCompleteBible'
 
 /**
  * @typedef OYOCardForEditProps

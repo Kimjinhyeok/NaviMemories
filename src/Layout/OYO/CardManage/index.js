@@ -25,7 +25,7 @@ export default function OyoManagePage() {
   return (
     <Container maxWidth="sm" sx={{ height: '100%', maxHeight: '100%', overflowY: 'hidden', padding: '0 !important' }}>
       {
-        OYORow.length > 0
+        OYORow && OYORow.length > 0
         ? <OYOCardManage OYORow={OYORow} setOYORow={setOYORow} />
         : <OyoEmptyCard />
       }

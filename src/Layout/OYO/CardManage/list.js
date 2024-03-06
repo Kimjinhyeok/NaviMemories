@@ -1,12 +1,11 @@
 import { Button, Container, Paper } from '@mui/material';
 import { AddSharp } from '@mui/icons-material';
 import Http from '../../../Utils/Http';
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { useSnackbar } from 'notistack';
 import OYOCardForView from './view';
 import OYOCardForEdit from './edit';
 import AlertDialog from '../../Dialog/alertDialog';
-import OyoUsecase from '../../../Usecase/oyo/oyo';
 import { useNavigate } from 'react-router';
 import OyoEmptyCard from './empty.card';
 

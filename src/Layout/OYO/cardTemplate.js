@@ -3,12 +3,14 @@ import { useSnackbar } from 'notistack';
 import React from 'react'
 import Http from '../../Utils/Http';
 import AutoCompleteBible from '../../Components/autoCompleteBible';
+import { useNavigate } from 'react-router';
+import OyoUsecase from '../../Usecase/oyo/oyo';
 
 export default function CardTemplateComponent(props) {
 
   const http = Http();
   const {enqueueSnackbar} = useSnackbar();
-  const { history } = props;
+  const navigator = useNavigate();
 
 
   const [value, setValue] = React.useState({
@@ -59,7 +61,7 @@ export default function CardTemplateComponent(props) {
     });
   }
   const goBack = () => {
-    history.goBack();
+    navigator(-1);
   }
   const onChangeHandling = (props) => (event) => {
     setValue({ ...value, [props]: event.target.value });
@@ -70,30 +72,35 @@ export default function CardTemplateComponent(props) {
   }
   async function loadContent() {
     try {
-      var { bible_code, chapter, f_verse, l_verse } = value;
+      const { bible_code, chapter, f_verse, l_verse } = value;
 
-      var queryData = { bible_code, chapter, f_verse };
-      if (l_verse) {
-        queryData.l_verse = l_verse;
+      const res = await OyoUsecase.getBibleContent({ bible_code, chapter, f_verse, l_verse }); 
+      
+      if(res instanceof Error) {
+        enqueueSnackbar(res.message);
+      } else {
+        const content = res;
+        setValue({ ...value, content: content });
       }
-      var res = await http.get({ query: 'RC/oyo/content', data: queryData })
-      var content = res.data;
-      setValue({ ...value, content: content });
     } catch (error) {
       console.error(error);
     }
   }
   async function onSaveHandling() {
     try {
-      await http.post({ query: "RC/oyo", data: value })
+      const res = await OyoUsecase.createOyo(value);
 
-      enqueueSnackbar("새 OYO 카드가 저장되었습니다.", {variant : 'success'});
+      if(res instanceof Error) {
 
-      if(history.location.state && history.location.state.go) {
-        history.push({pathname : history.location.state.go, state : null});
+      } else {
+        enqueueSnackbar("새 OYO 카드가 저장되었습니다.", {variant : 'success'});
+        // if(history.location.state && history.location.state.go) {
+        //   history.push({pathname : history.location.state.go, state : null});
+        // }
+        /********** Notice Saved OYO Card **********/
+        resetState();
       }
-      /********** Notice Saved OYO Card **********/
-      resetState();
+
     } catch (error) {
       if(error.response.status) {
         enqueueSnackbar(error.response.data, {variant : 'warning'});
