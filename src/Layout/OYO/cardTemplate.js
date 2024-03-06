@@ -8,10 +8,8 @@ import OyoUsecase from '../../Usecase/oyo/oyo';
 
 export default function CardTemplateComponent(props) {
 
-  const http = Http();
   const {enqueueSnackbar} = useSnackbar();
   const navigator = useNavigate();
-
 
   const [value, setValue] = React.useState({
     theme: '',
@@ -77,7 +75,7 @@ export default function CardTemplateComponent(props) {
       const res = await OyoUsecase.getBibleContent({ bible_code, chapter, f_verse, l_verse }); 
       
       if(res instanceof Error) {
-        enqueueSnackbar(res.message);
+        enqueueSnackbar(res.message, {variant: 'warning'});
       } else {
         const content = res;
         setValue({ ...value, content: content });
@@ -87,25 +85,17 @@ export default function CardTemplateComponent(props) {
     }
   }
   async function onSaveHandling() {
-    try {
-      const res = await OyoUsecase.createOyo(value);
+    const res = await OyoUsecase.createOyo(value);
 
-      if(res instanceof Error) {
-
-      } else {
-        enqueueSnackbar("새 OYO 카드가 저장되었습니다.", {variant : 'success'});
-        // if(history.location.state && history.location.state.go) {
-        //   history.push({pathname : history.location.state.go, state : null});
-        // }
-        /********** Notice Saved OYO Card **********/
-        resetState();
-      }
-
-    } catch (error) {
-      if(error.response.status) {
-        enqueueSnackbar(error.response.data, {variant : 'warning'});
-      }
-      console.error(error);
+    if(res instanceof Error) {
+      enqueueSnackbar(res.message, {variant : 'warning'});
+    } else {
+      enqueueSnackbar("새 OYO 카드가 저장되었습니다.", {variant : 'success'});
+      // if(history.location.state && history.location.state.go) {
+      //   history.push({pathname : history.location.state.go, state : null});
+      // }
+      /********** Notice Saved OYO Card **********/
+      resetState();
     }
   }
   const checkValidate = () => {

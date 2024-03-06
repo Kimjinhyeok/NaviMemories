@@ -1,4 +1,5 @@
 import OyoRepository from "../../Repositories/oyo"
+import OYO_validator from "./validator";
 
 const getOyoCardList = async () => {
   const res = await OyoRepository.gets();
@@ -17,8 +18,10 @@ const getOyoCardListForManage = async () => {
   return editableCardList;
 }
 const getBibleContent = async (params) => {
+  const validated = OYO_validator.validateContent(params);
+  if(validated) return validated;
+  
   const { bible_code, chapter, f_verse, l_verse } = params;
-  const validated = true;
   const queryParam = {
     bible_code,
     chapter : Number(chapter),
@@ -33,9 +36,11 @@ const getBibleContent = async (params) => {
   return res;
 }
 const createOyo = async (params) => {
-  const { bible_code, chapter, f_verse, l_verse = 0, content, theme = "" } = params;
+  
+  const validated = OYO_validator.validateCreate(params);
+  if(validated) return validated;
 
-  const validated = true;
+  const { bible_code, chapter, f_verse, l_verse = 0, content, theme = "" } = params;
   const queryParam = {
     bible_code,
     chapter : Number(chapter),
