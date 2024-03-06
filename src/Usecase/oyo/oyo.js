@@ -16,9 +16,47 @@ const getOyoCardListForManage = async () => {
 
   return editableCardList;
 }
+const getBibleContent = async (params) => {
+  const { bible_code, chapter, f_verse, l_verse } = params;
+  const validated = true;
+  const queryParam = {
+    bible_code,
+    chapter : Number(chapter),
+    f_verse : Number(f_verse),
+  };
+  if(l_verse > 0) {
+    queryParam.l_verse = Number(l_verse);
+  }
+
+  const res = await OyoRepository.getContent(queryParam);
+
+  return res;
+}
+const createOyo = async (params) => {
+  const { bible_code, chapter, f_verse, l_verse = 0, content, theme = "" } = params;
+
+  const validated = true;
+  const queryParam = {
+    bible_code,
+    chapter : Number(chapter),
+    f_verse : Number(f_verse),
+    content,
+  };
+  if(l_verse > 0) {
+    queryParam.l_verse = Number(l_verse);
+  } if(theme && theme.trim().length > 0) {
+    queryParam.theme = theme;
+  }
+
+  const res = await OyoRepository.create(queryParam);
+
+  return res;
+}
 const OyoUsecase = {
   getOyoCardList,
-  getOyoCardListForManage
+  getBibleContent,
+  getOyoCardListForManage,
+  createOyo
 }
 
 export default OyoUsecase;
