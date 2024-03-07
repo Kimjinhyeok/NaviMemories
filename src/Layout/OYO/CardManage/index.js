@@ -23,7 +23,7 @@ export default function OyoManagePage() {
   }, [])
 
   return (
-    <Container maxWidth="sm" sx={{ height: '100%', maxHeight: '100%', overflowY: 'hidden', padding: '0 !important' }}>
+    <Container maxWidth="sm" sx={{ position: 'relative', height: '100%', width: '100%', padding: '8px 0 8px 0 !important' }}>
       {
         OYORow && OYORow.length > 0
         ? <OYOCardManage OYORow={OYORow} setOYORow={setOYORow} />

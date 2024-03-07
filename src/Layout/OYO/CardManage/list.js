@@ -8,6 +8,7 @@ import OYOCardForEdit from './edit';
 import AlertDialog from '../../Dialog/alertDialog';
 import { useNavigate } from 'react-router';
 import OyoEmptyCard from './empty.card';
+import OyoUsecase from '../../../Usecase/oyo/oyo';
 
 export default function OYOCardManage({OYORow, setOYORow}) {
 
@@ -22,7 +23,7 @@ export default function OYOCardManage({OYORow, setOYORow}) {
     navigator('/oyo/template', {go: '/oyo/manage'});
   }
   const onClickEditCard = function(ev, index, value) {
-    ref.current.scrollTo(ev.pageX, ev.clientY);
+    // ref.current.scrollTo(ev.pageX, ev.clientY);
     setEdit(index, value);
   }
   const setEdit = function(index, value) {
@@ -67,27 +68,27 @@ export default function OYOCardManage({OYORow, setOYORow}) {
   }
   const runEdit = (index, origin) => async (state) => {
     try {
-      
-      var res = await http.put({
-        query : `RC/oyo/${origin.card_num}`,
-        data : {
-          theme : state.theme,
-          bible_code : state.bible_code,
-          chapter : state.chapter,
-          f_verse : state.f_verse,
-          l_verse : state.l_verse,
-          content : state.content
-        }
-      });
-      if(res instanceof Error) {
-        throw res;
-      }
-      var completeValue = {
-        ...state,
-        edit : false
+      const data = {
+        theme : state.theme,
+        bible_code : state.bible_code,
+        chapter : state.chapter,
+        f_verse : state.f_verse,
+        l_verse : state.l_verse,
+        content : state.content
       };
-      setOYORow([...OYORow.slice(0, index), completeValue, ...OYORow.slice(index+1)]);
-      enqueueSnackbar("OYO 카드 수정이 완료되었습니다.", {variant: 'success'});
+
+      const res = OyoUsecase.updateOyo(data);
+      
+      if(res instanceof Error) {
+        enqueueSnackbar(res.message, { variant: 'warning' });
+      } else {
+        const completeValue = {
+          ...state,
+          edit : false
+        };
+        setOYORow([...OYORow.slice(0, index), completeValue, ...OYORow.slice(index+1)]);
+        enqueueSnackbar("OYO 카드 수정이 완료되었습니다.", {variant: 'success'});
+      }
     } catch (error) {
       var message = "OYO 카드 수정 도중 장애가 발생했습니다.";
       if(error.response && error.response.data.message) {
@@ -120,20 +121,22 @@ export default function OYOCardManage({OYORow, setOYORow}) {
   }
   return (
     <>
-      <div className={'p-1 relative'}>
+      <div className={'w-full space-y-2 pb-4'}>
         {
           OYORow.length > 0 
           ? OYORow.map((item, idx) => {return renderCard(idx, item)})
           : <OyoEmptyCard />
         }
+      </div>
+      <div className='fixed right-2 md:right-10 bottom-4'>
         <Button
           sx={{
-            width: '3.5em', minWidth: '3.5em', height: '3.5em', minHeight: '3.5em', borderRadius: '5em', opacity: 0.9, position: 'sticky', bottom: '4px'
+            width: '3.5em', minWidth: '3.5em', height: '3.5em', minHeight: '3.5em', borderRadius: '5em', opacity: 0.9,
           }}
           variant="contained" 
           color="primary"
           aria-label="create"
-          onClick={() => gotoWrite()}><AddSharp /></Button>
+          onClick={gotoWrite}><AddSharp /></Button>
       </div>
       {
         dialogOpen ? 
