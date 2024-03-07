@@ -49,8 +49,8 @@ const validateCreate = (params) => {
   }
 }
 const validateRemove = (params) => {
-  const { id } = params;
-  if(!id || id.trim().length <= 0) {
+  const { card_num } = params;
+  if(!card_num || card_num.trim().length <= 0) {
     return new Error("올바른 OYO 카드가 아닙니다.");
   }
 }

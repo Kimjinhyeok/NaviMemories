@@ -42,12 +42,14 @@ export default function OYOCardManage({OYORow, setOYORow}) {
     var { index, value : target } = delTarget.current;
 
     try {
-      var res = await http.delete({query: `RC/oyo/${target.card_num}`});
+      const {card_num} = target;
+      const res = await OyoUsecase.removeOyo({card_num});
       if(res instanceof Error) {
-        throw res;
+        enqueueSnackbar(res.message, { variant: 'warning' });
+      } else {
+        setOYORow([...OYORow.slice(0, index), ...OYORow.slice(index+1)]);
+        enqueueSnackbar("OYO 카드 삭제가 완료되었습니다.", { variant: 'success'});
       }
-      setOYORow([...OYORow.slice(0, index), ...OYORow.slice(index+1)]);
-      enqueueSnackbar("OYO 카드 삭제가 완료되었습니다.", { variant: 'success'});
     } catch (error) {
       var message = "OYO 카드 삭제 도중 장애가 발생했습니다.";
       if(error.response && error.response.data.message) {
@@ -128,7 +130,7 @@ export default function OYOCardManage({OYORow, setOYORow}) {
           : <OyoEmptyCard />
         }
       </div>
-      <div className='fixed right-2 md:right-10 bottom-4'>
+      <div className='fixed right-2 md:right-4 bottom-4'>
         <Button
           sx={{
             width: '3.5em', minWidth: '3.5em', height: '3.5em', minHeight: '3.5em', borderRadius: '5em', opacity: 0.9,

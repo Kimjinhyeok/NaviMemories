@@ -64,8 +64,8 @@ const update = async (params) => {
 const remove = async (params) => {
   try {
     
-    const { id } = params;
-    const res = await http.delete(`${Paths.delete}/${id}`, params);
+    const { card_num } = params;
+    const res = await http.delete(`${Paths.delete}/${card_num}`, params);
 
     const { data } = res;
     return data;
