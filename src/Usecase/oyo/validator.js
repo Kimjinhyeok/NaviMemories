@@ -48,11 +48,17 @@ const validateCreate = (params) => {
     return new Error("주제를 올바르게 설정해주세요.")
   }
 }
-
+const validateRemove = (params) => {
+  const { id } = params;
+  if(!id || id.trim().length <= 0) {
+    return new Error("올바른 OYO 카드가 아닙니다.");
+  }
+}
 const OYO_validator = {
   validateCreate,
   validateUpdate : validateCreate,
   validateContent,
+  validateRemove,
 }
 
 export default OYO_validator;

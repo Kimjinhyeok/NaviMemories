@@ -57,11 +57,39 @@ const createOyo = async (params) => {
 
   return res;
 }
+const updateOyo = async (params) => {
+  const validated = OYO_validator.validateUpdate(params);
+  if(validated) return validated;
+
+  const { bible_code, chapter, f_verse, l_verse = 0, content, theme = "" } = params;
+  const queryParam = {
+    bible_code,
+    chapter : Number(chapter),
+    f_verse : Number(f_verse),
+    content,
+  };
+  if(l_verse > 0) {
+    queryParam.l_verse = Number(l_verse);
+  } if(theme && theme.trim().length > 0) {
+    queryParam.theme = theme;
+  }
+}
+const removeOyo = async (params) => {
+
+  const validated = OYO_validator.validateRemove(params);
+  if(validated) return validated;
+
+  const res = await OyoRepository.delete(params);
+
+  return res;
+}
 const OyoUsecase = {
   getOyoCardList,
   getBibleContent,
   getOyoCardListForManage,
-  createOyo
+  createOyo,
+  updateOyo,
+  removeOyo,
 }
 
 export default OyoUsecase;
