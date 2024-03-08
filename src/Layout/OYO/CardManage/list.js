@@ -1,7 +1,6 @@
+import React, { useRef, useState } from 'react'
 import { Button, Paper } from '@mui/material';
 import { AddSharp } from '@mui/icons-material';
-import Http from '../../../Utils/Http';
-import React, { useRef, useState } from 'react'
 import { useSnackbar } from 'notistack';
 import OYOCardForView from './view';
 import OYOCardForEdit from './edit';
@@ -12,7 +11,6 @@ import OyoUsecase from '../../../Usecase/oyo/oyo';
 
 export default function OYOCardManage({OYORow, setOYORow}) {
 
-  const http = Http();
   const navigator = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const ref = useRef(null)
@@ -71,6 +69,7 @@ export default function OYOCardManage({OYORow, setOYORow}) {
   const runEdit = (index, origin) => async (state) => {
     try {
       const data = {
+        card_num : state.card_num,
         theme : state.theme,
         bible_code : state.bible_code,
         chapter : state.chapter,
@@ -79,7 +78,7 @@ export default function OYOCardManage({OYORow, setOYORow}) {
         content : state.content
       };
 
-      const res = OyoUsecase.updateOyo(data);
+      const res = await OyoUsecase.updateOyo(data);
       
       if(res instanceof Error) {
         enqueueSnackbar(res.message, { variant: 'warning' });

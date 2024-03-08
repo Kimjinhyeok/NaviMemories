@@ -61,22 +61,27 @@ const updateOyo = async (params) => {
   const validated = OYO_validator.validateUpdate(params);
   if(validated) return validated;
 
-  const { bible_code, chapter, f_verse, l_verse = 0, content, theme = "" } = params;
-  const queryParam = {
+  const { card_num, bible_code, chapter, f_verse, l_verse = 0, content, theme = "" } = params;
+  const bodyData = {
+    id : card_num,
     bible_code,
     chapter : Number(chapter),
     f_verse : Number(f_verse),
     content,
   };
   if(l_verse > 0) {
-    queryParam.l_verse = Number(l_verse);
+    bodyData.l_verse = Number(l_verse);
   } if(theme && theme.trim().length > 0) {
-    queryParam.theme = theme;
+    bodyData.theme = theme;
   }
+
+  const res = await OyoRepository.update(bodyData);
+  const { data } = res;
+
+  return data;
 }
 const removeOyo = async (params) => {
 
-  
   const validated = OYO_validator.validateRemove(params);
   if(validated) return validated;
 

@@ -49,9 +49,8 @@ const create = async (params) => {
 }
 const update = async (params) => {
   try {
-    
     const { id } = params;
-    const res = await http.put(`${Paths.update}/${id}`, params);
+    const res = await http.put(`${Paths.update}/${id}`, {data : params});
 
     const { data } = res;
 
