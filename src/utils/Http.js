@@ -1,5 +1,4 @@
 import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
-import { ServerUrl } from "../Data/url";
 import { isEmpty } from 'lodash';
 /**
  * @typedef {Object} httpPraram
@@ -8,6 +7,7 @@ import { isEmpty } from 'lodash';
  * @property {AxiosRequestConfig} options
  */
 
+const ServerUrl = process.env.REACT_APP_API_URL;
 axios.defaults.baseURL = ServerUrl;
 
 export default function Http() {
