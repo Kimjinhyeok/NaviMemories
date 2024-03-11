@@ -34,7 +34,7 @@ export default function MainComponent(props) {
     <div className="h-full flex flex-col">
       <ContextProvider>
         <AppBarComponent {...props} />
-        <Container maxWidth='xl' className={`flex-1 max-h-[100vh] overflow-y-auto`}>
+        <Container maxWidth='xl' className={`flex-1 max-h-[100vh] overflow-y-auto`} sx={{ padding : '0 !important' }}>
           <Routes>
             <Route path="/test">
               <Route path="exam" element={<RecitationExam />} />

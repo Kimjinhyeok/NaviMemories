@@ -63,14 +63,14 @@ export default function CardArrangeMenu({ category=0, updateSort=()=>{}, updateF
     <Container maxWidth="sm">
       <FormGroup
         sx={{ display: "flex", flexDirection: "row", marginTop: "4px" }}
-        className="space-x-2"
+        className="space-x-2 justify-center md:justify-start"
       >
         <FormControl variant="standard">
           <InputLabel>정렬</InputLabel>
           <Select
             value={Options.sort}
             onChange={handleUpdateSort}
-            sx={{ width: '120px' }}
+            className="w-32"
           >
             {
               category >= 500
@@ -90,7 +90,7 @@ export default function CardArrangeMenu({ category=0, updateSort=()=>{}, updateF
             <Select
               value={Options.filter}
               onChange={handleUpdateFilter}
-              sx={{ width: '120px' }}
+              className="w-32"
             >
               <MenuItem value="all">전체</MenuItem>
               <MenuItem value="memorized">암송</MenuItem>

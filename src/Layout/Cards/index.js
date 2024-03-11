@@ -1,4 +1,4 @@
-import { AppBar, Tab, Tabs } from '@mui/material';
+import { AppBar, Divider, Tab, Tabs } from '@mui/material';
 
 import { useSnackbar } from 'notistack';
 import React, { useRef } from 'react'
@@ -95,15 +95,17 @@ export default function RecitationCardListComponent(props) {
   return (
     <div aria-label="tabContent" className={'h-full flex flex-col pt-4'}>
       <CardArrangeMenu category={category} updateSort={updateCardSort} updateFilter={updateCardFilter} />
+      <Divider sx={{ marginTop: '8px' }}/>
       {
-      cardlist.length > 0 ?
+      cardlist.length > 0 
+      ?
         <>
           <div className='flex-1 flex flex-col max-h-[100vh] overflow-hidden pt-2'>
             <div className='flex-1'>
               <TabPanel value={value} index={0} className={'h-full'}>
                 <CardSlideComponent item={cardlist} initSlide={InitSlide.current} setInitSlide={(val) => InitSlide.current = val} updatePassed={updatePassed} {...props} />
               </TabPanel>
-              <TabPanel value={value} index={1} className='h-full max-h-[calc(100vh-(48px*2+64px+30px))] overflow-y-auto'>
+              <TabPanel value={value} index={1} className='h-full max-h-[calc(100vh-(48px*2+64px+40px))] overflow-y-auto'>
                 <CardListComponent item={cardlist} updatePassed={updatePassed} {...props} />
               </TabPanel>
             </div>
