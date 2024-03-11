@@ -1,11 +1,9 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import { useLocation } from 'react-router';
 import { Button } from '@mui/material'
-
 import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material'
 import CheckContentComponent from './cn';
 import CheckChapterVerseComponent from './cv';
-import Http from '../../../Utils/Http';
 import CheckOptions from './options';
 import { BibleVersion, TestOrderType } from '../../../Data/common';
 import CardUsecase from '../../../Usecase/card/card';
@@ -19,10 +17,8 @@ const InitialOrigin = {
   l_verse: 0,
   content: "",
 }
-var originalList = [];
 export default function UnitPageComponent(props) {
 
-  const http = Http();
   const location = useLocation();
   const { enqueueSnackbar } = useSnackbar();
 
@@ -122,7 +118,7 @@ export default function UnitPageComponent(props) {
   return (
     <div className='h-full flex flex-row' >
 
-      <Button variant='contained' sx={{ flex: 5, minWidth: 0 }}
+      <Button variant='contained' sx={{ flex: 3, minWidth: 0 }} color='info'
         onClick={() => { setCardContent(options.index - 1) }} disabled={options.index == 0} title="이전 문제"><ArrowBackIos />
       </Button>
       <div className='flex flex-col relative flex-[90]'>
@@ -133,7 +129,7 @@ export default function UnitPageComponent(props) {
           : <CheckContentComponent origin={origin} />
         }
       </div>
-      <Button variant='contained'  sx={{ flex: 5, minWidth: 0 }}
+      <Button variant='contained'  sx={{ flex: 3, minWidth: 0 }} color='info'
         onClick={() => { setCardContent(options.index + 1) }} disabled={options.index == cardList.length - 1} title="다음 문제"><ArrowForwardIos />
       </Button>
     </div>
