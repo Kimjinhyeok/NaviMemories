@@ -33,7 +33,7 @@ export default function CheckOptions({ options={}, changeOptions=()=>{} }) {
     <Container
       maxWidth="md"
       sx={{ display: "flex", height: "100%" }}
-      className="p-2 mt-4 border rounded-[4px] flex flex-col flex-1"
+      className="mt-2 border rounded-[4px] flex flex-col flex-1"
     >
       <div className={`flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-4 md:space-y-0  actions ${open ? "overflow-hidden h-0" : "h-auto"}`}>
         <div>

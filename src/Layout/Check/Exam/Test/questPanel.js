@@ -42,7 +42,7 @@ export default function TestQuestPanel(props) {
           <Tab label="장절" {...a11yProps(1)}></Tab>
         </Tabs>
       </AppBar>
-      <div className={'h-full'}>
+      <div className={'flex-1 h-full'}>
         <TabPanel value={TabIdx} index={0} className={'h-full'}>
           <CNQuestList origins={Source.cn} themeOf242={Source.themeOf242} precedence={precedence != "cv"} moveTab={() => {setTabIdx(1)}} setAddResultQuestion={addResultQuestion} setResultDeduction={setDeduction("cn")} />
         </TabPanel>
