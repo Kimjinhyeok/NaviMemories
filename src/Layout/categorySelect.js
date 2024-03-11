@@ -11,7 +11,7 @@ export default function CategorySelect(props) {
 
   const isLogin = Cookies.get('authtoken') ? true : false;
   const [arrayCategory, setArrayCategory] = React.useState([]);
-  React.useEffect(async () => {
+  React.useEffect(() => {
     setArrayCategory(Categories);
   }, [])
 
@@ -41,8 +41,12 @@ export default function CategorySelect(props) {
   return (
     <div className={'w-full'}>
       <FormControl>
-        <InputLabel htmlFor="recitationCategorySelector">구절 분류 선택</InputLabel>
-        <Select id="recitationCategorySelector" value={value} onChange={onHandleChange}>
+        <InputLabel >구절 분류 선택</InputLabel>
+        <Select 
+          value={value} 
+          onChange={onHandleChange}
+          label="구절 분류"
+        >
           { arrayCategory.length > 0 ? printOptions() : <MenuItem value={null}></MenuItem>}
         </Select>
       </FormControl>
