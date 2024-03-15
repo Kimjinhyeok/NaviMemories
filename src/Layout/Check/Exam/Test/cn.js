@@ -168,19 +168,22 @@ export default function ExamContentComponent(props) {
             variant="outlined"
             label="장"
             value={quest.chapter}
-            inputProps={{ readOnly: true }}
+            inputProps={{ readOnly: true }} 
+            sx={{ flex: 1 }}
           />
           <TextField type="number"
             variant="outlined"
             label="시작 구절"
             value={quest.f_verse}
-            inputProps={{ readOnly: true }}
+            inputProps={{ readOnly: true }} 
+            sx={{ flex: 1 }}
           />
           <TextField type="number"
             variant="outlined"
             label="끝 구절"
             value={quest.l_verse}
-            inputProps={{ readOnly: true }}
+            inputProps={{ readOnly: true }} 
+            sx={{ flex: 1 }}
           />
         </div>
         <TextField id="checking_content" rows="6" variant="outlined" value={state.value.content}

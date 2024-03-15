@@ -1,4 +1,4 @@
-import { Button } from '@mui/material'
+import { Button, Container } from '@mui/material'
 import React from 'react'
 import TimeProgress from '../timeProgress';
 import TimeoutDialog from '../../../Dialog/timeoutDialog';
@@ -61,15 +61,15 @@ export default function RecitationExam(props) {
   
   
   return (
-    <div className={'h-full'}>
+    <Container maxWidth='md' className='h-full'>
       <div className={'flex flex-col h-full'}>
-        <div className={'my-1 px-2'}>
+        <div className={'my-1'}>
           <TimeProgress LimitTime={LimitTime} timeOutFunc={closing}/>
         </div>
         <TestQuestPanel Source={Source} addResultQuestion={addResultQuestion} setDeduction={setDeduction} precedence={propsState.precedence}/>
         <Button sx={{ marginTop: '4px' }} variant="contained" color='error' onClick={closing}>종료</Button>
       </div>
       <TimeoutDialog open={DialogOpen} title="암송 테스트 종료" action={resultAction} message="암송 테스트가 종료되었습니다. 결과창으로 이동합니다." timerTime={5}/>
-    </div>
+    </Container>
   )
 } 

@@ -110,7 +110,9 @@ export default function ExamChapterVerseComponent(props) {
             required
             onChange={handleChangeValue('chapter')}
             onFocus={handleFocus('chapter')}
-            className={state.flags.chapter === null ? null : (state.flags.chapter === true ? 'bg-blue-500' : 'bg-red-500')} />
+            className={state.flags.chapter === null ? null : (state.flags.chapter === true ? 'bg-blue-500' : 'bg-red-500')} 
+            sx={{ flex: 1 }}
+          />
           <TextField type="number"
             value={state.value.f_verse}
             variant="outlined"
@@ -118,7 +120,9 @@ export default function ExamChapterVerseComponent(props) {
             required
             onChange={handleChangeValue('f_verse')}
             onFocus={handleFocus('f_verse')}
-            className={state.flags.f_verse === null ? null : (state.flags.f_verse === true ? 'bg-blue-500' : 'bg-red-500')} />
+            className={state.flags.f_verse === null ? null : (state.flags.f_verse === true ? 'bg-blue-500' : 'bg-red-500')} 
+            sx={{ flex: 1 }}
+          />
           <TextField type="number"
             value={state.value.l_verse}
             variant="outlined"
@@ -126,7 +130,9 @@ export default function ExamChapterVerseComponent(props) {
             required
             onChange={handleChangeValue('l_verse')}
             onFocus={handleFocus('l_verse')}
-            className={state.flags.l_verse === null ? null : (state.flags.l_verse === true ? 'bg-blue-500' : 'bg-red-500')} />
+            className={state.flags.l_verse === null ? null : (state.flags.l_verse === true ? 'bg-blue-500' : 'bg-red-500')} 
+            sx={{ flex: 1 }}
+          />
         </div>
         <TextField id="checking_content" rows="6" variant="outlined" value={quest.content}
           inputProps={{ readOnly: true }}
