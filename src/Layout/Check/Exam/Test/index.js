@@ -63,7 +63,7 @@ export default function RecitationExam(props) {
   return (
     <div className={'h-full'}>
       <div className={'flex flex-col h-full'}>
-        <div className={'my-1'}>
+        <div className={'my-1 px-2'}>
           <TimeProgress LimitTime={LimitTime} timeOutFunc={closing}/>
         </div>
         <TestQuestPanel Source={Source} addResultQuestion={addResultQuestion} setDeduction={setDeduction} precedence={propsState.precedence}/>

@@ -73,7 +73,7 @@ export default function CardListComponent (props) {
 
     return (
         <Container maxWidth="sm"  ref={containerRef}>
-            <div className='space-y-2'>
+            <div className='space-y-2 pb-4'>
                 {
                     cardList.map((item, idx) => {
                         const lastEl = idx === CardIndex - 1;
