@@ -11,16 +11,19 @@ export default function RecitationLoading(props) {
   
   const rootRef = useRef(null)
   const [Size, setSize] = useState(0);
-  useEffect(async () => {
+  useEffect(() => {
     const { clientHeight, clientWidth } = rootRef.current;
     setSize(Math.min(clientHeight, clientWidth) * 0.5);
 
-    var cardList = await loadingVerses();
+    (async () => {
+      const cardList = await loadingVerses();
+  
+      const { path, themeOf242, precedence } = state;
+      navigator(path, {
+        state: { themeOf242, precedence, cardList}
+      });
 
-    var { path, themeOf242, precedence } = state;
-    navigator(path, {
-      state: { themeOf242, precedence, cardList}
-    });
+    })();
   }, [])
 
   async function loadingVerses() {
