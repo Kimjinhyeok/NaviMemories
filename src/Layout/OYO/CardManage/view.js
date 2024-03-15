@@ -9,12 +9,11 @@ import React from 'react'
  * @returns 
  */
 export default function OYOCardForView(props) {
-  const classes = props.classes;
   const v = props.v;
   return (
-    <div className={classes.oyo_card_view}>
+    <div className={'p-2 pt-0'}>
       <div className="theme"><span aria-label="oyo_theme">{v.theme}</span></div>
-      <div className="bcv">
+      <div className="bcv flex space-x-1 text-green-600">
         <span aria-label="oyo_bible">{v.bible_name}</span>
         <span aria-label="oyo_chapter">{v.chapter}</span>
         <span aria-label="oyo_chapter_colon">:</span>
@@ -23,8 +22,8 @@ export default function OYOCardForView(props) {
           v.l_verse ? (<span aria-label="oyo_l_verse">~ {v.l_verse}</span>) : <></>
         }
       </div>
-      <div className="cn">
-        <span aria-label="oyo_content">{v.content}</span>
+      <div className="cn mt-1 leading-[18px]">
+        {v.content}
       </div>
     </div>
   )

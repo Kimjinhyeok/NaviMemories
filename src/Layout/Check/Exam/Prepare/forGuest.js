@@ -1,14 +1,15 @@
-import { Button, Card, CardActions, CardContent, CardHeader, Container, FormControl, FormControlLabel, FormLabel, makeStyles, Radio, RadioGroup } from '@material-ui/core'
+import { Button, Card, CardActions, CardContent, CardHeader, Container, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material'
+
 import React, { useContext } from 'react'
 import AlertDialog from '../../../Dialog/alertDialog';
 import CategorySelector from '../../../categorySelector';
-import cookies from '../../../../Data/cookies';
 import { Context } from '../../../../Utils/Context';
 import { useSnackbar } from 'notistack';
+import { useNavigate } from 'react-router';
 
 export default function PrepareForGuest(props) {
 
-  const history = props.history;
+  const navigator = useNavigate();
   const initialOption = {
     alert: true,
     series: [],
@@ -17,53 +18,27 @@ export default function PrepareForGuest(props) {
     precedence: "cn",
     version: "gae"
   }
-  const classes = makeStyles(theme => ({
-    prepare_root: {
-      marginTop: theme.spacing(3),
-      width: '100%',
-      maxHeight: '100%',
-    },
-    prepare_content: {
-      display: 'flex',
-      flexDirection: 'column',
-      maxHeight: '75vh',
-      '& > div:first-child': {
-        marginBottom: theme.spacing(2),
-        flex: 1,
-        overflowY: 'auto'
-      }
-    },
-    prepare_actions: {
-      display: 'flex',
-      flexDirection: 'row',
-      '& > button': {
-        flex: 1
-      }
-    },
-    prepare_form: {
-      display: 'flex',
-      flexDirection: 'column',
-      '& > *': {
-        margin: theme.spacing(1)
-      },
-      '& .MuiFormGroup-root[role=radiogroup]': {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-around'
-      }
-    },
-  }))();
+  
   const {state : {version}} = useContext(Context);
   const [options, setOptions] = React.useState({...initialOption, version: version ? 'gae' : 'kor'});
   const { enqueueSnackbar } = useSnackbar();
 
+  const handleChangeOptions = (property="") => (event) => {
+    const value = event.target.value;
+    setOptions({
+      ...options,
+      [property] : value
+    })
+  }
   const handleChangeSeries = function (seriesList) {
     setOptions({
       ...options,
       series: seriesList
     })
   }
-
+  const moveBack = () => {
+    navigator(-1);
+  }
   React.useEffect(() => {
     let isInclude242 = options.series.findIndex(series => (series % 300) <= 99) > -1;
     setOptions({
@@ -78,8 +53,7 @@ export default function PrepareForGuest(props) {
       enqueueSnackbar("테스트 구절을 하나 이상 선택해주세요.", { variant : 'error'});
       return;
     }
-    history.push({
-      pathname : '/test/loading',
+    navigator('/test/loading', {
       state : { 
         mode : "v",
         path: '/test/exam',
@@ -97,23 +71,23 @@ export default function PrepareForGuest(props) {
         {options.alert ?
           <AlertDialog
             agreeAction={() => { setOptions({ ...options, alert: false }) }}
-            disagreeAction={() => { history.goBack(); }}
+            disagreeAction={moveBack}
             title="암송 모의 테스트 안내"
             message="암송 모의 테스트는 OYO 카드가 적용되지 않으며 실제 암송 테스트와 다른 결과가 나올 수 있습니다. 진행 하시겠습니까?"
             open={options.alert}
           /> : <></>}
         <CardHeader title="암송 모의 테스트" />
-        <CardContent className={classes.prepare_content}>
+        <CardContent className={'mt-3 w-full max-h-full space-y-2'}>
           <div>
             <CategorySelector onChange={handleChangeSeries} />
           </div>
           {
             options.include242 ?
               (
-                <div className={classes.prepare_form}>
+                <div className={'flex flex-col'}>
                   <FormControl>
                     <FormLabel component="legend">242 주제 포함</FormLabel>
-                    <RadioGroup value={options.themeOf242} onChange={event => { setOptions({ ...options, themeOf242: event.target.value }) }}>
+                    <RadioGroup value={options.themeOf242} onChange={handleChangeOptions('themeOf242')}>
                       <FormControlLabel value="true" control={<Radio />} label="네" />
                       <FormControlLabel value="false" control={<Radio />} label="아니요" />
                     </RadioGroup>
@@ -122,12 +96,13 @@ export default function PrepareForGuest(props) {
               )
               : <></>
           }
-          <div className={classes.prepare_form}>
+          <div className={'flex flex-col'}>
             <FormControl>
               <FormLabel component="legend">선행 문제 선택</FormLabel>
               <RadioGroup
                 value={options.precedence}
-                onChange={(event) => { setOptions({ ...options, precedence: event.target.value }) }}>
+                row
+                onChange={handleChangeOptions('precedence')}>
                 <FormControlLabel
                   label="내용"
                   value="cn"
@@ -144,7 +119,8 @@ export default function PrepareForGuest(props) {
               <FormLabel component="legend">역본 선택</FormLabel>
               <RadioGroup
                 value={options.version}
-                onChange={(event) => { setOptions({ ...options, version: event.target.value }) }}>
+                row
+                onChange={handleChangeOptions('version')}>
                 <FormControlLabel
                   label="개역한글"
                   value="kor"
@@ -159,8 +135,8 @@ export default function PrepareForGuest(props) {
             </FormControl>
           </div>
         </CardContent>
-        <CardActions className={classes.prepare_actions}>
-          <Button type="button" variant="contained" color="primary" onClick={loadingCardList}>다음</Button>
+        <CardActions className={'flex flex-row'}>
+          <Button variant="contained" color="primary" onClick={loadingCardList}>다음</Button>
         </CardActions>
       </Card>
     </Container>

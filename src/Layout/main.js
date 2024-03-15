@@ -1,61 +1,61 @@
-import { Container, makeStyles } from '@material-ui/core';
-import React, { useEffect } from 'react'
-import { Route, Switch } from 'react-router';
-import AppBarComponent from './appbar';
-import RecitationCardListComponent from './Cards';
-import UnitPageComponent from './Check/Unit/unitPage';
-import ExamMainPage from './Check/Exam';
-import IntroPageComponent from './intro.page';
-import OYOIndex from './OYO';
-import jwt from 'jsonwebtoken';
-import Cookies from 'js-cookie';
-import { Provider as ContextProvider } from '../Utils/Context';
-
+import { Container } from "@mui/material";
+import React, { useEffect } from "react";
+import { Route, Routes } from "react-router";
+import AppBarComponent from "./appbar";
+import RecitationCardListComponent from "./Cards";
+import UnitPageComponent from "./Check/Unit/unitPage";
+import IntroPageComponent from "./intro.page";
+import { jwtDecode } from "jwt-decode";
+import Cookies from "js-cookie";
+import { Provider as ContextProvider } from "../Utils/Context";
+import RecitationExam from "./Check/Exam/Test";
+import PrepareForMember from "./Check/Exam/Prepare/forMember";
+import PrepareForGuest from "./Check/Exam/Prepare/forGuest";
+import RecitationLoading from "./Check/Exam/loading";
+import RecitationResult from "./Check/Exam/result";
+import CardTemplateComponent from "./OYO/cardTemplate";
+import OyoManagePage from "./OYO/CardManage";
 
 export default function MainComponent(props) {
-
-    const useStyle = makeStyles(theme => ({
-        root_container : {
-            height : '100%',
-            maxHeight : '100%',
-            display : 'flex',
-            flexDirection : 'column',
-            overflowY: 'auto'
-        },
-        main_content : {
-            flex: 1,
-            maxHeight: 'calc(100% - 64px)'
-        }
-    }))
-    const classes = useStyle();
-    
-    const checkUserSignuped = function() {
-        var authtoken = Cookies.get('authtoken');
-        var username = Cookies.get('username');
-        if(authtoken && !username) {
-            var decoded = jwt.decode(authtoken);
-            username = decoded.u_n;
-            Cookies.set('username', username);
-        }
+  const checkUserSignuped = function () {
+    const authtoken = Cookies.get("authtoken");
+    const username = Cookies.get("username");
+    if (authtoken && !username) {
+      const decoded = jwtDecode(authtoken);
+      const decodedUsername = decoded.u_n;
+      Cookies.set("username", decodedUsername);
     }
+  };
 
-    useEffect(() => {
-        checkUserSignuped();
-    }, [])
-    return (
-        <div className={classes.root_container}>
-            <ContextProvider>
-                <AppBarComponent {...props}     />
-                <Container className={classes.main_content}>
-                    <Switch>
-                        <Route path="/test/:path" render={props => <ExamMainPage {...props} />} />
-                        <Route path="/check" render={props => <UnitPageComponent {...props}/>}/>
-                        <Route path="/recitation/:category" render={props => <RecitationCardListComponent {...props} />} />
-                        <Route path="/oyo/:path" render={props => <OYOIndex {...props}/>} />
-                        <Route path="/" render={props => <IntroPageComponent {...props} />} />
-                    </Switch>
-                </Container>
-            </ContextProvider>
-        </div>
-    )
+  useEffect(() => {
+    checkUserSignuped();
+  }, []);
+  return (
+    <div className="h-full flex flex-col">
+      <ContextProvider>
+        <AppBarComponent {...props} />
+        <Container maxWidth='xl' className={`flex-1 py-2 max-h-[100vh] overflow-y-auto`}>
+          <Routes>
+            <Route path="/test">
+              <Route path="exam" element={<RecitationExam />} />
+              <Route path="prepare" element={<PrepareForMember />} />
+              <Route path="v_prepare" element={<PrepareForGuest />} />
+              <Route path="loading" element={<RecitationLoading />} />
+              <Route path="result" element={<RecitationResult />} />
+            </Route>
+            <Route path="/check/*" element={<UnitPageComponent />} />
+            <Route
+              path="/recitation/:category"
+              element={<RecitationCardListComponent />}
+            />
+            <Route path="/oyo" >
+              <Route path="template" element={<CardTemplateComponent />}/>
+              <Route path="manage" element={<OyoManagePage />}/>
+            </Route>
+            <Route path="/" excat element={<IntroPageComponent />} />
+          </Routes>
+        </Container>
+      </ContextProvider>
+    </div>
+  );
 }

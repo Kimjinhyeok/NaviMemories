@@ -1,35 +1,35 @@
-import { Box, Card, CardContent, Checkbox, FormControlLabel, makeStyles, Typography } from '@material-ui/core'
+import { Box, Card, CardContent, Checkbox, FormControlLabel, Typography } from '@mui/material'
 import React, { Fragment } from 'react'
 import cookies from '../../../Data/cookies';
 
 function CardComponent (props, ref) {
     
-    const { item, classes, updatePassed, version } = props;
+    const { item, updatePassed, version } = props;
     return (
-        <Card className={classes.root} ref={ref}>
-            <CardContent className={classes.c_content}>
+        <Card ref={ref} sx={{ margin: '8px', position: 'relative' }}>
+            <CardContent sx={{ display: 'flex', flexDirection: 'column', textAlign: 'left', marginTop: '4px', marginBottom: '4px' }}>
                 {
                     item.theme ? 
-                        <div className={classes.title}>
+                        <div className={'text-xl'}>
                             {item.theme}
                         </div>
                     :
                         <></>
                 }
-                <Box className={classes.chapter}>
-                    <Typography className={classes.bible_code}>{item.bible_name}</Typography>
+                <Box className={'mt-2 flex flex-row space-x-1'}>
+                    <Typography sx={{ marginRight: '4px' }}>{item.bible_name}</Typography>
                     <Typography>{item.chapter}</Typography>:
                     <Typography>{item.f_verse}</Typography>
                     {
                         item.l_verse ? <Fragment>~ <Typography>{item.l_verse}</Typography></Fragment> : <></>
                     }
                 </Box>
-                <Box className={classes.verse_text}>{version ? item.verse_gae : (item.verse_kor || item.verse_gae)}</Box>
-                <Box className={classes.category}>{item.category}</Box>
+                <Box sx={{ marginTop: '4px', marginBottom: '4px' }}>{version ? item.verse_gae : (item.verse_kor || item.verse_gae)}</Box>
+                <Box className={'mt-2 text-right'}>{item.category}</Box>
             </CardContent>
             {
                 cookies.isLogin() ?
-                    <div className={classes.options}>
+                    <div className={'absolute right-1 top-0'}>
                         <FormControlLabel
                             checked={(item.passed === null || item.passed === undefined) ? false : item.passed}
                             value={(item.passed === null || item.passed === undefined) ? false : item.passed}

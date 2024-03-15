@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
-import { Route, Switch } from 'react-router';
-import { Button, Container, FormControl, FormControlLabel, FormLabel, makeStyles, Radio, RadioGroup } from '@material-ui/core'
-import { ArrowBackIos, ArrowForwardIos, ArrowRightAlt, Shuffle } from '@material-ui/icons'
-import { red, blue, lightBlue, grey } from '@material-ui/core/colors'
+import React, { useMemo, useState } from 'react'
+import { useLocation } from 'react-router';
+import { Button, Container, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material'
+
+import { ArrowBackIos, ArrowForwardIos, ArrowRightAlt, Shuffle } from '@mui/icons-material'
 import CheckContentComponent from './cn';
 import CheckChapterVerseComponent from './cv';
 import CategorySelect from '../../categorySelect';
@@ -28,141 +28,7 @@ var originalList = [];
 export default function UnitPageComponent(props) {
 
   const http = Http();
-  const useStyle = makeStyles(theme => ({
-    root_unit: {
-      height: '100%',
-      padding: '0',
-      display: 'flex',
-      flexDirection: 'row',
-    },
-    area_content: {
-      display: 'flex',
-      flexDirection: 'column',
-      position: 'relative',
-      flex: 90
-    },
-    content_options: {
-      padding: theme.spacing(1),
-      marginTop: '15px',
-      border: '1px solid',
-      borderColor: theme.palette.action.disabled,
-      borderRadius: '3px',
-      display: 'flex',
-      flex: 1,
-      flexDirection: 'column',
-      // position: 'absolute',
-      zIndex: 10,
-      backgroundColor: grey[50],
-      // left: '50%',
-      // transform: 'translateX(-50%)',
-      '& > .actions' : {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        '& > *:not(:first-child)': {
-          marginTop: theme.spacing(1),
-          marginBottom: theme.spacing(1),
-        },
-        '& > *': {
-          width: '20em',
-          maxWidth: '400px'
-        },
-        '& > * .MuiFormControlLabel-label': {
-          display: 'flex'
-        }
-      }
-    },
-    fold: {
-      overflow: 'hidden',
-      height: '50px',
-    },
-    options_select: {
-      // width: '33%'
-    },
-    moveButton: {
-      flex: 5,
-      minWidth: '0px',
-      color: theme.palette.text.hint
-    },
-    root_checking: {
-      display: 'flex',
-      flexDirection: 'row',
-      height: '100%'
-    },
-    shortName: {
-      marginRight: '10px'
-    },
-    row_part: {
-      display: 'flex',
-      flexDirection: 'row',
-      '& .MuiFormControl-root': {
-        flex: 20
-      },
-      '& .MuiFormControl-root:not(:last-child)': {
-        marginRight: '10px'
-      },
-      '& .MuiAutocomplete-root': {
-        flex: 30,
-        marginRight: '10px'
-      }
-    },
-    form_checking: {
-      margin: 'auto auto',
-      display: 'flex',
-      flexDirection: 'column',
-      width: '100%',
-      '& > div': {
-        margin: '10px 0'
-      },
-      '& input:read-only': {
-        backgroundColor: theme.palette.action.hover
-      }
-    },
-    content_checking: {
-      flex: 1,
-      backgroundColor: theme.palette.action.hover
-    },
-    succeed: { backgroundColor: blue[50], '& input': { color: theme.palette.info.main } },
-    failed: { backgroundColor: red[50], '& input': { color: theme.palette.error.main } },
-    action_button: {
-      display: 'flex',
-      flexDirection: 'column',
-      '& button': {
-        marginTop: '10px'
-      }
-    },
-    content_result: {
-      height: '12vh',
-      paddingTop: '18.5px',
-      paddingBottom: '18.5px',
-      paddingLeft: '14px',
-      paddingRight: '14px',
-      border: `1px solid ${theme.palette.action.disabled}`,
-      borderRadius: '4px',
-      overflowY: 'auto',
-      overflowWrap: 'break-word',
-      '& > span' : {
-        wordBreak: 'break-word',
-      }
-    },
-    hide: {
-      display: 'none'
-    },
-    correct: {
-      backgroundColor: lightBlue[50],
-    },
-    omitted: {
-      backgroundColor: grey[50],
-      color: grey[500],
-      textDecoration: 'line-through',
-    },
-    incorrect: {
-      backgroundColor: red[50],
-      color: red[500]
-    },
-  }));
-  const classes = useStyle();
-
+  const location = useLocation();
 
   function setOriginCard(item, version) {
     setOrigin({
@@ -196,6 +62,13 @@ export default function UnitPageComponent(props) {
 
   const [origin, setOrigin] = React.useState(InitialOrigin);
   const [cardList, setCardList] = React.useState([]);
+
+  const path = useMemo(() => {
+    const pathname = location.pathname;
+    const splited = pathname.split('/');
+    return splited[splited.length-1];
+  }, location);
+
   React.useEffect(() => { loadRecitationCards(options.series) }, [])
   const [Fold, setFold] = useState(true)
   const setCardContent = function (index) {
@@ -248,14 +121,14 @@ export default function UnitPageComponent(props) {
     setoptions({ ...options, index: 0 })
   }
   return (
-    <div className={classes.root_unit} >
+    <div className='h-full flex flex-row' >
 
-      <Button type="button" color="default" className={classes.moveButton}
+      <Button variant='contained' sx={{ flex: 5, minWidth: 0 }}
         onClick={() => { setCardContent(options.index - 1) }} disabled={options.index == 0} title="이전 문제"><ArrowBackIos /></Button>
-      <div className={classes.area_content}>
-        <div className={classes.content_options}>
-          <div className={`actions ${Fold ? classes.fold : ''}`}>
-            <div className={classes.options_select}>
+      <div className='flex flex-col relative flex-[90]'>
+        <Container maxWidth="md"  sx={{ display: 'flex', height: '100%', padding: '0 !important' }} className='p-2 mt-4 border rounded-[4px] flex flex-col flex-1'>
+          <div className={`actions ${Fold ? 'overflow-hidden h-[50px]' : ''}`}>
+            <div>
               <CategorySelect value={options.series} onChange={handleSeriesChange} />
             </div>
             <FormControl>
@@ -279,14 +152,15 @@ export default function UnitPageComponent(props) {
                 <></>
             }
           </div>
-          <Button variant="outlined" color="default" size="small" onClick={() => setFold(!Fold)}>옵션 {Fold ? '열기' : '닫기'}</Button>
-        </div>
-        <Switch>
-          <Route path={`${props.params ? props.params.path : ''}/check/cv`} render={props => <CheckChapterVerseComponent classes={classes} origin={origin} {...props} />} />
-          <Route path={`${props.params ? props.params.path : ''}/check/cn`} render={props => <CheckContentComponent classes={classes} origin={origin} {...props} />} />
-        </Switch>
+          <Button variant="outlined" size="small" onClick={() => setFold(!Fold)}>옵션 {Fold ? '열기' : '닫기'}</Button>
+        </Container>
+        {
+          path == 'cv'
+          ? <CheckChapterVerseComponent origin={origin} />
+          : <CheckContentComponent origin={origin} />
+        }
       </div>
-      <Button type="button" color="default" className={classes.moveButton}
+      <Button variant='contained'  sx={{ flex: 5, minWidth: 0 }}
         onClick={() => { setCardContent(options.index + 1) }} disabled={options.index == cardList.length - 1} title="다음 문제"><ArrowForwardIos /></Button>
     </div>
   )

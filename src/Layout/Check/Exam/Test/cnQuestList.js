@@ -1,6 +1,6 @@
-import { Button, Container, makeStyles } from '@material-ui/core';
-import { blue, grey, lightBlue, red } from '@material-ui/core/colors';
-import { ArrowLeft, ArrowRight } from '@material-ui/icons';
+import { Button } from '@mui/material';
+
+import { ArrowLeft, ArrowRight } from '@mui/icons-material';
 import React, {useState, useEffect} from 'react'
 import ExamContentComponent from './cn';
 /**
@@ -16,103 +16,7 @@ import ExamContentComponent from './cn';
  * @returns 
  */
 export default function CNQuestList(props) {
-  const classes = makeStyles((theme) => ({
-    root : {
-      height: '75vh',
-      display: 'flex',
-      flexDirection: 'column'
-    },
-
-    actions: {
-      display: 'flex',
-      flexDirection: 'row',
-      '& > button' : {
-        flex: 1,
-        display: 'flex',
-        fontSize: '1.2em'
-      }
-    },
-    root_checking : {
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      height: '100%'
-    },
-    shortName: {
-      marginRight: '10px'
-    },
-    row_part: {
-      display: 'flex',
-      flexDirection: 'row',
-      '& .MuiFormControl-root': {
-        flex: 20
-      },
-      '& .MuiFormControl-root:not(:last-child)': {
-        marginRight: '10px'
-      },
-      '& .MuiAutocomplete-root': {
-        flex: 30,
-        marginRight: '10px'
-      }
-    },
-    questionIndex: {
-      color: theme.palette.grey[500],
-      textAlign: 'right',
-      paddingLeft: theme.spacing(3),
-      paddingRight: theme.spacing(3),
-    },
-    form_checking: {
-      margin: 'auto auto',
-      display: 'flex',
-      flexDirection: 'column',
-      width: '100%',
-      '& > div': {
-        margin: '10px 0'
-      },
-      '& input:read-only' : {
-        backgroundColor: theme.palette.action.hover
-      }
-    },
-    content_checking: {
-      flex: 1,
-      backgroundColor: theme.palette.action.hover
-    },
-    succeed: { backgroundColor: blue[50], '& input, & textarea': {color : theme.palette.info.main}},
-    failed: { backgroundColor: red[50], '& input, & textarea': {color : theme.palette.error.main}},
-    action_button: {
-      display: 'flex',
-      flexDirection: 'column',
-      '& button': {
-        marginTop: '10px'
-      }
-    },
-    content_result: {
-      height: '12vh',
-      paddingTop: '18.5px',
-      paddingBottom: '18.5px',
-      paddingLeft: '14px',
-      paddingRight: '14px',
-      borderType: '1px solid',
-      borderTypeRadius: '4px',
-      borderTypeColor: theme.palette.action.disabled,
-      overflowY: 'auto'
-    },
-    hide : {
-      display : 'none'
-    },
-    correct : {
-      backgroundColor: lightBlue[50],
-    },
-    omitted : {
-      backgroundColor: grey[50],
-      color: grey[500],
-      textDecoration: 'line-through',
-    },
-    incorrect : {
-      backgroundColor: red[50],
-      color: red[500]
-    },
-  }))();
+  
   const themeOf242 = props.themeOf242;
   const origins = props.origins;
   const addResult = props.setAddResultQuestion;
@@ -164,9 +68,9 @@ export default function CNQuestList(props) {
   
   return (
     StateList.length > 0 ? 
-    <div className={classes.root}> 
-      <div className={classes.root_checking}>
-        <div className={classes.questionIndex}>
+    <div className={'flex-1 flex flex-col'}> 
+      <div className={'h-full flex flex-col justify-center'}>
+        <div className={'text-gray-500 text-right px-3'}>
           <span>(</span><span>{QuestionIndex+1}</span><span>/</span><span>{origins.length}</span><span>)</span>
         </div>
         <ExamContentComponent
@@ -175,12 +79,11 @@ export default function CNQuestList(props) {
           setDeduction={addDeduction}
           quest={origins[QuestionIndex]}
           updateState={updateValue}
-          classes={classes}
         />  
       </div>
-      <div className={classes.actions}>
-        <Button type="button" color="primary" variant="outlined" disabled={QuestionIndex == 0 && precedence} onClick={() => {changeQuestionIndex(-1)}} ><ArrowLeft />이전 문제</Button>
-        <Button type="button" color="primary" variant="outlined" disabled={QuestionIndex >= origins.length-1 && !precedence } onClick={() => {changeQuestionIndex(1)}} >다음 문제 <ArrowRight/></Button>
+      <div className={'mt-4 w-full flex justify-between space-x-2'}>
+        <Button color="primary" fullWidth variant="outlined" disabled={QuestionIndex == 0 && precedence} onClick={() => {changeQuestionIndex(-1)}} ><ArrowLeft />이전 문제</Button>
+        <Button color="primary" fullWidth variant="outlined" disabled={QuestionIndex >= origins.length-1 && !precedence } onClick={() => {changeQuestionIndex(1)}} >다음 문제 <ArrowRight/></Button>
       </div>
     </div>
     : <></>

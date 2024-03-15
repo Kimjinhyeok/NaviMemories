@@ -1,6 +1,6 @@
-import { Button, Container, TextField } from '@material-ui/core';
+import { Button, Container, TextField } from '@mui/material';
 import React from 'react'
-import AutoCompleteBible from '../../../autoCompleteBible';
+import AutoCompleteBible from '../../../../Components/autoCompleteBible';
 import DiffMatchPatch from 'diff-match-patch';
 import compareText from '../../../../Utils/compareText';
 
@@ -34,7 +34,7 @@ import compareText from '../../../../Utils/compareText';
  */
 export default function ExamContentComponent(props) {
 
-  const { quest, state, updateState, setDeduction, confirm, classes } = props;
+  const { quest, state, updateState, setDeduction, confirm } = props;
   const defPoint = 6;
 
   const handleHint = function () {
@@ -140,8 +140,8 @@ export default function ExamContentComponent(props) {
     event.stopPropagation();
   }
   return (
-    <Container>
-      <form className={classes.form_checking}>
+    <Container sx={{padding: '0 !important'}}>
+      <form className={'w-full m-auto flex flex-col space-y-2'}>
         {
           state.flags.doTheme ?
             (
@@ -152,34 +152,31 @@ export default function ExamContentComponent(props) {
                 autoComplete="off"
                 required
                 label="주제"
-                className={state.flags.theme === null ? null : (state.flags.theme === true ? classes.succeed : classes.failed)} />
+                className={state.flags.theme === null ? null : (state.flags.theme === true ? 'bg-blue-500' : 'bg-red-500')} />
             ) : <></>
         }
 
         <AutoCompleteBible
-          classes={classes}
           fullWidth={true}
           defaultValue={quest.bible_code}
           disabled={true}
+          
           id="checking_bible"
         />
-        <div className={classes.row_part}>
+        <div className={'flex space-x-2'}>
           <TextField type="number"
-            value={state.value.chapter}
             variant="outlined"
             label="장"
             value={quest.chapter}
             inputProps={{ readOnly: true }}
           />
           <TextField type="number"
-            value={state.value.f_verse}
             variant="outlined"
             label="시작 구절"
             value={quest.f_verse}
             inputProps={{ readOnly: true }}
           />
           <TextField type="number"
-            value={state.value.l_verse}
             variant="outlined"
             label="끝 구절"
             value={quest.l_verse}
@@ -194,11 +191,11 @@ export default function ExamContentComponent(props) {
           // className={(state.flags.result ? classes.hide : '')}
           onChange={handleChangeValue('content')}
           onFocus={handleFocus('content')}
-          className={state.flags.content === null ? null : (state.flags.content === true ? classes.succeed : classes.failed)}
+          className={state.flags.content === null ? null : (state.flags.content === true ? 'bg-blue-500' : 'bg-red-500')}
         />
-        <div className={classes.action_button}>
-          <Button type="button" variant="outlined" color="default" onClick={() => { handleHint() }}>힌트</Button>
-          <Button type="button" variant="contained" color="primary" onClick={() => { handleOnClick() }}>확인</Button>
+        <div className={'flex justify-end space-x-2'}>
+          <Button variant="outlined" onClick={handleHint}>힌트</Button>
+          <Button variant="contained" color="primary" onClick={handleOnClick}>확인</Button>
         </div>
       </form>
 

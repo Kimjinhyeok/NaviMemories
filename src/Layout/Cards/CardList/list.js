@@ -1,6 +1,7 @@
 import React, { useContext, useLayoutEffect, useMemo } from 'react'
+
 import CardComponent from './card';
-import { Container, makeStyles } from '@material-ui/core';
+import { Container } from '@mui/material';
 import { Context } from '../../../Utils/Context';
 
 const UNIT_SIZE = 10;
@@ -9,48 +10,7 @@ export default function CardListComponent (props) {
     const originCardList = props.item;
     const [CardIndex, setCardIndex] = React.useState(originCardList.length > UNIT_SIZE ? UNIT_SIZE : originCardList.length)
     const [cardList, setCardList] = React.useState(originCardList.slice(0, CardIndex));
-    const useStyle = makeStyles(theme => ({
-        root_container: {
-            paddingBottom: '10px'
-        },
-        root : {
-            margin : theme.spacing(2),
-            position: 'relative'
-        },
-        title : {
-            marginTop: theme.spacing(1),
-            marginBottom: theme.spacing(1),
-            fontSize: '1.2rem !important'
-        },
-        c_content : {
-            display : 'flex',
-            flexDirection : 'column',
-            textAlign : 'left',
-            marginTop : theme.spacing(1),
-            marginBottom : theme.spacing(1)
-        },
-        bible_code : {
-            marginRight : theme.spacing(1)
-        },
-        chapter : {
-            display : 'flex',
-            flexDirection : 'row',
-        },
-        verse_text : {
-            marginTop : theme.spacing(1),
-            marginBottom : theme.spacing(1)
-        },
-        category : {
-            textAlign : 'end',
-            color : theme.palette.secondary.light
-        },
-        options : {
-            position: 'absolute',
-            right: theme.spacing(1),
-            top: 0
-        }
-    }));
-    const classes = useStyle();
+   
     const containerRef = React.useRef(null);
     const target = React.useRef(null);
 
@@ -112,13 +72,15 @@ export default function CardListComponent (props) {
 
 
     return (
-        <Container maxWidth="sm" className={classes.root_container} ref={containerRef}>
-            {
-                cardList.map((item, idx) => {
-                    const lastEl = idx === CardIndex - 1;
-                    return <CardComponent item={item} key={idx} ref={lastEl ? target : null} classes={classes}  version={version} updatePassed={props.updatePassed}></CardComponent>
-                })
-            }
+        <Container maxWidth="sm"  ref={containerRef}>
+            <div className='space-y-2'>
+                {
+                    cardList.map((item, idx) => {
+                        const lastEl = idx === CardIndex - 1;
+                        return <CardComponent item={item} key={idx} ref={lastEl ? target : null}  version={version} updatePassed={props.updatePassed}></CardComponent>
+                    })
+                }
+            </div>
         </Container>
     )
 }

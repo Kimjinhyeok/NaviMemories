@@ -1,6 +1,7 @@
 import React from 'react'
-import { makeStyles, TextField } from '@material-ui/core';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import { TextField } from '@mui/material';
+
+import {Autocomplete} from '@mui/material'; 
 import BibleData from '../Data/bible';
 
 /**
@@ -26,20 +27,8 @@ export default function AutoCompleteBible(props) {
   const { onChange, onFocus, classes, fullWidth, validator, defaultValue, className, disabled } = props;
   
   const id = props.id || "bible_auto_complete";
-  const useStyle = makeStyles(theme => ({
-    bibleAutoComplete: {
-      backgroundColor: theme.palette.action.hover,
-      '& .MuiFormLabel-root.Mui-disabled': {
-        color: theme.palette.text.hint
-      },
-      '& .MuiInputBase-root.Mui-disabled': {
-        color: theme.palette.text.primary
-      }
-    }
-  }));
-  const styles = useStyle();
-
-  const renderOption = props.renderOption || ((params) => (<><span className={classes.shortName}>{params.short_name}</span>{params.bible_name}</>))
+ 
+  const renderOption = props.renderOption || ((params) => (<><span className={'mr-2'}>{params.short_name}</span>{params.bible_name}</>))
   const autocompleteTextfieldRender = props.autocompleteTextfieldRender || 
     function autocompleteTextfieldRender(params) {
     return (
@@ -47,7 +36,6 @@ export default function AutoCompleteBible(props) {
         key={params.bible_code} 
         label="성경"
         fullWidth={fullWidth} 
-        // className={classes.autocomplete_textfield} 
         variant="outlined" 
         required
         error={validator}
@@ -57,9 +45,6 @@ export default function AutoCompleteBible(props) {
       />
     )
   }
-
-  // const [bibleCodes, setBibleCodes] = React.useState([]);
-  
 
   const [value, setValue] = React.useState(null);
   React.useEffect(() => {
@@ -71,16 +56,17 @@ export default function AutoCompleteBible(props) {
     setValue(newValue);
     onChange(event, newValue);
   }
+  const optionLabelFnc = (params) => {
+    return params.bible_name
+  };
   return (
     <Autocomplete
       id={id}
       options={BibleData}
-      getOptionLabel={(props) => props.bible_name}
+      getOptionLabel={optionLabelFnc}
       onChange={onHandleChange}
       disabled={disabled}
       fullWidth={fullWidth}
-      className={`${disabled ? styles.bibleAutoComplete : ''} ${className}`}
-      renderOption={renderOption}
       renderInput={autocompleteTextfieldRender}
       value={value}
     ></Autocomplete>

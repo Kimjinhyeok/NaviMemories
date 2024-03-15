@@ -1,28 +1,22 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
 
-const theme = createMuiTheme({
-  typography: {
-    fontFamily: '"Noto Sans KR", serif',
-  },
-});
+const rootContainer = document.getElementById('root');
+const root = createRoot(rootContainer);
 
-ReactDOM.render(
-  <MuiThemeProvider theme={theme}>
+root.render(
+  //<ThemeUIpro theme={theme}>
     <BrowserRouter>
       <SnackbarProvider maxSnack={3}>
         <App />
       </SnackbarProvider>
     </BrowserRouter>
-  </MuiThemeProvider>
-  ,
-  document.getElementById('root')
+  //</ThemeUIpro>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -1,5 +1,5 @@
-import axios, {AxiosResponse, AxiosRequestConfig} from 'axios';
-import { ServerUrl } from '../Data/url'
+import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
+import { isEmpty } from 'lodash';
 /**
  * @typedef {Object} httpPraram
  * @property {String} query
@@ -7,32 +7,32 @@ import { ServerUrl } from '../Data/url'
  * @property {AxiosRequestConfig} options
  */
 
+const ServerUrl = process.env.REACT_APP_API_URL;
 axios.defaults.baseURL = ServerUrl;
 
 export default function Http() {
-
   const http = axios.create({
-    timeout : 10000
+    timeout: 10000,
+    withCredentials: true
   });
 
   function dataToQuery(params) {
     var query = "?";
-    for(var itr in params) {
+    for (var itr in params) {
       query += `${itr}=${params[itr]}&`;
     }
     return query;
   }
   /**
-   * 
-   * @param {httpPraram} params 
+   *
+   * @param {httpPraram} params
    * @returns {AxiosResponse}
    */
-  async function post(params) {
-    var { query, data } = params;
-    var options = params.options ? params.options : {withCredentials : true};
+  async function post(url, params={ data: {}, options : {} }) {
+    const { data, options } = params;
     try {
-      var result = await http.post(`${ServerUrl}/${query}`, data, options);
-      if(result instanceof Error) {
+      var result = await http.post(`${ServerUrl}/${url}`, data, options);
+      if (result instanceof Error) {
         throw result;
       }
       return result;
@@ -41,19 +41,18 @@ export default function Http() {
     }
   }
   /**
-   * 
-   * @param {httpPraram} params 
-   * @returns 
+   *
+   * @param {httpPraram} params
+   * @returns
    */
-  async function get(params) {
-    var { query, data } = params;
-    var options = params.options ? params.options : {withCredentials : true};
-    if(data) {
-      query+= dataToQuery(data);
+  async function get(url = "", params = { data: {}, options: {} }) {
+    const { data, options } = params;
+    if (!isEmpty(data)) {
+      url += dataToQuery(data);
     }
     try {
-      var result = await http.get(`${ServerUrl}/${query}`, options);
-      if(result instanceof Error) {
+      var result = await http.get(`${ServerUrl}/${url}`, options);
+      if (result instanceof Error) {
         throw result;
       }
       return result;
@@ -62,16 +61,15 @@ export default function Http() {
     }
   }
   /**
-   * 
-   * @param {httpPraram} params 
-   * @returns 
+   *
+   * @param {httpPraram} params
+   * @returns
    */
-  async function put(params) {
-    var { query, data } = params;
-    var options = params.options ? params.options : {withCredentials : true};
+  async function put(url, params={ data: {}, options : {} }) {
+    const { data, options } = params;
     try {
-      var result = await http.put(`${ServerUrl}/${query}`, data, options);
-      if(result instanceof Error) {
+      var result = await http.put(`${ServerUrl}/${url}`, data ?? {}, options ?? {});
+      if (result instanceof Error) {
         throw result;
       }
       return result;
@@ -80,19 +78,18 @@ export default function Http() {
     }
   }
   /**
-   * 
-   * @param {httpPraram} params 
-   * @returns 
+   *
+   * @param {httpPraram} params
+   * @returns
    */
-  async function del(params) {
-    var { query, data } = params;
-    var options = params.options ? params.options : {withCredentials : true};
-    if(data) {
-      query += dataToQuery(data);
+  async function del(url, params={ data: {}, options : {} }) {
+    const { data, options } = params;
+    if (!isEmpty(data)) {
+      url += dataToQuery(data);
     }
     try {
-      var result = await http.delete(`${ServerUrl}/${query}`, options);
-      if(result instanceof Error) {
+      var result = await http.delete(`${ServerUrl}/${url}`, options);
+      if (result instanceof Error) {
         throw result;
       }
       return result;
@@ -106,12 +103,12 @@ export default function Http() {
   function removeHeader(headerName) {
     axios.defaults.headers.common[headerName] = undefined;
   }
-  return ({
+  return {
     post,
     get,
     put,
-    delete : del,
+    delete: del,
     setHeader,
-    removeHeader
-  })
+    removeHeader,
+  };
 }

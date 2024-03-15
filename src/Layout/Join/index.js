@@ -1,46 +1,16 @@
-import { Button, Card, CardActions, CardContent, CardHeader, Container, makeStyles, TextField } from '@material-ui/core'
-import clsx from 'clsx';
-import { useSnackbar } from 'notistack';
 import React from 'react'
+import { Button, Card, CardActions, CardContent, CardHeader, Container, TextField, useTheme } from '@mui/material'
+import { useSnackbar } from 'notistack';
 import Http from '../../Utils/Http';
 import JoinPasswordsComponent from './passwords';
+import { useNavigate } from 'react-router';
 
 export default function JoinComponent(props) {
 
-  const { history } = props;
-  const http = Http();
+  const navigator = useNavigate();
+  const theme = useTheme();
 
-  const useStyles = makeStyles((theme) => ({
-    container_root: {
-      height: '100%',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center'
-    },
-    content_root : {
-        display : 'flex',
-        flexwrap : 'wrap',
-        flexDirection : 'column'
-    },
-    title : {
-      backgroundColor : theme.palette.primary.main,
-      color : theme.palette.primary.contrastText
-    },
-    margin : {
-        margin : theme.spacing(1)
-    },
-    action : {
-        display : 'flex',
-        flexWrap : 'wrap',
-        flexDirection : 'row',
-        paddingRight : theme.spacing(3),
-        paddingLeft : theme.spacing(3)
-    },
-    subActions : {
-        width : '50%'
-    }
-  }))
-  const classes = useStyles();
+  const http = Http();
 
   const [values, setValues] = React.useState({
     password : '',
@@ -101,7 +71,7 @@ export default function JoinComponent(props) {
           enqueueSnackbar("회원가입 중 장애가 발생했습니다.", {variant: 'error'});
           return;
         } 
-        history.push('/login');
+        navigator('/login');
       } else {
         enqueueSnackbar("필수 입력 항목을 채워주세요.", {variant: 'warning'});
       }
@@ -112,20 +82,19 @@ export default function JoinComponent(props) {
     }
   }
   const handleCancel = () => {
-    history.goBack();
+    navigator(-1);
   }
   return (
-    <Container maxWidth="sm" className={classes.container_root}>
+    <Container maxWidth="sm" sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
       <Card>
-        <CardHeader title="회원가입" className={classes.title}></CardHeader>
+        <CardHeader title="회원가입" sx={{ background: theme.palette.primary.main, color: theme.palette.primary.contrastText }}></CardHeader>
         <CardContent>
-          <div className={classes.content_root}>
+          <div className={'flex flex-wrap flex-col space-y-3'}>
             <TextField
               label="성명"
               value={values.name}
               onChange={handleChange('name')}
               required={true}
-              className={clsx(classes.margin, classes.textField)}
               helperText={values.name ? '' : "성명을 입력해주세요."}
               error={validation.name}
             ></TextField>
@@ -134,11 +103,10 @@ export default function JoinComponent(props) {
               value={values.id}
               onChange={handleOnlyAphabet}
               required={true}
-              className={clsx(classes.margin, classes.textField)}
               error={validation.id}
               helperText={validation.id ? "아이디를 5자 이상 입력해주세요." : ''}
             ></TextField>
-            <JoinPasswordsComponent value={values} classes={classes} handleChange={handleChange} ></JoinPasswordsComponent>
+            <JoinPasswordsComponent value={values} handleChange={handleChange} />
             <TextField
               error={handleEmailValidate()}
               label="이메일"
@@ -146,20 +114,18 @@ export default function JoinComponent(props) {
               onChange={handleChange('email')}
               required={true}
               type="email"
-              className={clsx(classes.margin, classes.textField)}
             ></TextField>
             <TextField
               label="핸드폰"
               value={values.mobile}
               onChange={handleChange('mobile')}
               type="mobile"
-              className={clsx(classes.margin, classes.textField)}
             ></TextField>
           </div>
         </CardContent>
-        <CardActions className={classes.action} disableSpacing={true}>
-          <Button color="secondary" className={classes.subActions} onClick={handleCancel}>취소</Button>
-          <Button color="primary" variant="contained" className={classes.subActions} onClick={handleSummit}>가입</Button>
+        <CardActions sx={{ display: 'flex', flexWrap: 'wrap', padding: '0 16px 16px 16px' }} disableSpacing={true}>
+          <Button color="primary" fullWidth variant="contained" onClick={handleSummit}>가입</Button>
+          <Button fullWidth variant='outlined' sx={{ marginTop: '4px' }} onClick={handleCancel}>취소</Button>
         </CardActions>
       </Card>
     </Container>

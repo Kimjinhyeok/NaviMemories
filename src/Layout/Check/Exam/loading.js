@@ -1,31 +1,15 @@
-import { CircularProgress, Container, makeStyles } from '@material-ui/core';
-import { lightBlue } from '@material-ui/core/colors';
+import { CircularProgress, Container } from '@mui/material';
+
+import { lightBlue } from '@mui/material/colors';
 import React, { useEffect, useRef, useState } from 'react'
 import Http from '../../../Utils/Http';
+import { useLocation, useNavigate } from 'react-router';
 
 export default function RecitationLoading(props) {
 
-  const state = props.location.state;
-  const history = props.history;
-  const classes = makeStyles(theme => ({
-    loading_root: {
-      height: '100%',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignContent: 'center',
-      '& > div': {
-        textAlign: 'center'
-      },
-      '& .MuiCircularProgress-root' : {
-        margin: 'auto'
-      },
-      '& .MuiCircularProgress-colorPrimary' : {
-        color: lightBlue[500]
-      }
-    }
-  }))();
-
+  const { state } = useLocation();
+  const navigator = useNavigate();
+  
   const rootRef = useRef(null)
   const [Size, setSize] = useState(0);
   useEffect(async () => {
@@ -35,8 +19,7 @@ export default function RecitationLoading(props) {
     var cardList = await loadingVerses();
 
     var { path, themeOf242, precedence } = state;
-    history.push({
-      pathname: path,
+    navigator(path, {
       state: { themeOf242, precedence, cardList}
     });
   }, [])
@@ -70,8 +53,9 @@ export default function RecitationLoading(props) {
     }
   }
   return (
-    <Container maxWidth="sm" ref={rootRef} className={classes.loading_root}>
-      <div>
+    <Container maxWidth="sm" ref={rootRef} 
+      sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center !important', alignContent: 'center !important' }}>
+      <div className='flex flex-col items-center space-y-4'>
         <CircularProgress size={Size} />
         <h3>암송 카드를 준비 중입니다.</h3>
       </div>
