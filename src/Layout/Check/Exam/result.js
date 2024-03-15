@@ -3,18 +3,20 @@ import { Container, Paper, Typography } from '@mui/material';
 import { lightBlue, lime, teal } from '@mui/material/colors';
 import React from 'react'
 import BibleData from '../../../Data/bible';
+import { useLocation } from 'react-router';
 
 export default function RecitationResult(props) {
 
-  const {point, deductions, quest} = props.location.state;
+  const {state} = useLocation();
+  const {point, deductions, quest} = state;
   const [QuestList, setQuestList] = React.useState([]);
-  const returnClass = function() {
+  const getColor = function() {
     if(point >= 98) {
-      return 'bg-sky-500';
+      return 'border-sky-500';
     } else if(point >= 92) {
-      return 'bg-teal-500';
+      return 'border-teal-500';
     } else {
-      return 'bg-lime-500';
+      return 'border-lime-500';
     }
   }
   const printResult = function() {
@@ -50,14 +52,14 @@ export default function RecitationResult(props) {
     let item = source.q;
     let v = source.v
     return (
-      <Paper elevation={1} key={index} className="quest_item">
-        <div className="theme">{item.theme}</div>
-        <div className="cvn">
-          <div className="cv">
-            <span>{getBibleName(item)}</span>&nbsp;
-            <span>{item.chapter}</span>&nbsp;<span>:</span>&nbsp;<span>{item.f_verse}</span><span>{item.l_verse ? ` ~ ${item.l_verse}` : ""}</span>
+      <Paper elevation={1} key={index} className="quest_item p-2">
+        <div className="theme text-lg">{item.theme}</div>
+        <div className="cvn mt-2">
+          <div className="cv flex space-x-1">
+            <span>{getBibleName(item)}</span>
+            <span>{item.chapter}</span><span>:</span><span>{item.f_verse}</span><span>{item.l_verse ? ` ~ ${item.l_verse}` : ""}</span>
           </div>
-          <div>
+          <div className='mt-1 leading-5'>
             {item.content}
           </div>
         </div>
@@ -65,18 +67,24 @@ export default function RecitationResult(props) {
     )
   }
   return (
-    <Container className={`flex flex-col ${returnClass()}`} maxWidth="sm">
-      <div className={'my-5vh mx-auto text-center'}>
-        <Typography variant="h4" className="title">테스트 결과</Typography>
-        <div className={'border-[1em] rounded-[50%] w-[10em] h-[10em] text-center flex justify-center items-center' + ' circle'}>
-          <Typography variant="h2" component="h2">{printResult()}</Typography>
+    <Container className={`py-2`} maxWidth="sm">
+      <div className={`flex flex-col border-2 rounded-md ${getColor()} w-full h-full p-4`}>
+        <div className={'my-5vh mx-auto text-center flex flex-col items-center'}>
+          <Typography variant="h3" component='div' className="title" sx={{ fontWeight: 400 }}>테스트 결과</Typography>
+          <div className={`my-4 border-8 ${getColor()} rounded-full w-36 h-36 text-center flex justify-center items-center circle`}>
+            <Typography variant="h4" component="div">{printResult()}</Typography>
+          </div>
         </div>
-      </div>
-      <div className={'border-[3px] p-2 rounded-[16px]' + " quest_list"}>
-        <div className={'absolute top-[-1em] left-0 right-0'}>
-          <Typography variant="h5" component="div" className="quest_list_title">출제 구절 목록</Typography>
+        <div className={'mt-8 p-2 rounded-md'}>
+          <div className='flex flex-col items-center'>
+            <div className='mb-4'>
+              <Typography variant="h5" component="div" className="quest_list_title">출제 구절 목록</Typography>
+            </div>
+            <div className='flex flex-col space-y-2'>
+              {QuestList.map((item, index) => pirntQuestAndResult(item, index))}
+            </div>
+          </div>
         </div>
-        {QuestList.map((item, index) => pirntQuestAndResult(item, index))}
       </div>
     </Container>
   )
