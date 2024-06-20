@@ -8,24 +8,10 @@ function CardComponent (props, ref) {
     return (
         <Card ref={ref} sx={{ margin: '8px', position: 'relative' }}>
             <CardContent sx={{ display: 'flex', flexDirection: 'column', textAlign: 'left', marginTop: '4px', marginBottom: '4px' }}>
-                {
-                    item.theme ? 
-                        <div className={'text-xl'}>
-                            {item.theme}
-                        </div>
-                    :
-                        <></>
-                }
-                <Box className={'mt-2 flex flex-row space-x-1'}>
-                    <Typography sx={{ marginRight: '4px' }}>{item.bible_name}</Typography>
-                    <Typography>{item.chapter}</Typography>:
-                    <Typography>{item.f_verse}</Typography>
-                    {
-                        item.l_verse ? <Fragment>~ <Typography>{item.l_verse}</Typography></Fragment> : <></>
-                    }
-                </Box>
+                <ThemeLayer {...item} />
+                <ChapterLayer {...item} />
                 <Box sx={{ marginTop: '4px', marginBottom: '4px' }}>{version ? item.verse_gae : (item.verse_kor || item.verse_gae)}</Box>
-                <Box className={'mt-2 text-right'}>{item.category}</Box>
+                <Box className={'mt-2 text-right text-gray-600 font-light'}>{item.category}</Box>
             </CardContent>
             {
                 cookies.isLogin() ?
@@ -45,5 +31,31 @@ function CardComponent (props, ref) {
         </Card>
     )
 }
-
+const ThemeLayer = ({theme = ''}) => (
+    theme 
+    ? 
+        <div className={'text-xl'}>
+            {theme}
+        </div>
+    :
+        <></>
+)
+const ChapterLayer = ({bible_name = '', chapter = 0, f_verse = 0, l_verse = 0}) => (
+    <>
+        <Box className={'mt-2 flex flex-row space-x-1 text-green-600'}>
+            <Typography sx={{ marginRight: '4px' }}>{bible_name}</Typography>
+            <Typography>{chapter}</Typography>
+            <Typography>:</Typography>
+            <Typography>{f_verse}</Typography>
+            {
+                l_verse 
+                    ? <Fragment>
+                        <Typography>~</Typography>
+                        <Typography>{l_verse}</Typography>
+                      </Fragment> 
+                    : <></>
+            }
+        </Box>
+    </>
+)
 export default React.forwardRef(CardComponent);
