@@ -36,6 +36,9 @@ export default function RecitationCardListComponent(props) {
         enqueueSnackbar(res.message, {
           variant: "warning",
         });
+      } else if(res instanceof Array && res.length == 0) { // OYO 카드이며 내용이 없을 때
+        enqueueSnackbar('저장된 OYO 카드가 없습니다.', {variant : 'warning'});
+        navigate('/');
       } else {
         originList.current = res;
         setCardList(res)
@@ -97,32 +100,32 @@ export default function RecitationCardListComponent(props) {
       <CardArrangeMenu category={category} updateSort={updateCardSort} updateFilter={updateCardFilter} />
       <Divider sx={{ marginTop: '8px' }}/>
       {
-      cardlist.length > 0 
-      ?
-        <>
-          <div className='flex-1 flex flex-col max-h-[100vh] overflow-hidden pt-2'>
-            <div className='flex-1'>
-              <TabPanel value={value} index={0} className={'h-full'}>
-                <CardSlideComponent item={cardlist} initSlide={InitSlide.current} setInitSlide={(val) => InitSlide.current = val} updatePassed={updatePassed} {...props} />
-              </TabPanel>
-              <TabPanel value={value} index={1} className='h-full max-h-[calc(100vh-(48px*2+64px+40px))] overflow-y-auto'>
-                <CardListComponent item={cardlist} updatePassed={updatePassed} {...props} />
-              </TabPanel>
+        cardlist.length > 0 
+        ?
+          <>
+            <div className='flex-1 flex flex-col max-h-[100vh] overflow-hidden pt-2'>
+              <div className='flex-1'>
+                <TabPanel value={value} index={0} className={'h-full'}>
+                  <CardSlideComponent item={cardlist} initSlide={InitSlide.current} setInitSlide={(val) => InitSlide.current = val} updatePassed={updatePassed} {...props} />
+                </TabPanel>
+                <TabPanel value={value} index={1} className='h-full max-h-[calc(100vh-(48px*2+64px+40px))] overflow-y-auto'>
+                  <CardListComponent item={cardlist} updatePassed={updatePassed} {...props} />
+                </TabPanel>
+              </div>
             </div>
-          </div>
-          <AppBar position="static"  color="default">
-            <Tabs
-              value={value}
-              onChange={handleChange}
-              indicatorColor="primary"
-              textColor="primary"
-              variant="fullWidth"
-              aria-label="full width tabs cardList">
-              <Tab label="카드형" {...a11yProps(0)}></Tab>
-              <Tab label="목록형" {...a11yProps(1)}></Tab>
-            </Tabs>
-          </AppBar>
-        </>
+            <AppBar position="static"  color="default">
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                indicatorColor="primary"
+                textColor="primary"
+                variant="fullWidth"
+                aria-label="full width tabs cardList">
+                <Tab label="카드형" {...a11yProps(0)}></Tab>
+                <Tab label="목록형" {...a11yProps(1)}></Tab>
+              </Tabs>
+            </AppBar>
+          </>
         : <></>
     }
     </div>
