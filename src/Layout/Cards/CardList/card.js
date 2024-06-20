@@ -50,7 +50,7 @@ const ChapterLayer = ({bible_name = '', chapter = 0, f_verse = 0, l_verse = 0}) 
             {
                 l_verse 
                     ? <Fragment>
-                        <Typography>~</Typography>
+                        ,
                         <Typography>{l_verse}</Typography>
                       </Fragment> 
                     : <></>

@@ -47,7 +47,7 @@ const CardContentPosition = ({ bible_name="", chapter=0, f_verse=0, l_verse=0 })
 			<span>{f_verse}</span>
 			{l_verse ? (
 				<>
-					<span>~</span>
+					,
 					<span>{l_verse}</span>
 				</>
 			) : (
