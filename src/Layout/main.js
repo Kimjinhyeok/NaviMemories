@@ -15,6 +15,8 @@ import RecitationLoading from "./Check/Exam/loading";
 import RecitationResult from "./Check/Exam/result";
 import CardTemplateComponent from "./OYO/cardTemplate";
 import OyoManagePage from "./OYO/CardManage";
+import UserPasswordCheckLayout from "./Reset";
+import UserPasswordResetLayout from "./Reset/reset";
 
 export default function MainComponent(props) {
   const checkUserSignuped = function () {
@@ -51,6 +53,10 @@ export default function MainComponent(props) {
             <Route path="/oyo" >
               <Route path="template" element={<CardTemplateComponent />}/>
               <Route path="manage" element={<OyoManagePage />}/>
+            </Route>
+            <Route path="/reset" >
+              <Route path="password" element={<UserPasswordResetLayout />} />
+              <Route index element={<UserPasswordCheckLayout />} />
             </Route>
             <Route path="/" excat element={<IntroPageComponent />} />
           </Routes>
