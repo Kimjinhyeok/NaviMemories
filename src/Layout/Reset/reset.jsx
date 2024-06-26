@@ -26,7 +26,15 @@ export default function UserPasswordResetLayout({}) {
     }
   }
   const onClickChange = async () => {
-    const res = await AuthUsecase.changePassword()
+
+    const {
+      [PWD1] : password,
+      [PWD2] : passwordRepeat,
+    } = values.current;
+    const res = await AuthUsecase.changePassword({
+      password,
+      passwordRepeat
+    })
 
     if(res) {
       enqueueSnackbar('비밀번호 변경에 성공했습니다.');
