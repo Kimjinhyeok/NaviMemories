@@ -7,7 +7,8 @@ const Paths = {
   signin : RootPath,
   signout : RootPath,
   leave : `${RootPath}/leave`,
-  checkPassword : `${RootPath}/checkPwd`
+  checkPassword : `${RootPath}/checkPwd`,
+  changePassword : `${RootPath}/reset`,
 }
 const signIn = async (params) => {
   try {
@@ -71,7 +72,7 @@ const checkPassword = async (params) => {
 }
 const changePassword = async (params) => {
   try {
-    const res = await http.post(Paths.checkPassword, {
+    const res = await http.post(Paths.changePassword, {
       data : params
     });
 
