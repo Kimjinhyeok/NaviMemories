@@ -29,7 +29,7 @@ const checkPassword = async (param) => {
 const changePassword = async (param) => {
   const { password, passwordRepeat } = param;
 
-  const validated = AuthValidator.comparePassword(param);
+  const validated = AuthValidator.comparePassword(password, passwordRepeat);
   if(!validated) {
     return new Error("비밀번호가 일치하지 않습니다.");
   }
