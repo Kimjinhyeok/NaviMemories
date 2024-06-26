@@ -27,6 +27,9 @@ export default function AppBarComponent(props) {
         navigator('/');
         window.location.reload();
     }
+    const changePassword = () => {
+        navigator('/reset');
+    }
     const handleOpenMenu = () => {
         setOpen(true); 
         cookies.set('collapseDrawer', true)
@@ -62,6 +65,7 @@ export default function AppBarComponent(props) {
                                 open={Boolean(anchorEl)}
                                 onClose={handleClose}
                             >
+                                <MenuItem onClick={changePassword}>비밀번호변경</MenuItem>
                                 <MenuItem onClick={logout}>로그아웃</MenuItem>
                             </Menu>
                         </div>
