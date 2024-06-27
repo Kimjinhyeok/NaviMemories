@@ -2,8 +2,9 @@ import { Button, Card, CardContent, CardHeader, Container, useTheme } from "@mui
 import InputPassword from "../../Components/PasswordInput";
 import { useNavigate } from "react-router";
 import AuthUsecase from "../../Usecase/auth/auth";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useSnackbar } from "notistack";
+import { useSearchParams } from "react-router-dom";
 
 const PWD1 = 'pwd1';
 const PWD2 = 'pwd2';
@@ -13,12 +14,25 @@ export default function UserPasswordResetLayout({}) {
   const values = useRef({
     [PWD1] : "",
     [PWD2] : "",
+    token : "",
   })
 
   const theme = useTheme();
   const navigate = useNavigate();
+  const param = useSearchParams()[0];
   const {enqueueSnackbar} = useSnackbar();
 
+  useEffect(() => {
+    const token = param.get('token');
+    if(token) {
+      values.current = {
+        ...values.current,
+        token,
+      }
+    }
+  }, [param])
+  
+  
   const onChangePwds = (property) => (value) => {
     values.current = {
       ...values.current,
@@ -30,13 +44,15 @@ export default function UserPasswordResetLayout({}) {
     const {
       [PWD1] : password,
       [PWD2] : passwordRepeat,
+      token,
     } = values.current;
     const res = await AuthUsecase.changePassword({
       password,
-      passwordRepeat
+      passwordRepeat,
+      token
     })
 
-    if(res) {
+    if(res === true) {
       enqueueSnackbar('비밀번호 변경에 성공했습니다.');
       navigate('/');
     } else if(res === false) {

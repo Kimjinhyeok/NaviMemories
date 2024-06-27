@@ -2,13 +2,14 @@ import Http from "../Utils/Http";
 
 const http = Http();
 
-const RootPath = '/auth';
+const RootPath = 'auth';
 const Paths = {
   signin : RootPath,
   signout : RootPath,
   leave : `${RootPath}/leave`,
   checkPassword : `${RootPath}/checkPwd`,
   changePassword : `${RootPath}/reset`,
+  rqeEmail : `${RootPath}/sendEmail`
 }
 const signIn = async (params) => {
   try {
@@ -88,12 +89,31 @@ const changePassword = async (params) => {
     }
   }
 }
+const requestResetEmail = async (params) => {
+  try {
+    const res = await http.post(Paths.rqeEmail, {
+      data : params
+    });
+
+    const { data } = res;
+    return data;
+  } catch (error) {
+    if(error.response) {
+      if(error.response.status == 400) {
+        return new Error("NET: 유효한 이메일이 아닙니다.")
+      } else return error.response;
+    } else {
+      return error;
+    }
+  }
+}
 const AuthRepository = {
   signIn,
   signOut,
   leave,
   checkPassword,
-  changePassword
+  changePassword,
+  requestResetEmail
 }
 
 export default AuthRepository;

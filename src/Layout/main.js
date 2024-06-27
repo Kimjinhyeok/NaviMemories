@@ -17,6 +17,7 @@ import CardTemplateComponent from "./OYO/cardTemplate";
 import OyoManagePage from "./OYO/CardManage";
 import UserPasswordCheckLayout from "./Reset";
 import UserPasswordResetLayout from "./Reset/reset";
+import UserEmailInputLayout from "./Reset/email";
 
 export default function MainComponent(props) {
   const checkUserSignuped = function () {
@@ -56,6 +57,7 @@ export default function MainComponent(props) {
             </Route>
             <Route path="/reset" >
               <Route path="password" element={<UserPasswordResetLayout />} />
+              <Route path="email" element={<UserEmailInputLayout />} />
               <Route index element={<UserPasswordCheckLayout />} />
             </Route>
             <Route path="/" excat element={<IntroPageComponent />} />

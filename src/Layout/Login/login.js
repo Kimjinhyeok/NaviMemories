@@ -151,7 +151,7 @@ export default function LoginComponent(props) {
             justifyContent="space-between"
             maxWidth="sm"
           >
-            <Button size="small" color="primary" onClick={() => {}} disabled>
+            <Button size="small" color="primary" onClick={() => { navigator('/reset/email') }} >
               비밀번호 찾기
             </Button>
             <Button
