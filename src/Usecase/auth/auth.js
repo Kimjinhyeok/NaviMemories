@@ -38,10 +38,24 @@ const changePassword = async (param) => {
 
   return res;
 }
+const reqResetEmail = async (param) => {
+  const { email } = param;
+
+  const validated = AuthValidator.validatedEmail(email);
+
+  if(!validated) {
+    return new Error("이메일 양식이 정확하지 않습니다.");
+  }
+
+  const res = await AuthRepository.requestResetEmail(param);
+
+  return res;
+}
 const AuthUsecase = {
   signIn,
   checkPassword,
-  changePassword
+  changePassword,
+  reqResetEmail
 };
 
 export default AuthUsecase;

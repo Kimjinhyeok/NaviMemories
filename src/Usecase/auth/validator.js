@@ -17,10 +17,18 @@ const comparePassword = (pwd1, pwd2) => {
           && checkPassword(pwd2)
           && pwd1 === pwd2
 }
+const checkEmail = (email) => {
+  return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+}
+const validatedEmail = (email) => {
+  return checkID(email) 
+          && checkEmail(email);
+}
 const AuthValidator = {
   validateSignIn,
   checkPassword,
-  comparePassword
+  comparePassword,
+  validatedEmail,
 }
 
 export default AuthValidator;
