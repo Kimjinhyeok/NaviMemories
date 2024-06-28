@@ -77,7 +77,7 @@ export default function JoinComponent(props) {
               value={values.name}
               onChange={handleChange('name')}
               required={true}
-              helperText={values.name ? '' : "성명을 입력해주세요."}
+              helperText={validation.name && "성명을 입력해주세요."}
               error={validation.name}
             ></TextField>
             <TextField
@@ -86,14 +86,14 @@ export default function JoinComponent(props) {
               onChange={handleChange("id")}
               required={true}
               error={validation.id}
-              helperText={validation.id ? "아이디를 4자 이상 입력해주세요." : ''}
+              helperText={validation.id && "아이디를 4자 이상 입력해주세요."}
             ></TextField>
             <JoinPasswordsComponent value={values} handleChange={handleChange} />
             <TextField
               label="이메일"
               value={values.email}
               onChange={handleChange('email')}
-              helperText={'이메일 주소를 입력해주세요.'}
+              helperText={validation.email && '이메일 주소를 입력해주세요.'}
               required={true}
               error={validation.email}
               type="email"
