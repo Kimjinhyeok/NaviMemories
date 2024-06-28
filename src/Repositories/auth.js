@@ -5,6 +5,7 @@ const http = Http();
 const RootPath = 'auth';
 const Paths = {
   signin : RootPath,
+  signUp : `${RootPath}/signup`,
   signout : RootPath,
   leave : `${RootPath}/leave`,
   checkPassword : `${RootPath}/checkPwd`,
@@ -28,7 +29,25 @@ const signIn = async (params) => {
     }
   }
 }
+const signUp = async (params) => {
+  try {
+    const res = await http.post(Paths.signUp, {
+      data: params
+    });
 
+    const { data } = res;
+
+    return data;
+  } catch (error) {
+    if(error.response) {
+      if(error.response.status == 400) {
+        return new Error("NET: 회원가입 도중 장애가 발생했습니다.")
+      } else return error.response;
+    } else {
+      return error;
+    }
+  }
+}
 const signOut = async (params) => {
   try {
     const res = await http.delete(Paths.signout, {
@@ -38,7 +57,13 @@ const signOut = async (params) => {
     const { data } = res;
     return data;
   } catch (error) {
-    
+    if(error.response) {
+      if(error.response.status == 400) {
+        return new Error("NET: 회원탈퇴 도중 장애가 발생했습니다.")
+      } else return error.response;
+    } else {
+      return error;
+    }
   }
 }
 const leave = async (params) => {
@@ -50,7 +75,13 @@ const leave = async (params) => {
     const { data } = res;
     return data;
   } catch (error) {
-    
+    if(error.response) {
+      if(error.response.status == 400) {
+        return new Error("NET: 로그아웃 도중 장애가 발생했습니다.")
+      } else return error.response;
+    } else {
+      return error;
+    }
   }
 }
 const checkPassword = async (params) => {
@@ -109,6 +140,7 @@ const requestResetEmail = async (params) => {
 }
 const AuthRepository = {
   signIn,
+  signUp,
   signOut,
   leave,
   checkPassword,
