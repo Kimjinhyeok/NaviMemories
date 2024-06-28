@@ -11,12 +11,13 @@ import OyoUsecase from '../../../Usecase/oyo/oyo';
 
 export default function OYOCardManage({OYORow, setOYORow}) {
 
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const ref = useRef(null)
+  const delTarget = useRef({});
+  
   const navigator = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
-  const ref = useRef(null)
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const delTarget = useRef({});
-
+  
   const gotoWrite = function() {
     navigator('/oyo/template', {go: '/oyo/manage'});
   }
