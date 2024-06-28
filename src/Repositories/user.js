@@ -17,7 +17,13 @@ const signUp = async (params) => {
     const { data } = res;
     return data;
   } catch (error) {
-    
+    if(error.response) {
+      if(error.response.status == 400) {
+        return new Error("NET: 회원가입 도중 장애가 발생했습니다.")
+      } else return error.response;
+    } else {
+      return error;
+    }
   }
 }
 

@@ -1,4 +1,5 @@
 import AuthRepository from "../../Repositories/auth";
+import UserRepository from "../../Repositories/user";
 import AuthValidator from "./validator";
 
 const signIn = async (params) => {
@@ -20,7 +21,7 @@ const signUp = async (params, validated) => {
 
   if(!validatedResult) return new Error("회원가입 규칙을 다시 확인해주세요.");
 
-  const res = await AuthRepository.signUp(params);
+  const res = await UserRepository.signUp(params);
 
   return res;
 }
