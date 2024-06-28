@@ -3,7 +3,7 @@ const checkTrim = (value = "") => {
          && value.trim().length > 0
 }
 const checkAlphabet = (value = "") => {
-  return /^([a-zA-Z0-9]{4})$/i.test(value);
+  return /^([a-zA-Z0-9]{4,16})$/i.test(value);
 }
 const checkPassword = (password = "") => {
   return checkTrim(password);
@@ -22,7 +22,7 @@ const checkPhoneNumber = (phone = "") => {
 
 const validatedName = (name="") => {
   return checkTrim(name)
-          && name.length > 3;
+          && name.length >= 2;
 }
 const validatedEmail = (email = "") => {
   return checkTrim(email) 
