@@ -100,7 +100,7 @@ export default function OYOCardManage({OYORow, setOYORow}) {
   }
   const renderCard = function(idx, item) {
     return (
-      <Paper elevation={2} key={item.id}>
+      <Paper elevation={2} key={idx}>
         {
           item.edit ? 
             <></>
@@ -125,7 +125,7 @@ export default function OYOCardManage({OYORow, setOYORow}) {
       <div className={'w-full space-y-2 pb-4'}>
         {
           OYORow.length > 0 
-          ? OYORow.map((item, idx) => {return renderCard(idx, item)})
+          ? OYORow.map((item, idx) => renderCard(idx, item))
           : <OyoEmptyCard />
         }
       </div>
