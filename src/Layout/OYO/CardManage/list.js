@@ -11,12 +11,13 @@ import OyoUsecase from '../../../Usecase/oyo/oyo';
 
 export default function OYOCardManage({OYORow, setOYORow}) {
 
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const ref = useRef(null)
+  const delTarget = useRef({});
+  
   const navigator = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
-  const ref = useRef(null)
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const delTarget = useRef({});
-
+  
   const gotoWrite = function() {
     navigator('/oyo/template', {go: '/oyo/manage'});
   }
@@ -100,7 +101,7 @@ export default function OYOCardManage({OYORow, setOYORow}) {
   }
   const renderCard = function(idx, item) {
     return (
-      <Paper elevation={2} key={item.id}>
+      <Paper elevation={2} key={idx}>
         {
           item.edit ? 
             <></>
@@ -125,7 +126,7 @@ export default function OYOCardManage({OYORow, setOYORow}) {
       <div className={'w-full space-y-2 pb-4'}>
         {
           OYORow.length > 0 
-          ? OYORow.map((item, idx) => {return renderCard(idx, item)})
+          ? OYORow.map((item, idx) => renderCard(idx, item))
           : <OyoEmptyCard />
         }
       </div>

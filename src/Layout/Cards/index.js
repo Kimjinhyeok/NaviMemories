@@ -1,5 +1,4 @@
 import { AppBar, Divider, Tab, Tabs } from '@mui/material';
-
 import { useSnackbar } from 'notistack';
 import React, { useRef } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router';
@@ -108,7 +107,7 @@ export default function RecitationCardListComponent(props) {
                 <TabPanel value={value} index={0} className={'h-full'}>
                   <CardSlideComponent item={cardlist} initSlide={InitSlide.current} setInitSlide={(val) => InitSlide.current = val} updatePassed={updatePassed} {...props} />
                 </TabPanel>
-                <TabPanel value={value} index={1} className='h-full max-h-[calc(100vh-(48px*2+64px+40px))] overflow-y-auto'>
+                <TabPanel value={value} index={1} className='h-full max-h-[calc(100vh-(48px*2+64px))] overflow-y-auto'>
                   <CardListComponent item={cardlist} updatePassed={updatePassed} {...props} />
                 </TabPanel>
               </div>
@@ -120,7 +119,8 @@ export default function RecitationCardListComponent(props) {
                 indicatorColor="primary"
                 textColor="primary"
                 variant="fullWidth"
-                aria-label="full width tabs cardList">
+                aria-label="full width tabs cardList"
+              >
                 <Tab label="카드형" {...a11yProps(0)}></Tab>
                 <Tab label="목록형" {...a11yProps(1)}></Tab>
               </Tabs>

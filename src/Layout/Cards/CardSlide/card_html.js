@@ -10,7 +10,7 @@ export default function CardHtml({ item, updatePassed, version }) {
           className={"mt-2 flex flex-1 flex-col whitespace-pre-wrap text-left"}
         >
           <CardContentPosition {...item} />
-          <div className={"mt-1"}>
+          <div className={"mt-1 flex-1"}>
             <CardContent version={version} {...item} />
           </div>
           <CardCategory category={item.category} />
@@ -22,7 +22,7 @@ export default function CardHtml({ item, updatePassed, version }) {
 }
 
 const CardLayout = ({ children }) => (
-  <div className="w-full h-full flex justify-center items-center">
+  <div className="w-full h-full flex justify-center items-center xs:scale-100 lg:scale-150">
     <div
       className={"w-[300px] h-full flex justify-center items-center rounded"}
     >
@@ -31,7 +31,7 @@ const CardLayout = ({ children }) => (
   </div>
 );
 const CardWrapper = ({children}) => (
-	<div className={"flex flex-col relative w-[400px] h-[400px] rounded border-2 p-2"}>
+	<div className={"flex flex-col relative w-[400px] h-[300px] rounded border-2 p-2"}>
 		{children}
 	</div>
 )

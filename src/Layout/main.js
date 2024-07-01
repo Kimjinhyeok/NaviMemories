@@ -15,7 +15,7 @@ import RecitationLoading from "./Check/Exam/loading";
 import RecitationResult from "./Check/Exam/result";
 import CardTemplateComponent from "./OYO/cardTemplate";
 import OyoManagePage from "./OYO/CardManage";
-import UserPasswordCheckLayout from "./Reset";
+import UserPasswordCheckLayout from "./Reset/email";
 import UserPasswordResetLayout from "./Reset/reset";
 import UserEmailInputLayout from "./Reset/email";
 
