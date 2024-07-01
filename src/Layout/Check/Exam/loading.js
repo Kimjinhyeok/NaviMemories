@@ -1,77 +1,54 @@
-import { CircularProgress, Container, makeStyles } from '@material-ui/core';
-import { lightBlue } from '@material-ui/core/colors';
+import { CircularProgress, Container } from '@mui/material';
+
 import React, { useEffect, useRef, useState } from 'react'
-import Http from '../../../Utils/Http';
+import { useLocation, useNavigate } from 'react-router';
+import ExamUsecase from '../../../Usecase/exam/exam';
 
 export default function RecitationLoading(props) {
 
-  const state = props.location.state;
-  const history = props.history;
-  const classes = makeStyles(theme => ({
-    loading_root: {
-      height: '100%',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignContent: 'center',
-      '& > div': {
-        textAlign: 'center'
-      },
-      '& .MuiCircularProgress-root' : {
-        margin: 'auto'
-      },
-      '& .MuiCircularProgress-colorPrimary' : {
-        color: lightBlue[500]
-      }
-    }
-  }))();
-
+  const { state } = useLocation();
+  const navigator = useNavigate();
+  
   const rootRef = useRef(null)
   const [Size, setSize] = useState(0);
-  useEffect(async () => {
+  useEffect(() => {
     const { clientHeight, clientWidth } = rootRef.current;
     setSize(Math.min(clientHeight, clientWidth) * 0.5);
 
-    var cardList = await loadingVerses();
+    (async () => {
+      const cardList = await loadingVerses();
+  
+      const { path, themeOf242, precedence } = state;
+      navigator(path, {
+        state: { themeOf242, precedence, cardList}
+      });
 
-    var { path, themeOf242, precedence } = state;
-    history.push({
-      pathname: path,
-      state: { themeOf242, precedence, cardList}
-    });
+    })();
   }, [])
 
   async function loadingVerses() {
-    let {mode, version, include242 } = state;
+    const {mode, version, include242 } = state;
 
-    let data = {
-      version: version,
-      include242: include242
+    const data = {
+      version,
+      include242,
+      mode, 
+      version, 
+      include242
     }
     if(mode == "v") {
       data.series = state.series.toString(",");
     } else {
       data.participation = state.participation;
     }
-    var http = Http();
-    var res = await http.get({
-      query : `exam/${mode === "v" ? "guest": "mem"}`,
-      data: data
-    });
-
-    var cardList = devideCardList(res.data);
-
-    return cardList;
-  }
-  function devideCardList(cardlist) { 
-    return {
-      cn : cardlist.filter((v, i) => (((i+1)%2) == 0)),
-      cv : cardlist.filter((v, i) => (((i+1)%2) != 0))
-    }
+    const res = await ExamUsecase.getCardList(data);
+    
+    return res;
   }
   return (
-    <Container maxWidth="sm" ref={rootRef} className={classes.loading_root}>
-      <div>
+    <Container maxWidth="sm" ref={rootRef} 
+      sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center !important', alignContent: 'center !important' }}>
+      <div className='flex flex-col items-center space-y-4'>
         <CircularProgress size={Size} />
         <h3>암송 카드를 준비 중입니다.</h3>
       </div>

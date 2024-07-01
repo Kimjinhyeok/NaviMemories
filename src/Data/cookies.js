@@ -1,6 +1,6 @@
 import React from 'react'
 import Cookies from 'js-cookie'
-import jwt from 'jsonwebtoken';
+import { jwtDecode } from 'jwt-decode';
 
 /**
  * @typedef page_options
@@ -9,9 +9,9 @@ import jwt from 'jsonwebtoken';
  */
 
  const INIT_CONFIG = {
-  collapseDrawer : false,
+  collapseDrawer : true,
   userName : "",
-  bibleVersion : true
+  bibleVersion : true // true : 개정개역, false : 개역한글
 }
 
 export default (function() {
@@ -28,11 +28,11 @@ export default (function() {
     if(!configCookie) {
       configCookie = INIT_CONFIG;
       if(authCookie) {
-        let decoded = jwt.decode(authCookie);
+        let decoded = jwtDecode(authCookie);
         let {u_n : userName} = decoded;
         configCookie.userName = userName;
       }
-      Cookies.set(configCookieName, configCookie);
+      Cookies.set(configCookieName, JSON.stringify(configCookie));
     } else {
       configCookie = JSON.parse(configCookie);
     }
@@ -55,7 +55,7 @@ export default (function() {
    */
   function set(property, value) {
     configCookie[property] = value;
-    Cookies.set(configCookieName, configCookie);
+    Cookies.set(configCookieName, JSON.stringify(configCookie));
   }
 
   function reset() {
@@ -66,7 +66,7 @@ export default (function() {
   function isLogin() {
     try {
 
-      let decoded = jwt.decode(authCookie) ? true : false;
+      let decoded = jwtDecode(authCookie) ? true : false;
       return decoded
     } catch (error) {
       return false;

@@ -1,16 +1,16 @@
-import { AppBar, Tab, Tabs, Typography, withStyles  } from '@material-ui/core';
+import { AppBar, Tab, Tabs } from '@mui/material';
 import React from 'react';
 import CNQuestList from './cnQuestList';
 import CVQuestList from './cvQuestList';
 
 export default function TestQuestPanel(props) {
 
-  const { Source, classes, addResultQuestion, setDeduction, precedence } = props;
+  const { Source, addResultQuestion, setDeduction, precedence } = props;
 
   const [TabIdx, setTabIdx] = React.useState(precedence == "cn" ? 0 : 1);
 
   function TabPanel(props) {
-    const { value, index, className, ...other } = props;
+    const { value, index, className = '', ...other } = props;
     return (
       <div
         role="tabpanel"
@@ -42,12 +42,12 @@ export default function TestQuestPanel(props) {
           <Tab label="장절" {...a11yProps(1)}></Tab>
         </Tabs>
       </AppBar>
-      <div className={classes.tabPanels}>
-        <TabPanel value={TabIdx} index={0} className={classes.tabPanel}>
-          <CNQuestList origins={Source.cn} themeOf242={Source.themeOf242} setAddResultQuestion={addResultQuestion} setResultDeduction={setDeduction("cn")} />
+      <div className={'flex-1 h-full'}>
+        <TabPanel value={TabIdx} index={0} className={'h-full'}>
+          <CNQuestList origins={Source.cn} themeOf242={Source.themeOf242} precedence={precedence != "cv"} moveTab={() => {setTabIdx(1)}} setAddResultQuestion={addResultQuestion} setResultDeduction={setDeduction("cn")} />
         </TabPanel>
-        <TabPanel value={TabIdx} index={1} className={classes.tabPanel}>
-          <CVQuestList origins={Source.cv} themeOf242={Source.themeOf242} setAddResultQuestion={addResultQuestion} setResultDeduction={setDeduction("cv")} />
+        <TabPanel value={TabIdx} index={1} className={'h-full'}>
+          <CVQuestList origins={Source.cv} themeOf242={Source.themeOf242} precedence={precedence == "cv"} moveTab={() => {setTabIdx(0)}} setAddResultQuestion={addResultQuestion} setResultDeduction={setDeduction("cv")} />
         </TabPanel>
       </div>
     </>

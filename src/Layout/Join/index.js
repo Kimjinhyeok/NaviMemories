@@ -1,165 +1,116 @@
-import { Button, Card, CardActions, CardContent, CardHeader, Container, makeStyles, TextField } from '@material-ui/core'
-import clsx from 'clsx';
-import { useSnackbar } from 'notistack';
 import React from 'react'
-import Http from '../../Utils/Http';
+import { Button, Card, CardActions, CardContent, CardHeader, Container, TextField, useTheme } from '@mui/material'
+import { useSnackbar } from 'notistack';
 import JoinPasswordsComponent from './passwords';
+import { useNavigate } from 'react-router';
+import { useEffect } from 'react';
+import AuthUsecase from '../../Usecase/auth/auth';
 
+
+const USER_FORM = {
+  password : "",
+  passwordRepeat : "",
+  id : "",
+  name : "",
+  email : "",
+  mobile : "",
+}
+
+const getInitValidated = () => {
+  const validated = {};
+  Object.keys(USER_FORM).forEach(property => {
+    if(property == 'mobile') validated[property] = false;
+    else if(property) validated[property] = true;
+  });
+
+  return validated;
+}
 export default function JoinComponent(props) {
 
-  const { history } = props;
-  const http = Http();
+  const navigator = useNavigate();
+  const theme = useTheme();
 
-  const useStyles = makeStyles((theme) => ({
-    container_root: {
-      height: '100%',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center'
-    },
-    content_root : {
-        display : 'flex',
-        flexwrap : 'wrap',
-        flexDirection : 'column'
-    },
-    title : {
-      backgroundColor : theme.palette.primary.main,
-      color : theme.palette.primary.contrastText
-    },
-    margin : {
-        margin : theme.spacing(1)
-    },
-    action : {
-        display : 'flex',
-        flexWrap : 'wrap',
-        flexDirection : 'row',
-        paddingRight : theme.spacing(3),
-        paddingLeft : theme.spacing(3)
-    },
-    subActions : {
-        width : '50%'
-    }
-  }))
-  const classes = useStyles();
-
-  const [values, setValues] = React.useState({
-    password : '',
-    passwordRepeat : '',
-    id : '',
-    name : '',
-    email : '',
-    mobile: '',
-  })
-  const [validation, setValidation] = React.useState({
-    password : false,
-    passwordRepeat : false,
-    id : false,
-    name : false,
-    email : false,
-    mobile: false,
-  })
+  const [values, setValues] = React.useState({...USER_FORM})
+  const [validation, setValidation] = React.useState({});
   const { enqueueSnackbar } = useSnackbar();
 
+  useEffect(() => {
+    setValidation(getInitValidated());
+  }, [])
+  
   const handleChange = (props) => (event) => {
-    setValues({...values, [props]: event.target.value });
+    const newState = {
+      ...values,
+      [props] : event.target.value
+    };
+    const validatedResult = AuthUsecase.checkValidatedUserForm(newState);
+    setValues(newState);
+    setValidation(validatedResult);
   };
-  const handleOnlyAphabet = (event) => {
-    if(!event.target.value || /^([a-zA-Z0-9]+)$/i.test(event.target.value)) {
-      handleChange("id")(event);
-    } 
-    if(event.target.value.length < 5) {
-      setValidation({...validation, id : true})
-    } else if (validation.id) {
-      setValidation({...validation, id : false})
-    }
-  }
-  const handleEmailValidate = () => {
-    return !(values.email && (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(values.email)))
-  }
-  const handleValidate = (checkList) => {
-    for(var pt in checkList) {
-      if(pt !== 'mobile' && !checkList[pt]) {
-        return false
-      }
-    }
-    return true;
-  }
-
   const handleSummit = async function() {
-    try {
-      if(handleValidate(values)) {
-        var signupValue = {
-          pwd : values.password,
-          id : values.id,
-          name : values.name,
-          email : values.email,
-          mobile : values.mobile,
-        }
-        var result = await http.post({query : 'user/signup', data : signupValue});
 
-        if(result instanceof Error) {
-          enqueueSnackbar("회원가입 중 장애가 발생했습니다.", {variant: 'error'});
-          return;
-        } 
-        history.push('/login');
-      } else {
-        enqueueSnackbar("필수 입력 항목을 채워주세요.", {variant: 'warning'});
-      }
-    } catch (error) {
-      const { message } = error.response.data;
-      enqueueSnackbar(message, {variant: 'error'})
-      console.error(error);
+    const res = await AuthUsecase.signUp(values, validation);
+
+    if(res === true) {
+      enqueueSnackbar("회원가입에 성공했습니다.", { variant: 'success' });
+      navigator('/login');
+    } else if(res === false) {
+      enqueueSnackbar("회원가입에 실패했습니다.", { variant: 'warning' });
+    } else {
+      enqueueSnackbar(res.message || "회원가입 도중 장애가 발생했습니다.", {
+        variant: 'error'
+      });
+      console.error(res);
     }
   }
   const handleCancel = () => {
-    history.goBack();
+    navigator(-1);
   }
   return (
-    <Container maxWidth="sm" className={classes.container_root}>
+    <Container maxWidth="sm" sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
       <Card>
-        <CardHeader title="회원가입" className={classes.title}></CardHeader>
+        <CardHeader title="회원가입" sx={{ background: theme.palette.primary.main, color: theme.palette.primary.contrastText }}></CardHeader>
         <CardContent>
-          <div className={classes.content_root}>
+          <div className={'flex flex-wrap flex-col space-y-3'}>
             <TextField
               label="성명"
               value={values.name}
               onChange={handleChange('name')}
               required={true}
-              className={clsx(classes.margin, classes.textField)}
-              helperText={values.name ? '' : "성명을 입력해주세요."}
+              helperText={validation.name && "성명을 입력해주세요."}
               error={validation.name}
             ></TextField>
             <TextField
               label="아이디"
               value={values.id}
-              onChange={handleOnlyAphabet}
+              onChange={handleChange("id")}
               required={true}
-              className={clsx(classes.margin, classes.textField)}
               error={validation.id}
-              helperText={validation.id ? "아이디를 5자 이상 입력해주세요." : ''}
+              helperText={validation.id && "아이디를 4자 이상 입력해주세요."}
             ></TextField>
-            <JoinPasswordsComponent value={values} classes={classes} handleChange={handleChange} ></JoinPasswordsComponent>
+            <JoinPasswordsComponent value={values} handleChange={handleChange} />
             <TextField
-              error={handleEmailValidate()}
               label="이메일"
               value={values.email}
               onChange={handleChange('email')}
+              helperText={validation.email && '이메일 주소를 입력해주세요.'}
               required={true}
+              error={validation.email}
               type="email"
-              className={clsx(classes.margin, classes.textField)}
             ></TextField>
             <TextField
               label="핸드폰"
               value={values.mobile}
               onChange={handleChange('mobile')}
+              error={validation.mobile}
+              helperText={validation.mobile && "핸드폰 번호 양식을 확인해주세요."}
               type="mobile"
-              className={clsx(classes.margin, classes.textField)}
             ></TextField>
           </div>
         </CardContent>
-        <CardActions className={classes.action} disableSpacing={true}>
-          <Button color="secondary" className={classes.subActions} onClick={handleCancel}>취소</Button>
-          <Button color="primary" variant="contained" className={classes.subActions} onClick={handleSummit}>가입</Button>
+        <CardActions sx={{ display: 'flex', flexWrap: 'wrap', padding: '0 16px 16px 16px' }} disableSpacing={true}>
+          <Button color="primary" fullWidth variant="contained" onClick={handleSummit}>가입</Button>
+          <Button fullWidth variant='outlined' sx={{ marginTop: '4px' }} onClick={handleCancel}>취소</Button>
         </CardActions>
       </Card>
     </Container>

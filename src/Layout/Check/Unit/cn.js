@@ -1,12 +1,15 @@
-import { Button, Container, TextField } from '@material-ui/core'
+import { Button, Container, TextField } from '@mui/material'
 import React from 'react'
-import DiffMatchPatch from 'diff-match-patch';
-import AutoCompleteBible from '../../autoCompleteBible';
-import { Refresh } from '@material-ui/icons';
+
+import AutoCompleteBible from '../../../Components/autoCompleteBible';
+import { Refresh } from '@mui/icons-material';
+import compareText from '../../../Utils/compareText';
+import TextInput from '../../../Components/TextInput';
+import TextArea from '../../../Components/TextArea';
 
 export default function CheckContentComponent(props) {
 
-  const { classes, origin} = props;
+  const { origin} = props;
 
   const initialValues = {theme : "", content: ""}
   const initialFlags = {
@@ -58,51 +61,69 @@ export default function CheckContentComponent(props) {
   function getHintText(segments) {
     return segments[0] + checkEmpty(segments[1]) + checkEmpty(segments[2]) + (segments[0] === " " ? checkEmpty(segments[3]) : "")
   }
+  /**
+   * 
+   * @param {String} text 
+   */
+  function get2WorldSegments(text) {
+    let segments = text.split(/(\s+)/);
+
+    if(segments.length <= 2) {
+      return segments.join("");
+    } else {
+
+    }
+  }
   const handleHint = function () {
-    var diffMatchPatch = new DiffMatchPatch.diff_match_patch();
-    var result = diffMatchPatch.diff_main(origin.content, value.content);
+    var res = compareText(value.content, origin.content);
 
-    var lastIncorrectIndex = -1;
-    var incorrectCount = 0;
-    result.forEach((node, idx) => {
-      if(node[0] === -1) {
-        lastIncorrectIndex = idx
-        incorrectCount++; 
-      }
-    });
+    let spanTagList = [];
+    var segmentCount = 0;
+    for (var idx in res) {
+      let segments = [];
+      let segmentsWithSpace
+      switch (res[idx][0]) {
+        case -1:
+          segments = res[idx][1].split(" ").filter(item => item != "");
+          segmentsWithSpace = res[idx][1].split(/(\s+)/);
+          if (segmentCount < 2 && segments.length > 2) {
+            // 2어절 초과인 경우
+            let lastSegment = segments[2 - segmentCount];
+            let idxLastSegment = segmentsWithSpace.findIndex(item => item === lastSegment);
+            if (segmentsWithSpace[idxLastSegment] + 1 == " ") {
+              idxLastSegment++;
+            }
+            spanTagList.push({type : -1, text : segmentsWithSpace.slice(0, idxLastSegment).join("")});
+            segmentCount += 2;
+          } else if (segmentCount < 2) {
+            // 2어절 이하인 경우
+            spanTagList.push({type : -1, text : segmentsWithSpace.join("")});
+            if(res[Number(idx)+1][0] !== 1) {
+              segmentCount += segments.length;
+            }
+          }
+          break;
+        case 0:
+          spanTagList.push({type : 0, text : res[idx][1]});
+          if (segmentCount > 0) segmentCount++;
+          break;
+        case 1:
+          segments = res[idx][1].split(" ").filter(item => item != "");
+          segmentsWithSpace = res[idx][1].split(/(\s+)/);
+          if (segmentCount >= 2) {
+            // 이미 첨삭이 이루어진 경우 빼주지 않음
+            spanTagList.push({type : 1, text : res[idx][1]});
+          }
+          else if (segments.length >= 2) {
+            // 2어절 초과인 경우 2어절, 앞에서 첨삭이 있었으면 남는 만큼만 빼준다
+            let firstSegment = segments[2 - segmentCount];
+            let idxFirstSegment = segmentsWithSpace.findIndex(item => item === firstSegment);
 
-    var spanTagList = [];
-    if(lastIncorrectIndex == 1 && incorrectCount == 1) { // 다 맞다가 모르는 경우
-      spanTagList.push({type : 0, text : result[0][1]});
-      let segments = result[1][1].split(/(\s+)/);
-      if(!segments[0]) {
-        segments.shift(); // ''값이 있을 경우 제거
+            spanTagList.push({type : 1, text : segmentsWithSpace.slice(idxFirstSegment).join("")});
+            segmentCount += 2;
+          }
+          break;
       }
-      let hint = getHintText(segments);
-      spanTagList.push({type : -1, text : hint});
-
-    } else if(lastIncorrectIndex >= 0 && incorrectCount > 1) { // 중간에 틀린 어절이 있는 경우
-      let segmentCount = 0;
-      for(var node of result) {
-        switch(node[0]) {
-          case 0:
-            spanTagList.push({type : 0, text : node[1]})
-            break;
-          case -1:
-            if(node[1] !== " ") segmentCount++;
-            if(segmentCount === 2) break;
-            else spanTagList.push({type : -1, text : node[1]})
-            break;
-          case 1:
-            spanTagList.push({type : 1, text : node[1]})
-            break;
-        }
-        if(segmentCount == 2) break;
-      }
-    } else {  // 그냥 모르는 경우
-      let segments = result[0][1].split(/(\s+)/);
-      let hint = getHintText(segments);
-      spanTagList.push({type : -1, text : hint})
     }
     setMatchResult(spanTagList);
     if(!flags.hint) {
@@ -111,8 +132,7 @@ export default function CheckContentComponent(props) {
 
   }
   const compareContent = function () {
-    var diffMatchPatch = new DiffMatchPatch.diff_match_patch();
-    var result = diffMatchPatch.diff_main(origin.content, value.content);
+    var result = compareText(value.content, origin.content);
 
     var spanTagList =  result.map(node => {
       return {
@@ -124,9 +144,9 @@ export default function CheckContentComponent(props) {
 
   }
   return (
-    <Container maxWidth="md" className={classes.root_checking}>
+    <Container maxWidth="md" sx={{ display: 'flex', height: '100%', padding: '0 !important' }}>
     
-      <form className={classes.form_checking}>
+      <form className='m-auto flex flex-col w-full space-y-2'>
         <TextField id="checking_theme" variant="outlined" 
           value={value.theme} 
           onChange={handleChangeValue('theme')} 
@@ -134,58 +154,52 @@ export default function CheckContentComponent(props) {
           required
           label="주제" 
           disabled={!origin.theme}
-          className={flags.theme === null ? null : (flags.theme === true ? classes.succeed : classes.failed)}/>
+          className={flags.theme === null ? null : (flags.theme === true ? 'bg-blue-500' : 'bg-red-500')}/>
         <AutoCompleteBible
-          classes={classes}
           fullWidth={true}
           defaultValue={origin.bible_code}
           disabled={true}
           id="checking_bible"
         />
-        <div className={classes.row_part}>
-          <TextField type="number" 
-            value={value.chapter} 
-            variant="outlined" 
-            label="장" 
+        <div className='flex space-x-2'>
+          <TextInput
+            type='number'
+            label='장'
             value={origin.chapter}
-            inputProps={{readOnly: true}}
+            props={{readOnly : true}}
           />
-          <TextField type="number" 
-            value={value.f_verse} 
-            variant="outlined" 
+          <TextInput
+            type="number"
+            value={origin.f_verse} 
             label="시작 구절" 
-            value={origin.f_verse}
-            inputProps={{readOnly: true}}
+            props={{readOnly: true}}
           />
-          <TextField type="number" 
-            value={value.l_verse} 
-            variant="outlined" 
+          <TextInput
+            type="number"
+            value={origin.l_verse} 
             label="끝 구절" 
-            value={origin.l_verse}
-            inputProps={{readOnly: true}}  
+            props={{readOnly: true}}
           />
         </div>
-        <TextField id="checking_content" rows="6" variant="outlined" value={value.content}
-          multiline
-          required
-          autoComplete="off"
+        <TextArea 
+          value={value.content}
           label="내용" 
-          className={(flags.result ? classes.hide : '')}
+          className={(flags.result ? 'hidden' : '')}
           onChange={handleChangeValue('content')} 
         />
-        <div className={(flags.result || flags.hint) ? classes.content_result : classes.hide}>
+        <div className={(flags.result || flags.hint) ? 'h-[12vh] py-4 px-3 overflow-y-auto break-words border border-gray-400 rounded-sm' : 'hidden'}>
           {
-            matchResult.length > 0 ? (matchResult.map((item, idx) => (<span key={idx} className={item.type===0 ? classes.correct : (item.type === -1 ? classes.incorrect : classes.omitted) }>{item.text}</span>))) : <></>
+            matchResult.length > 0 ? (matchResult.map((item, idx) => (<span key={idx} className={item.type===0 ? 'bg-sky-50' : (item.type === -1 ? 'bg-red-50 text-red-500' : 'bg-gray-50 text-gray-500 line-through') }>{item.text}</span>))) : <></>
           }
         </div>
-        <div className={classes.action_button}>
+        <div className={'flex flex-col space-y-2 mt-2'}>
           {
             flags.result ? 
-              <Button type="button" variant="contained" color="primary" onClick={() => {handleOnRefresh()}}><Refresh />재도전</Button>
+              <Button variant="outlined" onClick={handleOnRefresh}><Refresh />재도전</Button>
             :
             <>
-              <Button type="button" variant="outlined" color="default" onClick={() => {handleHint()}}>힌트</Button>
-              <Button type="button" variant="contained" color="primary" onClick={() => {handleOnClick()}}>확인</Button>
+              <Button variant="outlined"  onClick={handleHint}>힌트</Button>
+              <Button variant="contained" color="primary" onClick={handleOnClick}>확인</Button>
             </>
           }
           

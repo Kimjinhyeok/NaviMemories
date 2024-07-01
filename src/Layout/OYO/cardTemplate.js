@@ -1,74 +1,14 @@
-import { Box, Button, Container, Divider, makeStyles, Paper, TextField } from '@material-ui/core'
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import { Box, Button, Container, Divider, TextField } from '@mui/material'
 import { useSnackbar } from 'notistack';
 import React from 'react'
-import Http from '../../Utils/Http';
-import AutoCompleteBible from '../autoCompleteBible';
+import AutoCompleteBible from '../../Components/autoCompleteBible';
+import { useNavigate } from 'react-router';
+import OyoUsecase from '../../Usecase/oyo/oyo';
 
 export default function CardTemplateComponent(props) {
 
-  const http = Http();
-  const useStyle = makeStyles(theme => ({
-    root_template: {
-      height: '100%',
-      display: 'flex',
-      flexDirection: 'column',
-      '& .MuiFormHelperText-root': {
-        marginLeft: '0px'
-      }
-    },
-    content_wrap: {
-      display: 'flex',
-      flexDirection: 'column',
-      margin: 'auto'
-    },
-    content_teamplte: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      flexDirection: 'column',
-      padding: '10px',
-      '& .MuiTextField-root': {
-        margin: theme.spacing(1),
-      }
-    },
-    head_title: {
-      width: '100%',
-      textAlign: 'center'
-    },
-    shortName: {
-      marginRight: '10px'
-    },
-    autocomplete_textfield: {
-      width: 'calc(100% - 15px)'
-    },
-    row_field: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      flexDirection: 'row',
-      '& >*': {
-        flex: 1
-      }
-    },
-    tilde: {
-      flex: '0.1',
-      alignItems: 'center',
-      display: 'flex',
-      justifyContent: 'center',
-    },
-    action_buttons: {
-      display: 'flex',
-      flexDirection: 'row',
-      margin: '10px',
-      justifyContent: 'space-between',
-      '& > button': {
-        width: '47%'
-      }
-    }
-  }));
-  const classes = useStyle();
   const {enqueueSnackbar} = useSnackbar();
-  const { history } = props;
-
+  const navigator = useNavigate();
 
   const [value, setValue] = React.useState({
     theme: '',
@@ -99,9 +39,26 @@ export default function CardTemplateComponent(props) {
     maxChapter: 999,
     edited: false
   })
-
+  const resetState = () => {
+    setValue({
+      theme: '',
+      bible_code: '',
+      chapter: 0,
+      f_verse: 0,
+      l_verse: 0,
+      content: ''
+    });
+    setValidators({
+      theme: false,
+      bible_code: false,
+      chapter: false,
+      f_verse: false,
+      l_verse: false,
+      content: false,
+    });
+  }
   const goBack = () => {
-    history.goBack();
+    navigator(-1);
   }
   const onChangeHandling = (props) => (event) => {
     setValue({ ...value, [props]: event.target.value });
@@ -112,50 +69,32 @@ export default function CardTemplateComponent(props) {
   }
   async function loadContent() {
     try {
-      var { bible_code, chapter, f_verse, l_verse } = value;
+      const { bible_code, chapter, f_verse, l_verse } = value;
 
-      var queryData = { bible_code, chapter, f_verse };
-      if (l_verse) {
-        queryData.l_verse = l_verse;
+      const res = await OyoUsecase.getBibleContent({ bible_code, chapter, f_verse, l_verse }); 
+      
+      if(res instanceof Error) {
+        enqueueSnackbar(res.message, {variant: 'warning'});
+      } else {
+        const content = res;
+        setValue({ ...value, content: content });
       }
-      var res = await http.get({ query: 'RC/oyo/content', data: queryData })
-      var content = res.data;
-      setValue({ ...value, content: content });
     } catch (error) {
       console.error(error);
     }
   }
-  function onSaveHandling() {
-    try {
-      var result = http.post({ query: "RC/oyo", data: value })
+  async function onSaveHandling() {
+    const res = await OyoUsecase.createOyo(value);
 
+    if(res instanceof Error) {
+      enqueueSnackbar(res.message, {variant : 'warning'});
+    } else {
       enqueueSnackbar("새 OYO 카드가 저장되었습니다.", {variant : 'success'});
-
-      if(history.location.state && history.location.state.go) {
-        history.push({pathname : history.location.state.go, state : null});
-      }
+      // if(history.location.state && history.location.state.go) {
+      //   history.push({pathname : history.location.state.go, state : null});
+      // }
       /********** Notice Saved OYO Card **********/
-
-      setValue({
-        theme: '',
-        bible_code: '',
-        chapter: 0,
-        f_verse: 0,
-        l_verse: 0,
-        content: ''
-      });
-      setValidators({
-        theme: false,
-        bible_code: false,
-        chapter: false,
-        f_verse: false,
-        l_verse: false,
-        content: false,
-      });
-
-
-    } catch (error) {
-      console.error(error);
+      resetState();
     }
   }
   const checkValidate = () => {
@@ -178,80 +117,83 @@ export default function CardTemplateComponent(props) {
   }
 
   return (
-    <Container maxWidth="sm" className={classes.root_template}>
-      <div className={classes.content_wrap}>
-        <Paper elevation={2} variant="outlined" className={classes.content_teamplte}>
-          <Box component="h3" className={classes.head_title}>사용자 구절(OYO) 추가</Box>
-          <TextField
-            id="teamplte_theme"
-            type="text"
-            label="암송 주제"
-            value={value.theme}
-            variant="outlined"
-            onChange={onChangeHandling('theme')}
+    <Container maxWidth="sm" sx={{ height: '100%', display: 'flex', flexDirection: 'column', padding: 0 }}>
+      <div className={'flex flex-col m-auto space-y-2 border border-gray-200 rounded-md p-4'}>
+        <Box component="h3" sx={{ width: '100%', textAlign: 'center' }}>사용자 구절(OYO) 추가</Box>
+        <div className='mt-2'></div>
+        <TextField
+          id="teamplte_theme"
+          type="text"
+          label="암송 주제"
+          value={value.theme}
+          variant="outlined"
+          onChange={onChangeHandling('theme')}
+        />
+        <div className={'flex flex-wrap flex-row space-x-2 mt-2'}>
+          <AutoCompleteBible
+            id="template_bible"
+            fullWidth={true}
+            onChange={onChangeAutocomplete}
+            defaultValue={value.bible_code}
+            renderOption={(params) => (<><span className={'mr-3'}>{params.short_name}</span>{params.bible_name}</>)}
           />
-          <div className={classes.row_field}>
-            <AutoCompleteBible
-              id="template_bible"
-              classes={classes}
-              fullWidth={true}
-              onChange={onChangeAutocomplete}
-              defaultValue={value.bible_code}
-              renderOption={(params) => (<><span className={classes.shortName}>{params.short_name}</span>{params.bible_name}</>)}
-            />
-            <Box component="h4" className={classes.tilde}> </Box>
-            <TextField
-              id="template_chapter"
-              label="장"
-              type="number"
-              value={value.chapter}
-              variant="outlined"
-              required
-              onChange={onChangeHandling('chapter')}
-              InputProps={{ inputProps: { min: 0, max: option.maxChapter } }}
-              error={validators.chapter}
-            />
-          </div>
-          <div className={classes.row_field}>
-            <TextField
-              id="template_fverse"
-              type="number"
-              label="시작 절"
-              value={value.f_verse}
-              variant="outlined"
-              required
-              onChange={onChangeHandling('f_verse')}
-              error={validators.f_verse}
-            />
-            <Box component="h4" className={classes.tilde}>~</Box>
-            <TextField
-              id="template_lverse"
-              type="number"
-              label="끝 절"
-              value={value.l_verse}
-              variant="outlined"
-              onChange={onChangeHandling('l_verse')}
-            />
-          </div>
+          <Box component="h4" sx={{ flex: '0.1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}> </Box>
+        </div>
+        <div className={'flex flex-row space-x-2 mt-2'}>
           <TextField
-            id="teamplte_content"
-            type="text"
-            label="내용을 입력해주세요."
-            value={value.content}
+            id="template_chapter"
+            label="장"
+            type="number"
+            value={value.chapter}
             variant="outlined"
-            multiline
-            rows="5"
             required
-            onChange={onChangeHandling('content')}
-            error={validators.content}
-            helperText={validators.content ? '내용을 입력하거나 확인해주세요' : ''}
+            onChange={onChangeHandling('chapter')}
+            InputProps={{ inputProps: { min: 0, max: option.maxChapter } }}
+            error={validators.chapter}
+            sx={{ flex: 1 }}
           />
-          <Divider />
-          <div className={classes.action_buttons}>
-            <Button type="button" color="secondary" aria-label="oyo-cancel" variant="outlined" onClick={goBack}>취소</Button>
-            <Button type="button" color="primary" aria-label="oyo-write" variant="contained" onClick={onSaveHandling}>저장</Button>
-          </div>
-        </Paper>
+          <TextField
+            id="template_fverse"
+            type="number"
+            label="시작 절"
+            value={value.f_verse}
+            variant="outlined"
+            required
+            onChange={onChangeHandling('f_verse')}
+            InputProps={{ inputProps: { min: 0 } }}
+            error={validators.f_verse}
+            sx={{ flex: 1 }}
+          />
+          {/* <Box component="h4" sx={{ flex: '0.1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>~</Box> */}
+          <TextField
+            id="template_lverse"
+            type="number"
+            label="끝 절"
+            value={value.l_verse}
+            variant="outlined"
+            onChange={onChangeHandling('l_verse')}
+            InputProps={{ inputProps: { min: 0 } }}
+            sx={{ flex: 1 }}
+          />
+        </div>
+        <TextField
+          id="teamplte_content"
+          type="text"
+          label="내용을 입력해주세요."
+          value={value.content}
+          variant="outlined"
+          multiline
+          rows="5"
+          required
+          onChange={onChangeHandling('content')}
+          error={validators.content}
+          helperText={validators.content ? '내용을 입력하거나 확인해주세요' : ''}
+        />
+        <Divider />
+        <div className={'flex flex-row mt-3 justify-between space-x-2'}>
+          <Button fullWidth color="secondary" aria-label="oyo-cancel" variant="outlined" onClick={goBack}>취소</Button>
+          <Button fullWidth color="primary" aria-label="oyo-write" variant="contained" onClick={onSaveHandling}>저장</Button>
+        </div>
       </div>
     </Container>
 

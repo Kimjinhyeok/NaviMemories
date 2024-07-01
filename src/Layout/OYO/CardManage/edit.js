@@ -1,11 +1,10 @@
-import { Button, TextField } from '@material-ui/core'
+import { Button, TextField } from '@mui/material'
 import React, { useState } from 'react'
-import AutoCompleteBible from '../../autoCompleteBible'
+import AutoCompleteBible from '../../../Components/autoCompleteBible'
 
 /**
  * @typedef OYOCardForEditProps
  * @property {Object} v
- * @property {Object} classes
  * @property {Function} cancelEdit
  * @property {Function} runEdit
  * 
@@ -14,7 +13,6 @@ import AutoCompleteBible from '../../autoCompleteBible'
  */
 export default function OYOCardForEdit(props) {
 
-  const classes = props.classes;
   const {cancelEdit, runEdit} = props;
   const [CardInfo, setCardInfo] = useState(props.v);
 
@@ -31,7 +29,7 @@ export default function OYOCardForEdit(props) {
     });
   }
   return (
-    <div className={classes.oyo_card_edit}>
+    <div className={'p-2 space-y-2'}>
       <TextField id="card_theme" value={CardInfo.theme} onChange={onChangeHandling('theme')} label="주제" variant="outlined" fullWidth={true}/>
       <AutoCompleteBible
         fullWidth={true}
@@ -39,16 +37,16 @@ export default function OYOCardForEdit(props) {
         onChange={onChangeHandleBible}
         defaultValue={CardInfo.bible_code} 
         variant="outlined"
-        renderOption={(params) => (<><span className={classes.shortName}>{params.short_name}</span>{params.bible_name}</>)}
+        renderOption={(params) => (<><span className={'mr-3'}>{params.short_name}</span>{params.bible_name}</>)}
       />
-      <div className="cv">
+      <div className="cv flex space-x-2">
         <TextField id="card_chapter" value={CardInfo.chapter} onChange={onChangeHandling('chapter')} label="장" variant="outlined"/>
         <TextField id="card_f_verse" value={CardInfo.f_verse} onChange={onChangeHandling('f_verse')} label="첫절" variant="outlined"/>
         <TextField id="card_l_verse" value={CardInfo.l_verse} onChange={onChangeHandling('l_verse')} label="끝절" variant="outlined"/>
       </div>
       <TextField id="card_content" value={CardInfo.content} onChange={onChangeHandling('content')} label="내용" variant="outlined" rows={3} fullWidth={true} multiline={true} className="content"/>
-      <div className="actions">
-        <Button variant="contained" color="secondary" onClick={() => {cancelEdit()}}>취소</Button>
+      <div className="actions flex space-x-2 justify-end">
+        <Button variant="outlined" onClick={cancelEdit}>취소</Button>
         <Button variant="contained" color="primary" onClick={() => {runEdit(CardInfo)}}>완료</Button>
       </div>
     </div>

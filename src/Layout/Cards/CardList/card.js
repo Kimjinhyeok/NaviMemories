@@ -1,35 +1,21 @@
-import { Box, Card, CardContent, Checkbox, FormControlLabel, makeStyles, Typography } from '@material-ui/core'
+import { Box, Card, CardContent, Checkbox, FormControlLabel, Typography } from '@mui/material'
 import React, { Fragment } from 'react'
 import cookies from '../../../Data/cookies';
 
 function CardComponent (props, ref) {
     
-    const { item, classes, updatePassed, version } = props;
+    const { item, updatePassed, version } = props;
     return (
-        <Card className={classes.root} ref={ref}>
-            <CardContent className={classes.c_content}>
-                {
-                    item.theme ? 
-                        <div className={classes.title}>
-                            {item.theme}
-                        </div>
-                    :
-                        <></>
-                }
-                <Box className={classes.chapter}>
-                    <Typography className={classes.bible_code}>{item.bible_name}</Typography>
-                    <Typography>{item.chapter}</Typography>:
-                    <Typography>{item.f_verse}</Typography>
-                    {
-                        item.l_verse ? <Fragment>~ <Typography>{item.l_verse}</Typography></Fragment> : <></>
-                    }
-                </Box>
-                <Box className={classes.verse_text}>{version ? item.verse_gae : (item.verse_kor || item.verse_gae)}</Box>
-                <Box className={classes.category}>{item.category}</Box>
+        <Card ref={ref} sx={{ margin: '8px', position: 'relative' }}>
+            <CardContent sx={{ display: 'flex', flexDirection: 'column', textAlign: 'left', marginTop: '4px', marginBottom: '4px' }}>
+                <ThemeLayer {...item} />
+                <ChapterLayer {...item} />
+                <Box sx={{ marginTop: '4px', marginBottom: '4px' }}>{version ? item.verse_gae : (item.verse_kor || item.verse_gae)}</Box>
+                <Box className={'mt-2 text-right text-gray-600 font-light'}>{item.category}</Box>
             </CardContent>
             {
                 cookies.isLogin() ?
-                    <div className={classes.options}>
+                    <div className={'absolute right-1 top-0'}>
                         <FormControlLabel
                             checked={(item.passed === null || item.passed === undefined) ? false : item.passed}
                             value={(item.passed === null || item.passed === undefined) ? false : item.passed}
@@ -45,5 +31,31 @@ function CardComponent (props, ref) {
         </Card>
     )
 }
-
+const ThemeLayer = ({theme = ''}) => (
+    theme 
+    ? 
+        <div className={'text-xl'}>
+            {theme}
+        </div>
+    :
+        <></>
+)
+const ChapterLayer = ({bible_name = '', chapter = 0, f_verse = 0, l_verse = 0}) => (
+    <>
+        <Box className={'mt-2 flex flex-row space-x-1 text-green-600'}>
+            <Typography sx={{ marginRight: '4px' }}>{bible_name}</Typography>
+            <Typography>{chapter}</Typography>
+            <Typography>:</Typography>
+            <Typography>{f_verse}</Typography>
+            {
+                l_verse 
+                    ? <Fragment>
+                        ,
+                        <Typography>{l_verse}</Typography>
+                      </Fragment> 
+                    : <></>
+            }
+        </Box>
+    </>
+)
 export default React.forwardRef(CardComponent);
