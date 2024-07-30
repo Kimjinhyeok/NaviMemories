@@ -38,7 +38,7 @@ export default function UnitPageComponent(props) {
       if(res instanceof Error) {
         enqueueSnackbar(res.message, { variant: 'warning' });
       } else {
-        const recitationList = options.orderType === TestOrderType.stright ? res : shuffle(res);
+        const recitationList = options.orderType === TestOrderType.STRIGHT ? res : shuffle(res);
         setCardList(recitationList);
         const item = recitationList[0];
         setOriginCard(item);
@@ -66,16 +66,17 @@ export default function UnitPageComponent(props) {
   React.useEffect(() => { loadRecitationCards(options.series) }, []);
 
   const handleChangeOptions = (property="", newOptions={}) => {
-    let shortedList = null;
     if(property == "order") {
+      let shortedList = null;
       const {orderType} = newOptions;
-      if (orderType === TestOrderType.stright) {
+      if (orderType === TestOrderType.STRIGHT) {
         shortedList = cardList.sort((a, b) => a.card_num > b.card_num ? 1 : -1);
       } else {
         shortedList = shuffle(cardList);
       }
       setCardList(shortedList);
-      setOriginCard(shortedList[options.index]);
+      newOptions.index = 0; // Reset Index
+      setOriginCard(shortedList[0]);
 
     } else if(property == "version") {
       const {version} = newOptions
@@ -83,10 +84,9 @@ export default function UnitPageComponent(props) {
       
     } else if(property == "series") {
       const {series} = newOptions;
+      newOptions.index = 0; // Reset Index
       loadRecitationCards(series).finally(()=>{});
 
-    } else {
-      return;
     }
     setoptions(newOptions);
   }

@@ -26,7 +26,7 @@ export default function CheckOptions({ options={}, changeOptions=()=>{} }) {
   }
   const handleSeriesChange = async function (event) {
     const value = event.target.value;
-    const newOptions = { ...options, version: value };
+    const newOptions = { ...options, series: value };
     changeOptions("series", newOptions);
   }
   return (
@@ -50,13 +50,13 @@ export default function CheckOptions({ options={}, changeOptions=()=>{} }) {
             onChange={handleOrderTypeChange}
           >
             <FormControlLabel
-              value={TestOrderType.stright}
+              value={TestOrderType.STRIGHT}
               control={<Radio />}
               label={<ArrowRightAlt />}
               title="시리즈 순서"
             />
             <FormControlLabel
-              value={TestOrderType.random}
+              value={TestOrderType.RANDOM}
               control={<Radio />}
               label={<Shuffle />}
               title="무작위"
