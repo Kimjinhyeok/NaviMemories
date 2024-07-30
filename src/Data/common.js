@@ -4,6 +4,6 @@ export const BibleVersion = {
   gae: 'nkrv'
 }
 export const TestOrderType = {
-  stright: 'stright',
-  random: 'random'
+  STRIGHT: 'stright',
+  RANDOM: 'random'
 }
