@@ -1,7 +1,7 @@
 import { Checkbox, FormControlLabel } from "@mui/material";
 import React from "react";
 import cookies from "../../../Data/cookies";
-export default function CardHtml({ item, updatePassed, version }) {
+export default function CardHtml({ item, idx=0, length=0, updatePassed, version }) {
   return (
     <CardLayout>
       <CardWrapper>
@@ -13,7 +13,7 @@ export default function CardHtml({ item, updatePassed, version }) {
           <div className={"mt-1 flex-1"}>
             <CardContent version={version} {...item} />
           </div>
-          <CardCategory category={item.category} />
+          <CardBottom category={item.category} idx={idx} length={length} />
         </div>
         <CardOptionActions cookies={cookies} item={item} update={updatePassed}/>
 			</CardWrapper>
@@ -61,8 +61,15 @@ const CardContent = ({version, verse_gae="", verse_kor=""}) => (
 		{version ? verse_gae : verse_kor || verse_gae}
 	</div>
 )
-const CardCategory = ({category}) => (
-	<div className={"mt-4 text-right text-gray-600 font-light"}>{category}</div>
+const CardBottom = ({category, idx=0, length=0}) => (
+	<div className={"mt-4 flex justify-between items-end text-sm text-gray-600 font-light"}>
+		<div className="">
+			{category}
+		</div>
+		<div className="">
+			{idx+1}/{length}
+		</div>
+	</div>
 )
 const CardOptionActions = ({ cookies={}, item={}, update={} }) => {
 	

@@ -77,7 +77,7 @@ export default function CardListComponent (props) {
                 {
                     cardList.map((item, idx) => {
                         const lastEl = idx === CardIndex - 1;
-                        return <CardComponent item={item} key={idx} ref={lastEl ? target : null}  version={version} updatePassed={props.updatePassed}></CardComponent>
+                        return <CardComponent item={item} key={idx} idx={idx} length={originCardList.length} ref={lastEl ? target : null}  version={version} updatePassed={props.updatePassed}></CardComponent>
                     })
                 }
             </div>
