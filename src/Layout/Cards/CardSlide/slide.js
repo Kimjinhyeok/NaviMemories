@@ -33,7 +33,7 @@ export default function CardSlideComponent(props) {
     function renderCard(index, item) {
         return (
             <SwiperSlide virtualIndex={'v'+index} key={index}>
-                <CardHtml item={item} key={index} version={version} updatePassed={props.updatePassed}/>
+                <CardHtml item={item} key={index} idx={index} length={originCardList.length} version={version} updatePassed={props.updatePassed}/>
             </SwiperSlide>
         )
     }
