@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "성경 암송",
+  "name": "네비게이토 성경암송",
   "icons": [
     {
       "src": "favicon.ico",
