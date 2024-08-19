@@ -5,6 +5,12 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
+import rootReducer from './Redux';
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
+
+// Add Redux Store 2024.08.19
+const store = configureStore({reducer : rootReducer})
 
 const rootContainer = document.getElementById('root');
 const root = createRoot(rootContainer);
@@ -13,7 +19,9 @@ root.render(
   //<ThemeUIpro theme={theme}>
     <BrowserRouter>
       <SnackbarProvider maxSnack={3}>
-        <App />
+        <Provider store={store}>
+          <App />
+        </Provider>
       </SnackbarProvider>
     </BrowserRouter>
   //</ThemeUIpro>

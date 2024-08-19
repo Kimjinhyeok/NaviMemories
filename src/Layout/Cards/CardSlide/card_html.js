@@ -1,19 +1,25 @@
 import { Checkbox, FormControlLabel } from "@mui/material";
-import React from "react";
+import React, { useMemo } from "react";
 import cookies from "../../../Data/cookies";
+import { useSelector } from "react-redux";
+import { KEY_HIDE_OPTIONS } from "../../../Redux/hideOptions/action";
+import { useEffect } from "react";
 export default function CardHtml({ item, idx=0, length=0, updatePassed, version }) {
+
+	const hideOptions = useSelector(state => state[KEY_HIDE_OPTIONS]);
+	const commonShow = useMemo(() => !(hideOptions.cv || hideOptions.cn), [hideOptions]);
   return (
     <CardLayout>
       <CardWrapper>
-        <CardTheme theme={item.theme} />
+        <CardTheme show={commonShow} theme={item.theme} />
         <div
           className={"mt-2 flex flex-1 flex-col whitespace-pre-wrap text-left"}
         >
-          <CardContentPosition {...item} />
+          <CardContentPosition show={!hideOptions.cv} {...item} />
           <div className={"mt-1 flex-1"}>
-            <CardContent version={version} {...item} />
+            <CardContent show={!hideOptions.cn} version={version} {...item} />
           </div>
-          <CardBottom category={item.category} idx={idx} length={length} />
+          <CardBottom show={commonShow} category={item.category} idx={idx} length={length} />
         </div>
         <CardOptionActions cookies={cookies} item={item} update={updatePassed}/>
 			</CardWrapper>
@@ -35,36 +41,42 @@ const CardWrapper = ({children}) => (
 		{children}
 	</div>
 )
-const CardTheme = ({ theme="" }) => (
-	theme ? <div className={"text-xl"}>{theme}</div> : <></>
+const CardTheme = ({ show = true, theme="" }) => (
+	theme ? <div className={"h-6 text-xl"}>{show ? theme : ""}</div> : <></>
 )
-const CardContentPosition = ({ bible_name="", chapter=0, f_verse=0, l_verse=0 }) => (
-	<div className={"flex flex-row items-center mt-2 mb-1 space-x-1 text-green-600"}>
-		<div>{bible_name}</div>
-		<div>{chapter}</div>
-		<span>:</span>
-		<div className={"flex flex-row flex-1 space-x-1"}>
-			<span>{f_verse}</span>
-			{l_verse ? (
+const CardContentPosition = ({ show=true, bible_name="", chapter=0, f_verse=0, l_verse=0 }) => (
+	<div className={"h-7 flex flex-row items-center mt-2 mb-1 space-x-1 text-green-600"}>
+		{
+			show 
+			&&
 				<>
-					,
-					<span>{l_verse}</span>
+					<div>{bible_name}</div>
+					<div>{chapter}</div>
+					<span>:</span>
+					<div className={"flex flex-row flex-1 space-x-1"}>
+						<span>{f_verse}</span>
+						{l_verse ? (
+							<>
+								,
+								<span>{l_verse}</span>
+							</>
+						) : (
+							<></>
+						)}
+					</div>
 				</>
-			) : (
-				<></>
-			)}
-		</div>
+		}
 	</div>
 )
-const CardContent = ({version, verse_gae="", verse_kor=""}) => (
+const CardContent = ({show=true, version, verse_gae="", verse_kor=""}) => (
 	<div>
-		{version ? verse_gae : verse_kor || verse_gae}
+		{show && (version ? verse_gae : verse_kor || verse_gae)}
 	</div>
 )
-const CardBottom = ({category, idx=0, length=0}) => (
+const CardBottom = ({show=true, category, idx=0, length=0}) => (
 	<div className={"mt-4 flex justify-between items-end text-sm text-gray-600 font-light"}>
 		<div className="">
-			{category}
+			{show ? category : ''}
 		</div>
 		<div className="">
 			{idx+1}/{length}
