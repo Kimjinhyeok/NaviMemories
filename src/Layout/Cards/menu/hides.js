@@ -1,5 +1,7 @@
 import { Checkbox, FormControlLabel, FormGroup, Switch } from "@mui/material";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { ACT_HIDE_TOGGLE } from "../../../Redux/hideOptions/action";
 
 const PROPERTIES = {
   CV : 'cv',
@@ -10,17 +12,26 @@ export default function HideOptions() {
   const [state, setState] = useState({
     [PROPERTIES.CV] : false,
     [PROPERTIES.CN] : false,
-  })
+  });
+
+  const dispatch = useDispatch();
+
   const onChange = (property) => (event) => {
     const value = event.target.checked;
     
     const otherProperty =  property == PROPERTIES.CV 
                             ? PROPERTIES.CN
                             : PROPERTIES.CV;
-    setState({
+
+    const options = {
       [property] : value,
       [otherProperty] : state[otherProperty] ? false : state[otherProperty]
-    })
+    };
+    setState(options);
+    dispatch({
+      type: ACT_HIDE_TOGGLE,
+      payload : options,
+    });
   }
   return (
     <FormGroup row>
