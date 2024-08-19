@@ -7,12 +7,17 @@ import CardListComponent from './CardList/list';
 import CardSlideComponent from './CardSlide/slide';
 import CardUsecase from '../../Usecase/card/card';
 import CardArrangeMenu from './menu/menu';
+import FisherYatesShuffle from '../../Utils/shuffle';
 
 export default function RecitationCardListComponent(props) {
  
   const http = Http();
   const [value, setvalue] = React.useState(0);
-  const originList = useRef([]);
+  const ref = useRef({
+    originList : [],
+    InitSlide : 0,
+    sortType : 'category'
+  })
   const params = useParams();
   const location = useLocation();
   const navigate = useNavigate();
@@ -26,7 +31,6 @@ export default function RecitationCardListComponent(props) {
   }
 
   const [cardlist, setCardList] = React.useState([]);
-  const InitSlide = React.useRef(0);
 
   React.useEffect(() => {
     (async () => {
@@ -39,20 +43,33 @@ export default function RecitationCardListComponent(props) {
         enqueueSnackbar('저장된 OYO 카드가 없습니다.', {variant : 'warning'});
         navigate('/');
       } else {
-        originList.current = res;
-        setCardList(res)
+        ref.current.originList = res;
+        setCardList(getSortedList(res, ref.current.sortType))
     
         navigate(pathname);
       }
     })()
   }, [pathname])
   
-  const updateCardSort = (sortFunction) => {
-    const cpList = originList.current.sort(sortFunction);
-    setCardList(Array.from(cpList));
+  const getSortedList = (array=[], sortType) => {
+    if(sortType == 'random') {
+      return FisherYatesShuffle(array);
+    } else {
+      const sortFnc = (a,b) => {
+        return a[sortType] > b[sortType] ? 1 : (a[sortType] == b[sortType] ? 0 : -1)
+      }
+  
+      return array.sort(sortFnc);
+    }
+  }
+  const updateSortType = (sortType) => {
+
+    const CardList = getSortedList(ref.current.originList, sortType);
+    ref.current.sortType = sortType;
+    setCardList(Array.from(CardList));
   }
   const updateCardFilter = (filterFunction) => {
-    const cpList = originList.current.filter(filterFunction);
+    const cpList = ref.current.originList.filter(filterFunction);
     setCardList(Array.from(cpList));
   }
   function TabPanel(props) {
@@ -77,17 +94,17 @@ export default function RecitationCardListComponent(props) {
 
   async function updatePassed(event, memory) {
     try {
-      var checked = event.target.checked;
-      var { card_num, series_code } = memory;
+      const checked = event.target.checked;
+      const { card_num, series_code } = memory;
       await http.put({
         query: `RC/passed/${series_code}/${card_num}`, 
         data: {
           recitation_status : checked
       }});
 
-      var itemIndex = cardlist.findIndex(item => item.series_code == memory.series_code && item.card_num == memory.card_num);
+      const itemIndex = cardlist.findIndex(item => item.series_code == memory.series_code && item.card_num == memory.card_num);
       setCardList([...cardlist.slice(0, itemIndex), {...memory, passed : checked}, ...cardlist.slice(itemIndex+1)]);
-      InitSlide.current = itemIndex;
+      ref.current.InitSlide = itemIndex;
     } catch (error) {
       console.error(error);
       enqueueSnackbar("암송 처리 도중 장애가 발생했습니다.", {variant : 'error'})
@@ -96,7 +113,7 @@ export default function RecitationCardListComponent(props) {
 
   return (
     <div aria-label="tabContent" className={'h-full flex flex-col pt-4'}>
-      <CardArrangeMenu category={category} updateSort={updateCardSort} updateFilter={updateCardFilter} />
+      <CardArrangeMenu category={category} updateSort={updateSortType} updateFilter={updateCardFilter} />
       <Divider sx={{ marginTop: '8px' }}/>
       {
         cardlist.length > 0 
@@ -105,7 +122,7 @@ export default function RecitationCardListComponent(props) {
             <div className='flex-1 flex flex-col max-h-[100vh] overflow-hidden pt-2'>
               <div className='flex-1'>
                 <TabPanel value={value} index={0} className={'h-full'}>
-                  <CardSlideComponent item={cardlist} initSlide={InitSlide.current} setInitSlide={(val) => InitSlide.current = val} updatePassed={updatePassed} {...props} />
+                  <CardSlideComponent item={cardlist} initSlide={ref.current.InitSlide} setInitSlide={(val) => ref.current.InitSlide = val} updatePassed={updatePassed} {...props} />
                 </TabPanel>
                 <TabPanel value={value} index={1} className='h-full max-h-[calc(100vh-(48px*2+64px))] overflow-y-auto'>
                   <CardListComponent item={cardlist} updatePassed={updatePassed} {...props} />
