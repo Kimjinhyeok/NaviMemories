@@ -8,13 +8,15 @@ import HideOptions from "./hides";
 const SortOption = {
   createAt : 'createAt',
   category : 'category',
-  bible_code : 'bible_code'
+  bible_code : 'bible_code',
+  random: 'random',
 };
 
 const SortProperty = {
   createAt : 'create_at',
   category : 'series_code',
-  bible_code : 'bible_code'
+  bible_code : 'bible_code',
+  random: 'random',
 }
 
 export default function CardArrangeMenu({ category=0, updateSort=()=>{}, updateFilter=()=>{} }) {
@@ -43,6 +45,8 @@ export default function CardArrangeMenu({ category=0, updateSort=()=>{}, updateF
         return SortProperty.category;
       case SortOption.bible_code :
         return SortProperty.bible_code;
+      case SortOption.random :
+        return SortProperty.random;
     }
   }
   const handleUpdateSort = (event) => {
@@ -50,10 +54,7 @@ export default function CardArrangeMenu({ category=0, updateSort=()=>{}, updateF
     setOptions(newOptions);
     const sortType = getSortType(newOptions.sort);
     
-    const sortFnc = (a,b) => {
-      return a[sortType] > b[sortType] ? 1 : (a[sortType] == b[sortType] ? 0 : -1)
-    }
-    updateSort(sortFnc);
+    updateSort(sortType);
   }
   const handleUpdateFilter = (event) => {
     const newOptions = {...Options, filter : event.target.value};
@@ -92,6 +93,7 @@ export default function CardArrangeMenu({ category=0, updateSort=()=>{}, updateF
                   </MenuItem>
               }
               <MenuItem value={SortOption.bible_code}>성경순</MenuItem>
+              <MenuItem value={SortOption.random}>무작위</MenuItem>
             </Select>
           </FormControl>
           {cookies.isLogin() ? (
