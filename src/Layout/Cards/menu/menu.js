@@ -3,6 +3,7 @@ import { FormGroup, InputLabel, Select, FormControl, MenuItem, IconButton } from
 import cookies from "../../../Data/cookies";
 import { Container } from "@mui/system";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import HideOptions from "./hides";
 
 const SortOption = {
   createAt : 'createAt',
@@ -69,7 +70,7 @@ export default function CardArrangeMenu({ category=0, updateSort=()=>{}, updateF
   }
   return (
     <div className="relative flex items-center justify-center">
-      <div className={`md:px-6 height: ${Options.expand ? '100%' : '0%'}, overflow : ${Options.expand ? 'auto' : 'hidden'} pb-3`}>
+      <div className={`md:px-6 height: ${Options.expand ? '100%' : '0%'}, overflow : ${Options.expand ? 'auto' : 'hidden'} pb-3 flex space-x-4`}>
         <FormGroup
           sx={{ display: "flex", flexDirection: "row", marginTop: "4px" }}
           className="space-x-10 justify-center md:justify-start"
@@ -110,6 +111,7 @@ export default function CardArrangeMenu({ category=0, updateSort=()=>{}, updateF
             <></>
           )}
         </FormGroup>
+        <HideOptions />
       </div>
       <ExpandButton expand={Options.expand} handleExpand={handleExpand} />
     </div>
